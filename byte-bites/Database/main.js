@@ -1,7 +1,6 @@
 const fs = require('fs');
 db = connect('mongodb+srv://Administrator:LGgAkruelR4aXTWD@cluster0.1wmzwnp.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
 
-
 String.prototype.hashCode = function() {
     var hash = 0,
       i, chr;
@@ -16,3 +15,5 @@ String.prototype.hashCode = function() {
   
   const str = 'revenue'
   console.log(str, str.hashCode())
+
+  console.log(hashCode("Slay"))

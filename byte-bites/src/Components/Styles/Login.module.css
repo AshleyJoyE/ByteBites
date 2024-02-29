@@ -1,0 +1,20 @@
+.Red {
+    color: #f00;
+  }
+  
+  .Header {
+    color: #000000;
+    font-size: 40px;
+  }
+
+  .Form {
+    margin: auto;
+  }
+
+  .CenterForm {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+

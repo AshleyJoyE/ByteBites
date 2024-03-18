@@ -3,12 +3,12 @@ html, body {
   margin: 0;
   padding: 0;
   height: 100%;
-  background-color: var(--secondary-blue); /* Set background color for body */
+  background-color: var(--secondary-yellow); /* Set background color for body */
 }
   .div_primary {
     display: flex;
     flex-direction:row;
-    background-color: var(--secondary-blue);
+   
     height: 100vh;
    
    
@@ -33,12 +33,21 @@ html, body {
 
   .div_graphic {
     width: 50%; 
-    background-color: var(--secondary-blue);
+    
     border-radius: 10px;
     position: relative;
     overflow: hidden;
    
   }
+
+  .img_chef {
+    position: relative;
+    margin-bottom: 20%;
+    margin-left: -20%;
+    max-width: 100%; 
+    max-height: 100%; 
+  }
+
 
   .div_form_section{
     margin: auto;
@@ -48,7 +57,8 @@ html, body {
     flex-direction: column;
     justify-content: center; 
     align-items: center; 
-    background-color: #45aae3;
+    background-color: var(--primary-yellow);
+    border-radius: 10px;
   }
 
   .div_form_primary {
@@ -95,17 +105,18 @@ html, body {
     width: 100%;
     padding: 2% 2%;
     margin: auto;
-    margin-bottom: 5%; 
-    background-color: var(--primary-yellow);
+
+    background-color: var(--secondary-yellow);
     border-radius: 10px;
     border-width: 2px;
     border-color: black;
 }
 
-  .img_chef {
-    position: relative;
-    margin-bottom: 20%;
-    margin-left: -20%;
-    max-width: 100%; 
-    max-height: 100%; 
+  .form_p {
+    padding-bottom: 5%;
+    font-family: 'Kodchasan', sans-serif;
+    margin: auto;
+    font-size: 50;
   }
+  
+

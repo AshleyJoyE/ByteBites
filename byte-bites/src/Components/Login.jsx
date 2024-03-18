@@ -76,6 +76,7 @@ function Login(){
                         <input type="submit" className={styles.form_submit} value="Log In">  
                             
                         </input>
+                        <p className={styles.form_p}>Don't have an account? <a href="/login">Create one today!</a></p>
                     </div>
                     
                     

@@ -29,6 +29,14 @@ html, body {
     font-family: 'Kodchasan', sans-serif;
     padding: 15%;
     margin: auto;
+    background: none; 
+    border: none;
+  }
+
+  
+  
+  .byte_bites_button:focus {
+    outline: none; /* Remove focus outline */
   }
 
   .div_graphic {

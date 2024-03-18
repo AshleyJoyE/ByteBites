@@ -42,7 +42,7 @@ function Login(){
     return (
         <div className={styles.div_primary}>
             <div className={styles.div_graphic}>
-                <p className={styles.byte_bites}> Bite-Bytes </p>
+            <button className={styles.byte_bites} onClick={() => window.location.href = '/'}>Byte-Bites</button>
                 <img className={styles.img_chef} src="https://static.vecteezy.com/system/resources/previews/028/577/460/non_2x/chef-face-3d-rendering-icon-illustration-free-png.png">
                 </img>
             </div>

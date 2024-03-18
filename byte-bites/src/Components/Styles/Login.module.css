@@ -1,20 +1,103 @@
-.Red {
-    color: #f00;
-  }
-  
-  .Header {
-    color: #000000;
-    font-size: 40px;
+
+  .div_primary {
+    display: flex;
+    flex-direction:row;
+    background-color: var(--secondary-blue);
+    height: 100vh;
+   
+   
   }
 
-  .Form {
+  .header {
+    color: #000000;
+    font-size: 40px;
+    font-family: 'Kodchasan', sans-serif;
+    padding: 2%;
     margin: auto;
   }
 
-  .CenterForm {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
+  .byte_bites{
+    color: #000000;
+    font-size: 90px;
+    font-style: bold;
+    font-family: 'Kodchasan', sans-serif;
+    padding: 15%;
+    margin: auto;
   }
 
+  .div_graphic {
+    width: 50%; 
+    background-color: var(--secondary-blue);
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+   
+  }
+
+  .div_form_section{
+    
+    margin: auto;
+    width: 100%; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center; 
+    background-color: #45aae3;
+   
+   
+  }
+
+  .div_form_primary {
+    margin: auto;
+    width: 100%;
+    border-radius: 10px;
+   
+  }
+
+  .div_form_secondary {
+    height: 100%;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+  }
+
+  .form_label {
+    
+    padding-bottom: 1%;
+    font-family: 'Kodchasan', sans-serif;
+    margin: auto;
+    margin-top: 2%
+    
+  }
+
+  .form_input {
+    width: 100%;
+    padding: 2% 25% 2% 2%; 
+    box-sizing: border-box;
+    margin: auto;
+    margin-bottom: 5%; 
+    border-radius: 10px;
+}
+
+  .div_navbar_primary {
+    width: 100%;
+    display: flex;
+    flex: row;
+
+  }
+
+  .form_submit {
+    width: 100%;
+    padding: 2% 2%;
+    margin: auto;
+    margin-bottom: 5%; 
+}
+
+  .img_chef {
+    position: relative;
+    margin-bottom: 20%;
+    margin-left: -20%;
+    max-width: 100%; 
+    max-height: 100%; 
+  }

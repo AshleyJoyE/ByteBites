@@ -40,39 +40,49 @@ function Login(){
     }
     
     return (
-        <div>
-            <div className={styles.Header}>
-            LOG IN
+        <div className={styles.div_primary}>
+            <div className={styles.div_graphic}>
+                <p className={styles.byte_bites}> Bite-Bytes </p>
+                <img className={styles.img_chef} src="https://static.vecteezy.com/system/resources/previews/028/577/460/non_2x/chef-face-3d-rendering-icon-illustration-free-png.png">
+                </img>
             </div>
-            <div> {username}</div>
-            <div> {password}</div>
-            <form className={styles.Form} onSubmit={validate}>
-                <div className={styles.CenterForm}>
-                    <label for="Username">
-                        Username
-                    </label>
-                    <input type="text" value={username} 
-                        name="Username"
-                        onChange={(e) => setUsername(e.target.value)}
-                        placeholder="Enter your username">
-                        
-                    </input>
-                    <label for="Password">
-                        Password
-                    </label>
-                    <input type="password" value={password} 
-                        name="Password"
-                        onChange={(e) => setPassword(e.target.value)}
-                        placeholder="Enter your password">
-                    </input>
+            <div className={styles.div_form_section}>
+                <p className={styles.header}>
+                LOG IN
+                </p>
+                <div> {username}</div>
+                <div> {password}</div>
+                <form className={styles.div_form_primary} onSubmit={validate}>
+                    <div className={styles.div_form_secondary}>
+                        <label for="Username" className={styles.form_label}>
+                            Username
+                        </label>
+                        <input type="text" value={username} className={styles.form_input}
+                            name="Username"
+                            onChange={(e) => setUsername(e.target.value)}
+                            placeholder="Enter your username"
+                            >
+                            
+                        </input>
+                        <label for="Password" className={styles.form_label}>
+                            Password
+                        </label>
+                        <input type="password" value={password} className={styles.form_input}
+                            name="Password"
+                            onChange={(e) => setPassword(e.target.value)}
+                            placeholder="Enter your password">
+                        </input>
 
-                    <input type="submit">
+                        <input type="submit" className={styles.form_submit}> 
 
-                    </input>
-                </div>
-                
-                
-            </form>
+                        </input>
+                    </div>
+                    
+                    
+                </form>
+            </div>
+            
+            
         </div>
         
 

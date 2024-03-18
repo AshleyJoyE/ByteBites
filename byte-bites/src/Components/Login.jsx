@@ -73,8 +73,8 @@ function Login(){
                             placeholder="Enter your password">
                         </input>
 
-                        <input type="submit" className={styles.form_submit}> 
-
+                        <input type="submit" className={styles.form_submit} value="Log In">  
+                            
                         </input>
                     </div>
                     

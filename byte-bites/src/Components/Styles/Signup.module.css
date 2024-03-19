@@ -1,0 +1,132 @@
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: var(--secondary-yellow); /* Set background color for body */
+}
+  .div_primary {
+    display: flex;
+    flex-direction:row;
+   
+    height: 100vh;
+   
+   
+  }
+
+  .header {
+    color: #000000;
+    font-size: 40px;
+    font-family: 'Kodchasan', sans-serif;
+    padding: 2%;
+    margin: auto;
+  }
+
+  .byte_bites{
+    color: #000000;
+    font-size: 90px;
+    font-style: bold;
+    font-family: 'Kodchasan', sans-serif;
+    padding: 15%;
+    margin: auto;
+    background: none; 
+    border: none;
+  }
+
+  .div_graphic {
+    width: 50%; 
+    
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+   
+  }
+
+  .img_chef {
+    position: relative;
+    margin-bottom: 20%;
+    margin-left: -20%;
+    max-width: 100%; 
+    max-height: 100%; 
+  }
+
+
+  .div_form_section{
+    margin: auto;
+    border-color: #000000;
+    width: 100%; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center; 
+    background-color: var(--primary-yellow);
+    border-radius: 10px;
+  }
+
+  .div_form_primary {
+    margin: auto;
+    width: 100%;
+    border-radius: 10px;
+   
+  }
+
+  .div_form_secondary {
+    height: 100%;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+  }
+
+  .form_label {
+    
+    padding-bottom: 1%;
+    font-family: 'Kodchasan', sans-serif;
+    font-style: bold;
+    margin: auto;
+    margin-top: 2%
+
+    
+  }
+
+  .form_input {
+    width: 100%;
+    padding: 2% 25% 2% 2%; 
+    box-sizing: border-box;
+    margin: auto;
+   
+    border-radius: 10px;
+}
+
+  .div_navbar_primary {
+    width: 100%;
+    display: flex;
+    flex: row;
+
+  }
+
+  .form_submit {
+    width: 100%;
+    padding: 2% 2%;
+    margin: auto;
+    margin-top: 2%;
+    background-color: var(--secondary-yellow);
+    border-radius: 10px;
+    border-width: 2px;
+    border-color: black;
+}
+
+  .form_p {
+    padding-bottom: 5%;
+    font-family: 'Kodchasan', sans-serif;
+    margin: auto;
+    font-size: 50;
+  }
+
+  .error_message {
+    font-family: 'Kodchasan', sans-serif;
+    font-size: 20;
+    color: var(--error-red);
+  }
+  
+

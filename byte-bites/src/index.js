@@ -29,11 +29,11 @@ root.render(
     </React.StrictMode>
   </Router>
 );
-// import React from 'react';
-// import ReactDOM from 'react-dom/client';
-// import './index.css';
-// import App from './App';
-// import reportWebVitals from './reportWebVitals';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
 const { createHash } = require('crypto');
 
 function hash(string) {
@@ -80,8 +80,7 @@ app.post("/signup", async (req, res)=>{
 app.post("/login", async (req, res)=>{
   try {
     const check = await collection.findOne({name:req.body.name})
-    console.log(check.password)
-    console.log(req.body.password)
+
     if (check.password===hash(req.body.password)){
       res.render("home")
     } else {

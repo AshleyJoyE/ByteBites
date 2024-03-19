@@ -28,8 +28,10 @@ function Signup(){
             setName(name.substring(0,30))
         if (email.length >= 30)
             setEmail(email.substring(0,30))
-        if (email.length >= 30)
+        if (password.length >= 30)
             setPassword(password.substring(0,30))
+        if (passwordRepeat.length >= 30)
+            setPasswordRepeat(passwordRepeat.substring(0,30))
 
         // check that no invalid characters have been entered
         setIsEmailCharactersValid(email ? regexAllowedCharacters.test(email) : true);

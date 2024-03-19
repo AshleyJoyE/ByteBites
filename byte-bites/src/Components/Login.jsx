@@ -4,17 +4,24 @@ function Login(){
 
     const [email, setEmail]= useState('');
     const [password, setPassword] = useState('');
-    
+    const [isCredentialsValid, setIsCredentialsValid]= useState(true);
+    const regexAllowedCharacters = /^[a-zA-Z0-9_!@#$%^&*()-_+=]+$/
+ 
 
     const validate = (e) => {
         e.preventDefault();
-        if (validEmail()){
+        if (email.length >= 30)
+        setEmail(email.substring(0,30))
+        if (email.length >= 30)
+        setPassword(password.substring(0,30))
+
+        if (validEmail() && password >= 8){
             var hashedPassword = hashPassword();
             // WRITE API CALL TO CHECK IF USERNAME & PASSWORD EXIST IN DATABASE
             // WRITE LOGIC FOR WHAT HAPPENS 
         }
         else {
-            // ERROR MESSAGE for INVALID EMAIL
+            setIsCredentialsValid(false)
         }
             
     }
@@ -41,7 +48,7 @@ function Login(){
     }
 
     const validEmail = () => {
-        const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,30}$/;
         return regexEmail.test(email);
     }
     
@@ -76,7 +83,7 @@ function Login(){
                             onChange={(e) => setPassword(e.target.value)}
                             placeholder="Enter your password">
                         </input>
-
+                        {!isCredentialsValid && <p className={styles.error_message}> Invalid Credentials! </p>}
                         <input type="submit" className={styles.form_submit} value="Log In">  
                             
                         </input>

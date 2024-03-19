@@ -107,12 +107,13 @@ html, body {
     width: 100%;
     padding: 2% 2%;
     margin: auto;
-
+    margin-top: 2%;
     background-color: var(--secondary-yellow);
     border-radius: 10px;
     border-width: 2px;
     border-color: black;
 }
+
 
   .form_p {
     padding-bottom: 5%;
@@ -120,5 +121,13 @@ html, body {
     margin: auto;
     font-size: 50;
   }
+
+  .error_message {
+    font-family: 'Kodchasan', sans-serif;
+    font-size: 50;
+    color: var(--error-red);
+    margin:auto;
+  }
+  
   
 

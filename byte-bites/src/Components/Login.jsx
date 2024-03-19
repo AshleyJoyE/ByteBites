@@ -2,20 +2,21 @@ import { useEffect, useState } from "react";
 import styles from "./Styles/Login.module.css";
 function Login(){
 
-    const [username, setUsername]= useState('');
+    const [email, setEmail]= useState('');
     const [password, setPassword] = useState('');
-    useEffect(() => {
-        console.log('username: ', username);
-      }, [username]); 
-      useEffect(() => {
-        console.log('password: ' , password );
-      }, [password]); 
+    
 
     const validate = (e) => {
         e.preventDefault();
-        var hashedPassword = hashPassword();
-        // WRITE API CALL TO CHECK IF USERNAME & PASSWORD EXIST IN DATABASE
-        // WRITE LOGIC FOR WHAT HAPPENS 
+        if (validEmail()){
+            var hashedPassword = hashPassword();
+            // WRITE API CALL TO CHECK IF USERNAME & PASSWORD EXIST IN DATABASE
+            // WRITE LOGIC FOR WHAT HAPPENS 
+        }
+        else {
+            // ERROR MESSAGE for INVALID EMAIL
+        }
+            
     }
 
     const hashPassword = () => {
@@ -38,6 +39,11 @@ function Login(){
                 console.error('Error:', error);
             });
     }
+
+    const validEmail = () => {
+        const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regexEmail.test(email);
+    }
     
     return (
         <div className={styles.div_primary}>
@@ -50,17 +56,15 @@ function Login(){
                 <p className={styles.header}>
                 LOG IN
                 </p>
-                <div> {username}</div>
-                <div> {password}</div>
                 <form className={styles.div_form_primary} onSubmit={validate}>
                     <div className={styles.div_form_secondary}>
-                        <label for="Username" className={styles.form_label}>
-                            Username
+                        <label for="Email" className={styles.form_label}>
+                            Email
                         </label>
-                        <input type="text" value={username} className={styles.form_input}
-                            name="Username"
-                            onChange={(e) => setUsername(e.target.value)}
-                            placeholder="Enter your username"
+                        <input type="text" value={email} className={styles.form_input}
+                            name="Email"
+                            onChange={(e) => setEmail(e.target.value)}
+                            placeholder="Enter your email"
                             >
                             
                         </input>
@@ -76,7 +80,7 @@ function Login(){
                         <input type="submit" className={styles.form_submit} value="Log In">  
                             
                         </input>
-                        <p className={styles.form_p}>Don't have an account? <a href="/login">Create one today!</a></p>
+                        <p className={styles.form_p}>Don't have an account? <a href="/Signup">Create one today!</a></p>
                     </div>
                     
                     

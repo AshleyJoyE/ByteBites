@@ -82,8 +82,10 @@ html, body {
     
     padding-bottom: 1%;
     font-family: 'Kodchasan', sans-serif;
+    font-style: bold;
     margin: auto;
     margin-top: 2%
+
     
   }
 
@@ -92,7 +94,7 @@ html, body {
     padding: 2% 25% 2% 2%; 
     box-sizing: border-box;
     margin: auto;
-    margin-bottom: 5%; 
+   
     border-radius: 10px;
 }
 
@@ -107,7 +109,7 @@ html, body {
     width: 100%;
     padding: 2% 2%;
     margin: auto;
-
+    margin-top: 2%;
     background-color: var(--secondary-yellow);
     border-radius: 10px;
     border-width: 2px;
@@ -119,6 +121,12 @@ html, body {
     font-family: 'Kodchasan', sans-serif;
     margin: auto;
     font-size: 50;
+  }
+
+  .error_message {
+    font-family: 'Kodchasan', sans-serif;
+    font-size: 20;
+    color: var(--error-red);
   }
   
 

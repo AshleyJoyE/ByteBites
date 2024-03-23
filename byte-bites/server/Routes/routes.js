@@ -21,11 +21,11 @@ app.get("/", (req, res)=>{
   res.render("login")
 })
 
-app.get("/signup", (req, res)=>{
-  res.render("signup")
-})
+// app.get("/signup", (req, res)=>{
+//   res.render("signup")
+// })
 
-app.post("/signup", async (req, res)=>{
+app.post("/postCredentials", async (req, res)=>{
   const data = {
     name:req.body.name,
     password:hash(req.body.password)
@@ -35,7 +35,7 @@ app.post("/signup", async (req, res)=>{
   res.render("home")
 })
 
-app.post("/login", async (req, res)=>{
+app.post("/getCredentials", async (req, res)=>{
   try {
     const check = await collection.findOne({name:req.body.name})
     console.log(check.password)
@@ -50,6 +50,6 @@ app.post("/login", async (req, res)=>{
   }
 })
 
-app.listen(3000, ()=>{
+app.listen(3001, ()=>{
   console.log("port conncted");
 })

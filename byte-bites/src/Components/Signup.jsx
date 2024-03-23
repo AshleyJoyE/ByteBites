@@ -26,8 +26,8 @@ function Signup(){
         // make sure entries are not longer than 30 characters
         if (name.length >= 30)
             setName(name.substring(0,30))
-        if (email.length >= 30)
-            setEmail(email.substring(0,30))
+        if (email.length >= 50)
+            setEmail(email.substring(0,50))
         if (password.length >= 30)
             setPassword(password.substring(0,30))
         if (passwordRepeat.length >= 30)
@@ -81,7 +81,7 @@ function Signup(){
 
     const validEmail = () => {
         
-        const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,30}$/;
+        const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,50}$/;
         setIsEmailValid(regexEmail.test(email));
       
     }

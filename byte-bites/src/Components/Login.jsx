@@ -5,15 +5,15 @@ function Login(){
     const [email, setEmail]= useState('');
     const [password, setPassword] = useState('');
     const [isCredentialsValid, setIsCredentialsValid]= useState(true);
-    const regexAllowedCharacters = /^[a-zA-Z0-9_!@#$%^&*()-_+=]+$/
+   
  
 
     const validate = (e) => {
         e.preventDefault();
+        if (email.length >= 50)
+            setEmail(email.substring(0,50))
         if (email.length >= 30)
-        setEmail(email.substring(0,30))
-        if (email.length >= 30)
-        setPassword(password.substring(0,30))
+            setPassword(password.substring(0,30))
 
         if (validEmail() && password >= 8){
             var hashedPassword = hashPassword();
@@ -48,7 +48,7 @@ function Login(){
     }
 
     const validEmail = () => {
-        const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,30}$/;
+        const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,50}$/;
         return regexEmail.test(email);
     }
     

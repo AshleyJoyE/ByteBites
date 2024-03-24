@@ -4,7 +4,7 @@ const CredentialSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    name:{
+    username:{
         type: String,
         required: true
     },
@@ -13,8 +13,9 @@ const CredentialSchema = new mongoose.Schema({
         required: true
     },
     numberOfFailedAttempts:{
-        type: Integer,
-        required: false
+        type: Number,
+        required: false,
+        default: 0
     }
 })
 const collection = new mongoose.model("Collection", CredentialSchema)

@@ -13,7 +13,7 @@ function hash(string) {
 }
 
 // add new Credential to Credentials Collection
-router.post("/postCredentials", async (req, res) => {
+router.post("/postUser", async (req, res) => {
   const data = new Credential({
     username: req.body.username.toLowerCase(),
     email: req.body.email.toLowerCase(),
@@ -28,8 +28,8 @@ router.post("/postCredentials", async (req, res) => {
   }
 });
 
-// get Credentials from Credentials Table & Verify Password
-router.get("/getCredentialsVerification", async (req, res) => {
+// get User from Credentials  & Verify Password
+router.get("/getUserVerification", async (req, res) => {
   try {
 
     const { email, username, password } = req.query;
@@ -52,8 +52,8 @@ router.get("/getCredentialsVerification", async (req, res) => {
   }
 });
 
-// get Credentials from Credentials Table
-router.get("/getCredentials", async (req, res) => {
+// get User from User Collection
+router.get("/getUser", async (req, res) => {
   try {
     const { email, username } = req.query;
 

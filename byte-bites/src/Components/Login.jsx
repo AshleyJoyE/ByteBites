@@ -1,57 +1,58 @@
 import { useEffect, useState } from "react";
 import styles from "./Styles/Login.module.css";
+import { useNavigate } from 'react-router-dom';
 function Login(){
 
-    const [email, setEmail]= useState('');
+    const [emailOrUsername, setEmailOrUsername]= useState('');
     const [password, setPassword] = useState('');
     const [isCredentialsValid, setIsCredentialsValid]= useState(true);
-   
- 
+    const navigate = useNavigate();
+    const handleHomeNav = () => navigate(`/`);
 
-    const validate = (e) => {
+    const validate = async (e) => {
         e.preventDefault();
-        if (email.length >= 50)
-            setEmail(email.substring(0,50))
-        if (email.length >= 30)
+        if (emailOrUsername.length >= 50)
+            setEmailOrUsername(emailOrUsername.substring(0,50))
+        if (password.length >= 30)
             setPassword(password.substring(0,30))
-
-        if (validEmail() && password >= 8){
-            var hashedPassword = hashPassword();
-            // WRITE API CALL TO CHECK IF USERNAME & PASSWORD EXIST IN DATABASE
-            // WRITE LOGIC FOR WHAT HAPPENS 
+        console.log("inside block")
+        if (emailOrUsername.length >= 4 && password.length >= 8){
+            try {
+                // validate credentials
+                const response = await fetch(`http://localhost:3010/api/getCredentialsVerification?email=${encodeURIComponent(emailOrUsername)}&username=${encodeURIComponent(emailOrUsername)}&password=${encodeURIComponent(password)}`, 
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                console.log("hi")
+                const data = await response.json();
+                console.log(data)
+    
+                // credentials are valid
+                if (data.status === 200) {
+                    console.log("Credentials valid");
+                    handleHomeNav();
+                    // future plan: reset number of unsucessful attempts
+                } else {
+                    setIsCredentialsValid(false);
+                    console.log("Credentials invalid");
+                    // future plan: update number of unsucessful attempts
+                }
+            } catch (error) {
+                console.error(error);
+                setIsCredentialsValid(false);
+                // future plan: update number of unsucessful attempts
+            }
         }
         else {
             setIsCredentialsValid(false)
-        }
-            
+            // future plan: update number of unsucessful attempts
+        }   
     }
 
-    const hashPassword = () => {
-        
 
-        // Convert the data to a Uint8Array
-        const dataBuffer = new TextEncoder().encode(password);
-
-        // Hash the data using SHA-256 algorithm
-        crypto.subtle.digest('SHA-256', dataBuffer)
-            .then(hashBuffer => {
-                // Convert the hash buffer to a hexadecimal string
-                const hashedData = Array.from(new Uint8Array(hashBuffer))
-                    .map(byte => byte.toString(16).padStart(2, '0'))
-                    .join('');
-
-                return hashedData;
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    }
-
-    const validEmail = () => {
-        const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,50}$/;
-        return regexEmail.test(email);
-    }
-    
     return (
         <div className={styles.div_primary}>
             <div className={styles.div_graphic}>
@@ -65,13 +66,13 @@ function Login(){
                 </p>
                 <form className={styles.div_form_primary} onSubmit={validate}>
                     <div className={styles.div_form_secondary}>
-                        <label for="Email" className={styles.form_label}>
-                            Email
+                        <label for="EmailOrUsername" className={styles.form_label}>
+                            Email or Username
                         </label>
-                        <input type="text" value={email} className={styles.form_input}
-                            name="Email"
-                            onChange={(e) => setEmail(e.target.value)}
-                            placeholder="Enter your email"
+                        <input type="text" value={emailOrUsername} className={styles.form_input}
+                            name="EmailOrUsername"
+                            onChange={(e) => setEmailOrUsername(e.target.value)}
+                            placeholder="Enter your email or username"
                             >
                             
                         </input>

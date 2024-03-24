@@ -26,7 +26,6 @@ function Login(){
                         'Content-Type': 'application/json'
                     }
                 });
-                console.log("hi")
                 const data = await response.json();
                 console.log(data)
     

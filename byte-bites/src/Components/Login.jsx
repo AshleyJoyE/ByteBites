@@ -19,7 +19,7 @@ function Login(){
         if (emailOrUsername.length >= 4 && password.length >= 8){
             try {
                 // validate credentials
-                const response = await fetch(`http://localhost:3010/api/getCredentialsVerification?email=${encodeURIComponent(emailOrUsername)}&username=${encodeURIComponent(emailOrUsername)}&password=${encodeURIComponent(password)}`, 
+                const response = await fetch(`http://localhost:3010/api/getUserVerification?email=${encodeURIComponent(emailOrUsername)}&username=${encodeURIComponent(emailOrUsername)}&password=${encodeURIComponent(password)}`, 
                 {
                     method: 'GET',
                     headers: {

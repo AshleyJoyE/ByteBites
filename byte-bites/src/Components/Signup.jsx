@@ -54,7 +54,7 @@ function Signup(){
             if (isEmailValid && isPasswordValid && username.length > 3 && isPasswordMatching) {
                 try {
                     // check if account already exists
-                    const response = await fetch(`http://localhost:3010/api/getCredentials?email=${encodeURIComponent(email)}&username=${encodeURIComponent(username)}`, 
+                    const response = await fetch(`http://localhost:3010/api/getUser?email=${encodeURIComponent(email)}&username=${encodeURIComponent(username)}`, 
                     {
                         method: 'GET',
                         headers: {
@@ -68,7 +68,7 @@ function Signup(){
                     if (!response.ok) {
                         console.log("in right statement")
                         setIsAccountNotFound(true);
-                        const postResponse = await fetch("http://localhost:3010/api/postCredentials", {
+                        const postResponse = await fetch("http://localhost:3010/api/postUser", {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json'

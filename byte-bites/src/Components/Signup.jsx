@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./Styles/Signup.module.css";
+import { useNavigate } from 'react-router-dom';
 function Signup(){
 
     const [email, setEmail]= useState('');
@@ -10,24 +11,23 @@ function Signup(){
     const [isPasswordValid, setIsPasswordValid,]= useState(true);
     const [passwordRepeat, setPasswordRepeat] = useState('');
     const [isPasswordRepeatCharactersValid, setIsPasswordRepeatCharactersValid,]= useState(true);
-    const [name, setName] = useState('');
-    const [isNameCharactersValid, setIsNameCharactersValid,]= useState(true);
+    const [username, setUsername] = useState('');
+    const [isUsernameValid, setIsUsernameValid,]= useState(true);
+    const [isUsernameCharactersValid, setIsUsernameCharactersValid,]= useState(true);
     const [isPasswordMatching, setIsPasswordMatching]= useState(true);
+    const [isAccountNotFound, setIsAccountNotFound]= useState(true);
     const regexAllowedCharacters = /^[a-zA-Z0-9_!@#$%^&*()-_+=]+$/
-    
-   
-  
-   
-    
+    const handleHomeNav = () => navigate(`/`);
+    const navigate = useNavigate();
   
     // runs everytime email, password, password repeat, or name is changed
     useEffect(() => { 
 
         // make sure entries are not longer than 30 characters
-        if (name.length >= 30)
-            setName(name.substring(0,30))
-        if (email.length >= 30)
-            setEmail(email.substring(0,30))
+        if (username.length >= 30)
+            setUsername(username.substring(0,30))
+        if (email.length >= 50)
+            setEmail(email.substring(0,50))
         if (password.length >= 30)
             setPassword(password.substring(0,30))
         if (passwordRepeat.length >= 30)
@@ -35,59 +35,90 @@ function Signup(){
 
         // check that no invalid characters have been entered
         setIsEmailCharactersValid(email ? regexAllowedCharacters.test(email) : true);
-        setIsNameCharactersValid(name ? regexAllowedCharacters.test(name) : true)
+        setIsUsernameCharactersValid(username ? regexAllowedCharacters.test(username) : true)
         setIsPasswordCharactersValid(password ? regexAllowedCharacters.test(password) : true)
         setIsPasswordRepeatCharactersValid(passwordRepeat ? regexAllowedCharacters.test(passwordRepeat) : true)
         validEmail()
+        validUsername()
         validPassword()
+        setIsPasswordMatching(password == passwordRepeat)
 
+    }, [email, password, passwordRepeat, username])
 
-
-    }, [email, password, passwordRepeat, name])
-
-    const validate = (e) => {
+    // create an account
+    const createAccount = async (e) => {
         e.preventDefault();
         // confirm that input only contains valid data
-        if (isEmailCharactersValid && isNameCharactersValid && isPasswordCharactersValid){
-            setIsPasswordMatching(password === passwordRepeat)
-            if (isEmailValid && isPasswordValid && name.length > 0 && isPasswordMatching ){
-                var hashedPassword = hashPassword();
-                // WRITE API CALL TO ADD USERNAME & PASSWORD TO DB
-                // WRITE LOGIC FOR WHAT HAPPENS 
-            }
-            else {
-                // ERROR MESSAGE for INVALID EMAIL
+        if (isEmailCharactersValid && isUsernameCharactersValid && isPasswordCharactersValid) {
+            setIsPasswordMatching(password === passwordRepeat);
+            if (isEmailValid && isPasswordValid && username.length > 3 && isPasswordMatching) {
+                try {
+                    // check if account already exists
+                    const response = await fetch(`http://localhost:3010/api/getCredentials?email=${encodeURIComponent(email)}&username=${encodeURIComponent(username)}`, 
+                    {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                    });
+                    const data = await response.json();
+                    console.log(data)
+    
+                    // create account if it doesn't exist already
+                    if (!response.ok) {
+                        console.log("in right statement")
+                        setIsAccountNotFound(true);
+                        const postResponse = await fetch("http://localhost:3010/api/postCredentials", {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                email: email,
+                                username: username, 
+                                password: password
+                            })
+                        });
+
+                        // account is created
+                        if (postResponse.ok) {
+                            console.log("account created")
+                            console.log("Account created successfully");
+                            handleHomeNav();
+                        } 
+                        // post request failed
+                        else {
+                            throw new Error(`HTTP error! Status: ${postResponse.status}`);
+                        }
+                    }
+                    // account already exits 
+                    else {
+                        setIsAccountNotFound(false);
+                        console.log("in wrong statement")
+                        console.log("Account already exists");
+                    }
+                } catch (error) {
+                    console.log("in error")
+                    console.error(error);
+                }
             }
         }
-    }
-
-    const hashPassword = () => {
-        // Convert the data to a Uint8Array
-        const dataBuffer = new TextEncoder().encode(password);
-        // Hash the data using SHA-256 algorithm
-        crypto.subtle.digest('SHA-256', dataBuffer)
-            .then(hashBuffer => {
-                // Convert the hash buffer to a hexadecimal string
-                const hashedData = Array.from(new Uint8Array(hashBuffer))
-                    .map(byte => byte.toString(16).padStart(2, '0'))
-                    .join('');
-
-                return hashedData;
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    }
+    };
 
     const validEmail = () => {
         
-        const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,30}$/;
+        const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,50}$/;
         setIsEmailValid(regexEmail.test(email));
       
     }
 
+    const validUsername = () => {
+        setIsUsernameValid(username.length > 3);
+    }
+
     const validPassword = () => {
-        const regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()-_+=])[A-Za-z\d!@#$%^&*()-_+=]{8,30}$/;
+        const regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,30}$/;
+
         setIsPasswordValid(regexPassword.test(password));
     }
 
@@ -105,18 +136,19 @@ function Signup(){
                 CREATE AN ACCOUNT
                 </p>
                
-                <form className={styles.div_form_primary} onSubmit={validate}>
+                <form className={styles.div_form_primary} onSubmit={createAccount}>
                     <div className={styles.div_form_secondary}>
-                        <label for="Name" className={styles.form_label}>
-                            Full Name
+                        <label for="Username" className={styles.form_label}>
+                            Username
                         </label>
-                        <input type="text" value={name} className={styles.form_input}
-                            name="Name"
-                            onChange={(e) => setName(e.target.value)}
-                            placeholder="Enter your full name"
+                        <input type="text" value={username} className={styles.form_input}
+                            name="Username"
+                            onChange={(e) => setUsername(e.target.value)}
+                            placeholder="Enter your username"
                             >
                         </input>
-                        {!isNameCharactersValid && <p className={styles.error_message}> Invalid Character(s) Entered! </p>}
+                        {!isUsernameCharactersValid && <p className={styles.error_message}> Invalid Character(s) Entered! </p>}
+                        {!isUsernameValid && <p className={styles.error_message}> Username is Too Short! </p>}
                         <label for="Email" className={styles.form_label}>
                             Email
                         </label>
@@ -148,7 +180,8 @@ function Signup(){
                         </input>
                         {!isPasswordRepeatCharactersValid && <p className={styles.error_message}> Invalid Character(s) Entered! </p>}
                         {!isPasswordMatching && <p className={styles.error_message}> Passwords Must Match! </p>}
-                        <input type="submit" className={styles.form_submit} value="Log In">  
+                        {!isAccountNotFound && <p className={styles.error_message}> Username or Email Already Exists! </p>}
+                        <input type="submit" className={styles.form_submit} value="Create an Account">  
                             
                         </input>
                         <p className={styles.form_p}> Already have an account? <a href="/Login">Log in!</a></p>

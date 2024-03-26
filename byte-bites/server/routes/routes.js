@@ -68,7 +68,7 @@ router.get("/getUser", async (req, res) => {
     if (check) {
       console.log("User found");
       const { name, email, profilePhoto } = check; 
-      res.status(200).json({ status: 200, name, email, profilePhoto });
+      res.status(200).json({ status: 200, name, email, profilePhoto, bio, admin });
     } else {
       res.status(404).json({ message: "User Not Found" });
     }

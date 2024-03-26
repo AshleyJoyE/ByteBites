@@ -3,7 +3,7 @@ html, body {
   margin: 0;
   padding: 0;
   height: 100%;
-  background-color: var(--secondary-yellow); /* Set background color for body */
+  background-color: var(--secondary-yellow); 
 }
   .div_primary {
     display: flex;

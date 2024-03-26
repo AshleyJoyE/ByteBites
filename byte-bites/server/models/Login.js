@@ -28,7 +28,12 @@ const CredentialSchema = new mongoose.Schema({
         type: Number,
         required: false,
         default: 0
-    }
+    },
+    admin: {
+        type: Boolean,
+        required: false,
+        default: false
+        }
 })
 const collection = new mongoose.model("Collection", CredentialSchema)
 

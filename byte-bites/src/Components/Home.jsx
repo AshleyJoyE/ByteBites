@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import styles from "./Styles/Login.module.css";
 
 function Home() {
     const [hashedData, setHashedData] = useState(null);
@@ -26,9 +27,17 @@ function Home() {
     }, []);
 
     return (
-        <div>
-            <p>Original Data: Hello, world!</p>
-            <p>Hashed Data: {hashedData}</p>
+        <div className={styles.main_div}>
+           <div className={styles.div_nav_bar}>
+                
+           </div>
+           <div className={styles.div_search}>
+
+           </div>
+           <div className={styles.div_recommended_recipes}>
+
+           </div>
+
         </div>
     );
 }

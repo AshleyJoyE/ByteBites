@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "./Styles/Login.module.css";
 import { useNavigate } from 'react-router-dom';
+import axios from "axios";
 function Login(){
 
     const [emailOrUsername, setEmailOrUsername]= useState('');
@@ -8,6 +9,14 @@ function Login(){
     const [isCredentialsValid, setIsCredentialsValid]= useState(true);
     const navigate = useNavigate();
     const handleHomeNav = () => navigate(`/`);
+
+    // when user navigates to page, check if user is already logged in, if so return to home,
+    useEffect(() => {
+        const currentUser = localStorage.getItem("user");
+        if (currentUser) {
+            handleHomeNav();
+        }
+      }, []);
 
     const validate = async (e) => {
         e.preventDefault();
@@ -32,6 +41,8 @@ function Login(){
                 // credentials are valid
                 if (data.status === 200) {
                     console.log("Credentials valid");
+                    // store the user in localStorage
+                    localStorage.setItem('user', response.data)
                     handleHomeNav();
                     // future plan: reset number of unsucessful attempts
                 } else {
@@ -55,7 +66,7 @@ function Login(){
     return (
         <div className={styles.div_primary}>
             <div className={styles.div_graphic}>
-            <button className={styles.byte_bites} onClick={() => window.location.href = '/'}>Byte-Bites</button>
+            <button className={styles.byte_bites} onClick={() => window.location.href = '/'}>Home</button>
                 <img className={styles.img_chef} src="https://static.vecteezy.com/system/resources/previews/028/577/460/non_2x/chef-face-3d-rendering-icon-illustration-free-png.png">
                 </img>
             </div>

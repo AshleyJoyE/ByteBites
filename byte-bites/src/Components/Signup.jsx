@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "./Styles/Signup.module.css";
 import { useNavigate } from 'react-router-dom';
+import axios from "axios";
 function Signup(){
 
     const [email, setEmail]= useState('');
@@ -45,6 +46,14 @@ function Signup(){
 
     }, [email, password, passwordRepeat, username])
 
+
+    // when user navigates to page, check if user is already logged in, if so return to home,
+    useEffect(() => {
+        const currentUser = localStorage.getItem("user");
+        if (currentUser) {
+            handleHomeNav();
+        }
+      }, []);
     // create an account
     const createAccount = async (e) => {
         e.preventDefault();
@@ -66,7 +75,6 @@ function Signup(){
     
                     // create account if it doesn't exist already
                     if (!response.ok) {
-                        console.log("in right statement")
                         setIsAccountNotFound(true);
                         const postResponse = await fetch("http://localhost:3010/api/postUser", {
                             method: 'POST',
@@ -82,8 +90,8 @@ function Signup(){
 
                         // account is created
                         if (postResponse.ok) {
-                            console.log("account created")
-                            console.log("Account created successfully");
+                            // store the user in localStorage
+                            localStorage.setItem('user', response.data)
                             handleHomeNav();
                         } 
                         // post request failed
@@ -94,11 +102,9 @@ function Signup(){
                     // account already exits 
                     else {
                         setIsAccountNotFound(false);
-                        console.log("in wrong statement")
                         console.log("Account already exists");
                     }
                 } catch (error) {
-                    console.log("in error")
                     console.error(error);
                 }
             }

@@ -13,8 +13,8 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path='/Login' element={<Login />}/>
           <Route path='/Signup' element={<Signup />}/>
-          <Route path='/Profile/{id}' element={<ViewUserProfile/>}/>
-          <Route path='/Recipe/{id}' element={<ViewRecipe/>}/>
+          <Route path='/Profile/:id' element={<ViewUserProfile/>}/>
+          <Route path='/Recipe/:id' element={<ViewRecipe/>}/>
         </Routes>
       </div>
     );

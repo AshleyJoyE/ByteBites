@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router(); 
 module.exports = router;
 
-const Credential = require('../models/Login.js');
+const User = require('../models/Login.js');
 let user = null;
 
 const { createHash } = require('crypto');
@@ -14,7 +14,7 @@ function hash(string) {
 
 // add new Credential to Credentials Collection
 router.post("/postUser", async (req, res) => {
-  const data = new Credential({
+  const data = new User({
     username: req.body.username.toLowerCase(),
     email: req.body.email.toLowerCase(),
     password: hash(req.body.password)
@@ -34,7 +34,7 @@ router.get("/getUserVerification", async (req, res) => {
 
     const { email, username, password } = req.query;
 
-    const check = await Credential.findOne({
+    const check = await User.findOne({
       $or: [
         { email: email.toLowerCase() },
         { username: username.toLowerCase() }
@@ -57,7 +57,7 @@ router.get("/getUser", async (req, res) => {
   try {
     const { email, username } = req.query;
 
-    const check = await Credential.findOne({
+    const check = await User.findOne({
       $or: [
         { email: email.toLowerCase() },
         { username: username.toLowerCase() }

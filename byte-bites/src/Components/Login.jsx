@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import styles from "./Styles/Login.module.css";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
+import NavBar from './NavBar';
+
 function Login(){
 
     const [emailOrUsername, setEmailOrUsername]= useState('');
@@ -64,51 +66,52 @@ function Login(){
 
 
     return (
-        <div className={styles.div_primary}>
-            <div className={styles.div_graphic}>
-            <button className={styles.byte_bites} onClick={() => window.location.href = '/'}>Home</button>
-                <img className={styles.img_chef} src="https://static.vecteezy.com/system/resources/previews/028/577/460/non_2x/chef-face-3d-rendering-icon-illustration-free-png.png">
-                </img>
+        <div>
+           <div className={styles.div_nav_bar}>
+                <NavBar>   </NavBar>
             </div>
-            <div className={styles.div_form_section}>
-                <p className={styles.header}>
-                LOG IN
-                </p>
-                <form className={styles.div_form_primary} onSubmit={validate}>
-                    <div className={styles.div_form_secondary}>
-                        <label for="EmailOrUsername" className={styles.form_label}>
-                            Email or Username
-                        </label>
-                        <input type="text" value={emailOrUsername} className={styles.form_input}
-                            name="EmailOrUsername"
-                            onChange={(e) => setEmailOrUsername(e.target.value)}
-                            placeholder="Enter your email or username"
-                            >
-                            
-                        </input>
-                        <label for="Password" className={styles.form_label}>
-                            Password
-                        </label>
-                        <input type="password" value={password} className={styles.form_input}
-                            name="Password"
-                            onChange={(e) => setPassword(e.target.value)}
-                            placeholder="Enter your password">
-                        </input>
-                        {!isCredentialsValid && <p className={styles.error_message}> Invalid Credentials! </p>}
-                        <input type="submit" className={styles.form_submit} value="Log In">  
-                            
-                        </input>
-                        <p className={styles.form_p}>Don't have an account? <a href="/Signup">Create one today!</a></p>
-                    </div>
-                    
-                    
-                </form>
+            <div className={styles.div_primary}>
+                <div className={styles.div_graphic}>
+              
+                    <img className={styles.img_chef} src="https://static.vecteezy.com/system/resources/previews/028/577/460/non_2x/chef-face-3d-rendering-icon-illustration-free-png.png">
+                    </img>
+                </div>
+                <div className={styles.div_form_section}>
+                    <p className={styles.header}>
+                    LOG IN
+                    </p>
+                    <form className={styles.div_form_primary} onSubmit={validate}>
+                        <div className={styles.div_form_secondary}>
+                            <label for="EmailOrUsername" className={styles.form_label}>
+                                Email or Username
+                            </label>
+                            <input type="text" value={emailOrUsername} className={styles.form_input}
+                                name="EmailOrUsername"
+                                onChange={(e) => setEmailOrUsername(e.target.value)}
+                                placeholder="Enter your email or username"
+                                >
+                                
+                            </input>
+                            <label for="Password" className={styles.form_label}>
+                                Password
+                            </label>
+                            <input type="password" value={password} className={styles.form_input}
+                                name="Password"
+                                onChange={(e) => setPassword(e.target.value)}
+                                placeholder="Enter your password">
+                            </input>
+                            {!isCredentialsValid && <p className={styles.error_message}> Invalid Credentials! </p>}
+                            <input type="submit" className={styles.form_submit} value="Log In">  
+                                
+                            </input>
+                            <p className={styles.form_p}>Don't have an account? <a href="/Signup">Create one today!</a></p>
+                        </div>
+                        
+                        
+                    </form>
+                </div>
             </div>
-            
-            
         </div>
-        
-
     )
 }
 export default Login;

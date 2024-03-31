@@ -1,10 +1,9 @@
 
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  background-color: var(--secondary-yellow); /* Set background color for body */
+
+.div_nav_bar {
+  width: 100%;
 }
+
   .div_primary {
     display: flex;
     flex-direction:row;
@@ -35,7 +34,6 @@ html, body {
 
   .div_graphic {
     width: 50%; 
-    
     border-radius: 10px;
     position: relative;
     overflow: hidden;
@@ -43,15 +41,16 @@ html, body {
   }
 
   .img_chef {
-    position: relative;
-    margin-bottom: 20%;
-    margin-left: -20%;
-    max-width: 100%; 
-    max-height: 100%; 
-  }
-
+    position: absolute;
+    bottom: -10%;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 100%; 
+    overflow: hidden;
+}
 
   .div_form_section{
+    
     margin: auto;
     border-color: #000000;
     width: 100%; 

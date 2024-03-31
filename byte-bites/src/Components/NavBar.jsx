@@ -11,10 +11,11 @@ function NavBar() {
     useEffect(() => {
         const currentUser = localStorage.getItem("user");
         if (currentUser) {
+            console.log(currentUser);
             setIsUserRegistered(true);
             setProfilePhoto(currentUser.profilePhoto);
-        }
-        else{
+        } 
+        else {
             setIsUserRegistered(false);
         }
       }, []);
@@ -40,7 +41,7 @@ function NavBar() {
                                     Your Profile
                                 </p>
                                 <p className={styles.p_option_desc} onClick={signOut}>
-                                    Sign Out
+                                    Log Out
                                 </p>
                             </div>
                         }

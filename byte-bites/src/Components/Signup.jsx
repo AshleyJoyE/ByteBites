@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import styles from "./Styles/Signup.module.css";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
+import NavBar from './NavBar';
+
 function Signup(){
 
     const [email, setEmail]= useState('');
@@ -131,9 +133,12 @@ function Signup(){
 
     
     return (
-        <div className={styles.div_primary}>
+        <div>
+            <div className={styles.div_nav_bar}>
+                <NavBar>   </NavBar>
+            </div>
+            <div className={styles.div_primary}>
             <div className={styles.div_graphic}>
-            <button className={styles.byte_bites} onClick={() => window.location.href = '/'}>Byte-Bites</button>
                 <img className={styles.img_chef} src="https://static.vecteezy.com/system/resources/previews/028/577/460/non_2x/chef-face-3d-rendering-icon-illustration-free-png.png">
                 </img>
             </div>
@@ -192,12 +197,12 @@ function Signup(){
                         </input>
                         <p className={styles.form_p}> Already have an account? <a href="/Login">Log in!</a></p>
                     </div>
-                    
-                    
                 </form>
             </div>
             
             
+
+            </div>
         </div>
         
 

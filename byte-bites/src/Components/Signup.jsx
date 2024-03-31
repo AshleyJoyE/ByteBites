@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import styles from "./Styles/Signup.module.css";
 import { useNavigate } from 'react-router-dom';
+import axios from "axios";
+import NavBar from './NavBar';
+
 function Signup(){
 
     const [email, setEmail]= useState('');
@@ -45,6 +48,14 @@ function Signup(){
 
     }, [email, password, passwordRepeat, username])
 
+
+    // when user navigates to page, check if user is already logged in, if so return to home,
+    useEffect(() => {
+        const currentUser = localStorage.getItem("user");
+        if (currentUser) {
+            handleHomeNav();
+        }
+      }, []);
     // create an account
     const createAccount = async (e) => {
         e.preventDefault();
@@ -66,7 +77,6 @@ function Signup(){
     
                     // create account if it doesn't exist already
                     if (!response.ok) {
-                        console.log("in right statement")
                         setIsAccountNotFound(true);
                         const postResponse = await fetch("http://localhost:3010/api/postUser", {
                             method: 'POST',
@@ -82,8 +92,8 @@ function Signup(){
 
                         // account is created
                         if (postResponse.ok) {
-                            console.log("account created")
-                            console.log("Account created successfully");
+                            // store the user in localStorage
+                            localStorage.setItem('user', response.data)
                             handleHomeNav();
                         } 
                         // post request failed
@@ -94,11 +104,9 @@ function Signup(){
                     // account already exits 
                     else {
                         setIsAccountNotFound(false);
-                        console.log("in wrong statement")
                         console.log("Account already exists");
                     }
                 } catch (error) {
-                    console.log("in error")
                     console.error(error);
                 }
             }
@@ -125,9 +133,12 @@ function Signup(){
 
     
     return (
-        <div className={styles.div_primary}>
+        <div>
+            <div className={styles.div_nav_bar}>
+                <NavBar>   </NavBar>
+            </div>
+            <div className={styles.div_primary}>
             <div className={styles.div_graphic}>
-            <button className={styles.byte_bites} onClick={() => window.location.href = '/'}>Byte-Bites</button>
                 <img className={styles.img_chef} src="https://static.vecteezy.com/system/resources/previews/028/577/460/non_2x/chef-face-3d-rendering-icon-illustration-free-png.png">
                 </img>
             </div>
@@ -186,12 +197,12 @@ function Signup(){
                         </input>
                         <p className={styles.form_p}> Already have an account? <a href="/Login">Log in!</a></p>
                     </div>
-                    
-                    
                 </form>
             </div>
             
             
+
+            </div>
         </div>
         
 

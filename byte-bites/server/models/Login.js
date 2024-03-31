@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const CredentialSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
     email:{
         type: String,
         required: true
@@ -35,6 +35,6 @@ const CredentialSchema = new mongoose.Schema({
         default: false
         }
 })
-const collection = new mongoose.model("Collection", CredentialSchema)
+const User = new mongoose.model("User", UserSchema)
 
-module.exports = collection
+module.exports = User

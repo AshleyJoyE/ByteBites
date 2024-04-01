@@ -8,91 +8,56 @@
 
 .orangebox {
     position: relative;
-    width: 1000px;
+    width: 80%;
     min-height: 100vh;
     background-color: #FFC873;
     border-radius: 10px;
     display: flex;
+    flex-direction: column;
     justify-content: left;
-    align-items: flex-start;
 }
 
 .header {
     font-size: 62px;
+    white-space: nowrap;
     margin-top: 25px;
     margin-left: 25px;
+
+    padding: 10px;
 }
 
 .img_cookies {
-    top: 50px;
-    left: 300px;
-    max-width:75px; 
-    max-height: 75px; 
-    padding: 20px;
+    width: 60%; 
+    height: 35%; 
+    margin-top: 30px;
+
   }
 
-.img_star1 {
-    top: 45px;
-    left: 69px;
-    width: 20px;
-    height: 20px;
-}
-
-.img_star2 {
-    top: 45px;
-    left: 71.5px;
-    width: 20px;
-    height: 20px;
-}
-
-.img_star3 {
-    top: 45px;
-    left: 74px;
-    width: 20px;
-    height: 20px;
-}
-
-.img_star4 {
-    top: 45px;
-    left: 76.5px;
-    width: 20px;
-    height: 20px;
-}
-
-.img_star5 {
-    top: 45px;
-    left: 79px;
-    width: 20px;
+.img_star {
+    width: 20x;
     height: 20px;
 }
 
 .rating{
-    top: 41.8px;
-    left: 81.5px;
     font-size: 22px;
 }
 
 .img_bookmark {
-    top: 6.7px;
-    left: 55.8px;
-    width: 35px;
-    height: 35px;
+    width: 40px;
+    height: 40px;
+    margin-top: 55px;
+    margin-right: 100px;
+    
 }
 
 .username {
-    top: 10.5px;
-    left: 2px;
     padding: 10px;
 }
 
 .time_desc {
-    top: 15px;
-    left: 3px;
     font-size: 20px;
 }
 .serving_ct{
-    top: 58.7px;
-    left: 42.5px;
     font-size: 20px;
 }
 
@@ -102,19 +67,42 @@ hr {
 }
 
 .ingredients {
-    top: 100px;
-    left: 20px;
-    width: 300px;
-    height: 275px;
+    width: 30%;
+    height: 27%;
     border: 2px solid black;
     padding: 10px;
 }
 
 .instructions {
-    top: 71px;
-    left: 47px;
-    width: 450px;
-    height: 340px;
+    width: 45%;
+    height: 34%;
     border: 2px solid black;
     padding: 10px;
+}
+
+.div_header {
+    display: flex;
+    flex-direction: row;
+}
+.div_secondary_header {
+    display: flex;
+    flex-direction: column;
+    
+}
+.div_tertiary_header {
+    display: flex;
+    flex-direction: row;
+}
+.div_images_header {
+    display: flex;
+    flex-direction: column;
+
+}
+.div_img_stars {
+    display: flex;
+    flex-direction: row;
+}
+.div_ingredients_instructions {
+    display: flex;
+    flex-direction: row;
 }

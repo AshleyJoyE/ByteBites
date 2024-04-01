@@ -181,7 +181,7 @@ function Signup(){
                             placeholder="Enter your password">
                         </input>
                         {!isPasswordCharactersValid && <p className={styles.error_message}> Invalid Character(s) Entered! </p>}
-                        {!isPasswordValid && <p className={styles.error_message}> Password Must Contain Uppercase, Lowercase, Numemrical, Special Characters, and 8 Characters </p>}
+                        {!isPasswordValid && <p className={styles.error_message}> Password Must Contain Uppercase, Lowercase, Numerical, Special Characters, and atleast 8 Characters </p>}
 
                         <label for="RepeatPassword" className={styles.form_label}> Re-enter Password </label>
                         <input type="password" value={passwordRepeat} className={styles.form_input}

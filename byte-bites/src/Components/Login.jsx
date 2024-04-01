@@ -26,7 +26,6 @@ function Login(){
             setEmailOrUsername(emailOrUsername.substring(0,50))
         if (password.length >= 30)
             setPassword(password.substring(0,30))
-        console.log("inside block")
         if (emailOrUsername.length >= 4 && password.length >= 8){
             try {
                 // validate credentials
@@ -100,7 +99,7 @@ function Login(){
                                 onChange={(e) => setPassword(e.target.value)}
                                 placeholder="Enter your password">
                             </input>
-                            {!isCredentialsValid && <p className={styles.error_message}> Invalid Credentials! </p>}
+                            {!isCredentialsValid && <p className={styles.error_message}> Invalid Username or Password! </p>}
                             <input type="submit" className={styles.form_submit} value="Log In">  
                                 
                             </input>

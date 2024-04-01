@@ -1,0 +1,23 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .nav_bar {
+    width: 100%;
+  }
+  .div_header {
+    font-size: 40px;
+    font-family: 'Kodchasan', sans-serif;
+  }
+  
+  .cardGroup {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .cardGroup > * {
+    margin: 0 50px; 
+  }
+  

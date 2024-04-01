@@ -13,6 +13,115 @@ function Home() {
     // if isSearchRecipe is false, then user search is on
     const [isSearchRecipe, setIsSearchRecipe] = useState(true);
     const [isSearchModeDropdownVisible, setIsSearchModeDropdownVisible] = useState(false);
+
+    // hardcoded recipes
+    const recipes = [
+        {
+          title: "Spaghetti Carbonara",
+          author: "SallyJones",
+          totalTime: "30 minutes",
+          rating: 4.5,
+          description: "Classic Italian pasta dish with eggs, pancetta, and Parmesan cheese."
+        },
+        {
+          title: "Chicken Tikka Masala",
+          author: "AwesomeMan18686",
+          totalTime: "60 minutes",
+          rating: 4.8,
+          description: "Creamy Indian chicken curry with aromatic spices and tomato sauce."
+        },
+        {
+          title: "Vegetable Stir Fry",
+          author: "CookingQueen78",
+          totalTime: "20 minutes",
+          rating: 4.3,
+          description: "Quick and healthy stir-fry with colorful vegetables and tofu."
+        },
+        {
+          title: "Beef Tacos",
+          author: "TacoMaster99",
+          totalTime: "40 minutes",
+          rating: 4.6,
+          description: "Mexican street-style tacos with seasoned beef, salsa, and toppings."
+        },
+        {
+          title: "Caprese Salad",
+          author: "FreshSaladLover",
+          totalTime: "15 minutes",
+          rating: 4.2,
+          description: "Simple Italian salad with fresh tomatoes, mozzarella, basil, and balsamic glaze."
+        },
+        {
+          title: "Grilled Salmon",
+          author: "SeafoodEnthusiast",
+          totalTime: "25 minutes",
+          rating: 4.7,
+          description: "Healthy and flavorful salmon fillets grilled to perfection with lemon and herbs."
+        },
+        {
+          title: "Mushroom Risotto",
+          author: "RisottoFanatic",
+          totalTime: "45 minutes",
+          rating: 4.4,
+          description: "Creamy Italian rice dish cooked with mushrooms, onions, and Parmesan cheese."
+        },
+        {
+          title: "Shrimp Scampi",
+          author: "ShrimpLover123",
+          totalTime: "30 minutes",
+          rating: 4.6,
+          description: "Buttery garlic shrimp served over pasta, perfect for a quick weeknight dinner."
+        },
+        {
+          title: "Beef Burgers",
+          author: "BurgerChef87",
+          totalTime: "35 minutes",
+          rating: 4.5,
+          description: "Juicy beef patties grilled to perfection and served with your favorite toppings."
+        },
+        {
+          title: "Chicken Caesar Salad",
+          author: "SaladCraver55",
+          totalTime: "20 minutes",
+          rating: 4.3,
+          description: "Classic salad with grilled chicken, crisp lettuce, croutons, and Caesar dressing."
+        },
+        {
+          title: "Pasta Primavera",
+          author: "PastaLover22",
+          totalTime: "25 minutes",
+          rating: 4.1,
+          description: "Delicious pasta dish loaded with seasonal vegetables and a light cream sauce."
+        },
+        {
+          title: "Honey Garlic Chicken",
+          author: "SweetNSavoryCook",
+          totalTime: "35 minutes",
+          rating: 4.7,
+          description: "Sweet and savory chicken thighs cooked in a flavorful honey garlic sauce."
+        },
+        {
+          title: "Beef Stew",
+          author: "StewMaster5000",
+          totalTime: "120 minutes",
+          rating: 4.9,
+          description: "Hearty and comforting stew made with tender beef, potatoes, carrots, and herbs."
+        },
+        {
+          title: "Vegetable Curry",
+          author: "CurryLover99",
+          totalTime: "50 minutes",
+          rating: 4.4,
+          description: "Flavorful Indian curry loaded with mixed vegetables and served with rice or naan."
+        },
+        {
+          title: "Lemon Herb Roast Chicken",
+          author: "RoastChickenChef",
+          totalTime: "90 minutes",
+          rating: 4.6,
+          description: "Whole chicken seasoned with lemon, garlic, and herbs, roasted until golden brown."
+        }
+      ];
     
 
     const changeSearchMode = (option) => {
@@ -22,12 +131,15 @@ function Home() {
             setPlaceHolder("Search Recipes...");
         else
             setPlaceHolder("Search Users...");
-
-       
     }
 
-    const search = () => {
-        
+    const search = (e) => {
+        e.preventDefault()
+        // hardcoded for now, but in future will use an API call
+        var results = recipes.filter(recipe => {
+            return recipe.title.toLowerCase().includes(searchQuery.toLowerCase()) || recipe.description.toLowerCase().includes(searchQuery.toLowerCase())
+        });
+       
     }
     return (
         <div className={styles.main_div}>

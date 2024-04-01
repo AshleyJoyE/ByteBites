@@ -54,6 +54,10 @@ const RecipeSchema = new mongoose.Schema({
         type: [String],
         required: true
     },
+    categories: {
+        type: [String],
+        required: true
+    },
     isRecommendedRecipe: {
         type: boolean,
         required: false,

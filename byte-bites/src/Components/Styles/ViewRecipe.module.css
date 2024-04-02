@@ -2,11 +2,21 @@
     display: flex;
     flex-direction: column;
 }
+.div_recipe {
+    display: flex;
+    flex-direction: column;
+    background-color: #FFC873;
+    width: 80%;
+    margin: auto;
+    margin-top: 25px;
+    border-radius: 10px;
+}
 .nav_bar {
     width: 100%;
 }
 .div_gen_info {
     display: flex;
+    flex-direction: column;
 }
 .div_name_bkmk {
     display: flex;
@@ -68,4 +78,109 @@
 .div_comment_post {
     display: flex;
     flex-direction: row;
+}
+
+.p_servings {
+    /* Add your styles for servings here */
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.p_calories {
+    /* Add your styles for calories here */
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.img_recipe_photo {
+    /* Add your styles for recipe photo here */
+    max-width: 100%;
+    height: auto;
+}
+
+.div_inner_tag {
+    /* Add your styles for inner tag here */
+    margin-right: 5px;
+    padding: 5px 10px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+}
+
+.p_tag {
+    /* Add your styles for tag here */
+    font-size: 14px;
+    color: #333;
+}
+
+.div_ingredient {
+    /* Add your styles for ingredient here */
+    margin-bottom: 5px;
+}
+
+.h1_ingredients_header{
+
+}
+
+.p_ingredient {
+    /* Add your styles for ingredient text here */
+    font-size: 16px;
+}
+
+.div_direction {
+    /* Add your styles for direction here */
+    margin-bottom: 10px;
+}
+
+.h1_directions_header {
+    
+}
+.p_direction {
+    /* Add your styles for direction text here */
+    font-size: 16px;
+}
+
+.h1_review_header {
+    /* Add your styles for review header here */
+    font-size: 20px;
+    margin-bottom: 5px;
+}
+
+.input_review_header {
+    /* Add your styles for input review header here */
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.star {
+    /* Add your styles for star here */
+    color: var(--primary-orange);
+    margin-right: 5px;
+    font-size: 20px;
+}
+
+.input_comment {
+    /* Add your styles for comment input here */
+    width: 70%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.button_post_review {
+    /* Add your styles for post review button here */
+    padding: 5px 10px;
+    background-color: #007bff; /* blue */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.button_post_review:hover {
+    background-color: #0056b3; /* dark blue */
 }

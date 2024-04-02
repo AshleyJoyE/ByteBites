@@ -63,6 +63,14 @@ const RecipeSchema = new mongoose.Schema({
             message: '{VALUE} is not an integer value for servings'
         }
     },
+    totalCalories: {
+        type: Number,
+        required: true,
+        validate: {
+            validator: Number.isInteger,
+            message: '{VALUE} is not an integer value for calories'
+        }
+    },
     ingredients: {
         type: [String],
         required: true

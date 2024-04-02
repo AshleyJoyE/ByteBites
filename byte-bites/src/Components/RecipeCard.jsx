@@ -13,6 +13,10 @@ export default function RecipeCard({recipe}){
     const numberOfFullStars = Math.floor(recipe.rating);
     const numberOfEmptyStars = Math.floor(5 - recipe.rating);
     const numberHalfStars = Math.floor(5 - numberOfFullStars - numberOfEmptyStars);
+    const navigate = useNavigate();
+    const handleNavigateRecipe = () => {
+        navigate(`/Recipe/${recipe.title}`, { state: { recipe: recipe } });
+    }
 
 
     return (
@@ -34,7 +38,7 @@ export default function RecipeCard({recipe}){
                 ))}
             </div>
             <p className={styles.recipe_description}>{recipe.description}</p>
-                <a className={styles.view_btn} href="/Recipe/:id">View recipe</a>
+                <a className={styles.view_btn} onClick={handleNavigateRecipe}>View recipe</a>
         </div>
     )
 }

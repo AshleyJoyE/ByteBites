@@ -28,7 +28,7 @@ router.post("/postUser", async (req, res) => {
   }
 });
 
-// get User from Credentials  & Verify Password
+// get User from Credentials & Verify Password
 router.get("/getUserVerification", async (req, res) => {
   try {
 
@@ -77,3 +77,22 @@ router.get("/getUser", async (req, res) => {
     res.status(400).json({ message: "User Could Not Be Found" });
   }
 });
+
+// router.post("/postRecipe", async (req, res) => {
+//   const data = new Recipe({
+//     title: req.body.title,
+//     author_id: 
+
+
+//     // username: req.body.username.toLowerCase(),
+//     // email: req.body.email.toLowerCase(),
+//     // password: hash(req.body.password)
+//   });
+
+//   try {
+//     const dataToSave = await data.save();
+//     res.status(200).json(dataToSave);
+//   } catch (error) {
+//     res.status(400).json({ message: error.message });
+//   }
+// });

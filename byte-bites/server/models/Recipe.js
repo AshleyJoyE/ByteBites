@@ -13,24 +13,7 @@ const RecipeSchema = new mongoose.Schema({
     recipePhoto: {
         type: String,
         required: false,
-        default: "
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        "
+        default: ""
     },
     description: {
         type: String,
@@ -84,7 +67,7 @@ const RecipeSchema = new mongoose.Schema({
         required: true
     },
     isRecommendedRecipe: {
-        type: boolean,
+        type: Boolean,
         required: false,
         default: false
     }
@@ -100,8 +83,7 @@ RecipeSchema.virtual('totalTime').get(function() {
 
 // virtual property for averageRating
 RecipeSchema.virtual('averageRating').get(async function() {
-    const rev
-    iews = await Review.aggregate([
+    const reviews = await Review.aggregate([
         { $match: { recipe_id: this._id } }, 
         { $group: {
             _id: '$recipe_id',
@@ -116,6 +98,6 @@ RecipeSchema.virtual('averageRating').get(async function() {
     }
 });
 
-const Recipe = mongoose.model("Recipe", RecipeSchema);
+const Recipe = mongoose.model("Recipes", RecipeSchema);
 
 module.exports = Recipe;

@@ -10,9 +10,25 @@ import { FaRegStar } from "react-icons/fa";
 
 export default function RecipeCard({recipe}){
 
-    const numberOfFullStars = Math.floor(recipe.rating);
-    const numberOfEmptyStars = Math.floor(5 - recipe.rating);
-    const numberHalfStars = Math.floor(5 - numberOfFullStars - numberOfEmptyStars);
+    var numberOfFullStars = 0;
+    var numberOfEmptyStars = 0;
+    var numberOfHalfStars = 0;
+    if (recipe.rating){
+        if (recipe.rating - Math.floor(recipe.rating) < 0.25){
+            numberOfFullStars = Math.floor(recipe.rating);
+        }
+        else if (recipe.rating - Math.floor(recipe.rating) < 0.75){
+            numberOfFullStars = Math.floor(recipe.rating);
+            numberOfHalfStars = 1;
+        }
+        else {
+            numberOfFullStars = Math.ceil(recipe.rating);
+        }
+        numberOfEmptyStars = 5 - numberOfFullStars - numberOfHalfStars;
+    }
+    else{
+        numberOfEmptyStars = 5;
+    }
     const navigate = useNavigate();
     const handleNavigateRecipe = () => {
         navigate(`/Recipe/${recipe.title}`, { state: { recipe: recipe } });
@@ -30,7 +46,7 @@ export default function RecipeCard({recipe}){
                 {[...Array(numberOfFullStars)].map(() => (
                   <FaStar className={styles.star}> </FaStar>
                 ))}
-                {[...Array(numberHalfStars)].map(() => (
+                {[...Array(numberOfHalfStars)].map(() => (
                   <FaRegStarHalfStroke className={styles.star}> </FaRegStarHalfStroke>
                 ))}
                 {[...Array(numberOfEmptyStars)].map(() => (

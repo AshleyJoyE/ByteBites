@@ -1,108 +1,71 @@
-.heading {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    height: 100px;
-    overflow-y: visible;
-}
-
-.orangebox {
-    position: relative;
-    width: 80%;
-    min-height: 100vh;
-    background-color: #FFC873;
-    border-radius: 10px;
+.div_view_recipe {
     display: flex;
     flex-direction: column;
-    justify-content: left;
 }
-
-.header {
-    font-size: 62px;
-    white-space: nowrap;
-    margin-top: 25px;
-    margin-left: 25px;
-
-    padding: 10px;
+.nav_bar {
+    width: 100%;
 }
-
-.img_cookies {
-    width: 60%; 
-    height: 35%; 
-    margin-top: 30px;
-
-  }
-
-.img_star {
-    width: 20x;
-    height: 20px;
+.div_gen_info {
+    display: flex;
 }
-
-.rating{
-    font-size: 22px;
-}
-
-.img_bookmark {
-    width: 40px;
-    height: 40px;
-    margin-top: 55px;
-    margin-right: 100px;
-    
-}
-
-.username {
-    padding: 10px;
-}
-
-.time_desc {
-    font-size: 20px;
-}
-.serving_ct{
-    font-size: 20px;
-}
-
-hr {
-    border: none;
-    border-top: 1px solid black;
-}
-
-.ingredients {
-    width: 30%;
-    height: 27%;
-    border: 2px solid black;
-    padding: 10px;
-}
-
-.instructions {
-    width: 45%;
-    height: 34%;
-    border: 2px solid black;
-    padding: 10px;
-}
-
-.div_header {
+.div_name_bkmk {
     display: flex;
     flex-direction: row;
 }
-.div_secondary_header {
-    display: flex;
-    flex-direction: column;
-    
-}
-.div_tertiary_header {
-    display: flex;
-    flex-direction: row;
-}
-.div_images_header {
-    display: flex;
-    flex-direction: column;
+.p_author {
 
 }
-.div_img_stars {
+.div_times {
     display: flex;
     flex-direction: row;
 }
-.div_ingredients_instructions {
+.div_serve_cal {
+    display: flex;
+    flex-direction: row;
+}
+
+.p_description {
+
+}
+
+.div_tags_stars {
+    display: flex;
+    flex-direction: row;
+}
+.div_stars{
+    display: flex;
+    flex-direction: row;
+}
+
+.div_tags {
+    display: flex;
+    flex-direction: row
+}
+.div_ingredients {
+    display: flex;
+    flex-direction: column;
+}
+.div_directions {
+    display: flex;
+    flex-direction: column;
+}
+.div_review {
+    display: flex;
+    flex-direction: column;
+}
+.div_rev_title_stars {
+    display: flex;
+    flex-direction: row;
+}
+.div_review_header_subject{
+    display: flex;
+    flex-direction: column;
+}
+.div_review_stars{
+    display: flex;
+    flex-direction: row;
+}
+.div_comment_post {
     display: flex;
     flex-direction: row;
 }

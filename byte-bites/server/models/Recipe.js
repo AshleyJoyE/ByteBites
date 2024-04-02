@@ -13,7 +13,24 @@ const RecipeSchema = new mongoose.Schema({
     recipePhoto: {
         type: String,
         required: false,
-        default: "https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg"
+        default: "
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        "
     },
     description: {
         type: String,
@@ -75,7 +92,8 @@ RecipeSchema.virtual('totalTime').get(function() {
 
 // virtual property for averageRating
 RecipeSchema.virtual('averageRating').get(async function() {
-    const reviews = await Review.aggregate([
+    const rev
+    iews = await Review.aggregate([
         { $match: { recipe_id: this._id } }, 
         { $group: {
             _id: '$recipe_id',

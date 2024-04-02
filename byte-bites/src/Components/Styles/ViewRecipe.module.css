@@ -1,0 +1,108 @@
+.heading {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100px;
+    overflow-y: visible;
+}
+
+.orangebox {
+    position: relative;
+    width: 80%;
+    min-height: 100vh;
+    background-color: #FFC873;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+}
+
+.header {
+    font-size: 62px;
+    white-space: nowrap;
+    margin-top: 25px;
+    margin-left: 25px;
+
+    padding: 10px;
+}
+
+.img_cookies {
+    width: 60%; 
+    height: 35%; 
+    margin-top: 30px;
+
+  }
+
+.img_star {
+    width: 20x;
+    height: 20px;
+}
+
+.rating{
+    font-size: 22px;
+}
+
+.img_bookmark {
+    width: 40px;
+    height: 40px;
+    margin-top: 55px;
+    margin-right: 100px;
+    
+}
+
+.username {
+    padding: 10px;
+}
+
+.time_desc {
+    font-size: 20px;
+}
+.serving_ct{
+    font-size: 20px;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid black;
+}
+
+.ingredients {
+    width: 30%;
+    height: 27%;
+    border: 2px solid black;
+    padding: 10px;
+}
+
+.instructions {
+    width: 45%;
+    height: 34%;
+    border: 2px solid black;
+    padding: 10px;
+}
+
+.div_header {
+    display: flex;
+    flex-direction: row;
+}
+.div_secondary_header {
+    display: flex;
+    flex-direction: column;
+    
+}
+.div_tertiary_header {
+    display: flex;
+    flex-direction: row;
+}
+.div_images_header {
+    display: flex;
+    flex-direction: column;
+
+}
+.div_img_stars {
+    display: flex;
+    flex-direction: row;
+}
+.div_ingredients_instructions {
+    display: flex;
+    flex-direction: row;
+}

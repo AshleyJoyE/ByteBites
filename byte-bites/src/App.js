@@ -5,6 +5,8 @@ import Signup from './Components/Signup';
 import { Route, Routes } from 'react-router-dom';
 import React from 'react';
 import RecipePage from './Components/RecipeResult';
+import ViewUserProfile from './Components/ViewUserProfile';
+import ViewRecipe from './Components/ViewRecipe';
 function App() {
   return (
       <div className="App">
@@ -14,6 +16,8 @@ function App() {
           <Route path='/Signup' element={<Signup />}/>
           <Route path='/Results' element={<RecipePage />}/>
           
+          <Route path='/Profile/:id' element={<ViewUserProfile/>}/>
+          <Route path='/Recipe/:id' element={<ViewRecipe/>}/>
         </Routes>
       </div>
     );

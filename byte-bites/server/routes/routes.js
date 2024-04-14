@@ -3,7 +3,8 @@ const express = require('express');
 const router = express.Router(); 
 module.exports = router;
 
-const User = require('../models/Login.js');
+const Credential = require('../models/Login.js');
+const Recipe = require('../models/Recipe.js');
 let user = null;
 
 const { createHash } = require('crypto');
@@ -14,7 +15,7 @@ function hash(string) {
 
 // add new Credential to Credentials Collection
 router.post("/postUser", async (req, res) => {
-  const data = new User({
+  const data = new Credential({
     username: req.body.username.toLowerCase(),
     email: req.body.email.toLowerCase(),
     password: hash(req.body.password)
@@ -28,20 +29,38 @@ router.post("/postUser", async (req, res) => {
   }
 });
 
+
+router.post('/postRecipes', async (req, res) => {
+  try {
+      // Create a new recipe object using the request body
+      const newRecipe = new Recipe(req.body);
+
+      // Save the recipe to the database
+      await newRecipe.save();
+
+      // Send a success response
+      res.status(201).json({ message: 'Recipe added successfully', recipe: newRecipe });
+  } catch (error) {
+      // If there's an error, send a 500 status code along with the error message
+      res.status(500).json({ error: error.message });
+  }
+});
+
 // get User from Credentials  & Verify Password
 router.get("/getUserVerification", async (req, res) => {
   try {
 
     const { email, username, password } = req.query;
 
-    const check = await User.findOne({
+    const check = await Credential.findOne({
       $or: [
         { email: email.toLowerCase() },
         { username: username.toLowerCase() }
       ]
     });
     if (check && check.password === hash(password)) {
-      res.status(200).json({ status: 200 });
+      const { username, email, profilePhoto } = check; 
+      return res.status(200).json({ status: 200, username, email, profilePhoto });
     }
     else{
       res.status(404).json({ message: "Authorization failed" });
@@ -57,7 +76,7 @@ router.get("/getUser", async (req, res) => {
   try {
     const { email, username } = req.query;
 
-    const check = await User.findOne({
+    const check = await Credential.findOne({
       $or: [
         { email: email.toLowerCase() },
         { username: username.toLowerCase() }
@@ -67,8 +86,8 @@ router.get("/getUser", async (req, res) => {
 
     if (check) {
       console.log("User found");
-      const { name, email, profilePhoto } = check; 
-      res.status(200).json({ status: 200, name, email, profilePhoto, bio, admin });
+      const { username, email, profilePhoto } = check; 
+      return res.status(200).json({ status: 200, username, email, profilePhoto });
     } else {
       res.status(404).json({ message: "User Not Found" });
     }

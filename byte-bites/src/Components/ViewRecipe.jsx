@@ -6,6 +6,7 @@ import { FaStar } from "react-icons/fa";
 import { FaRegStarHalfStroke } from "react-icons/fa6";
 import { FaRegStar } from "react-icons/fa";
 import { FaBookmark } from "react-icons/fa";
+import { FaRegBookmark } from "react-icons/fa";
 
 function ViewRecipe() {
     const { state } = useLocation();
@@ -46,7 +47,7 @@ function ViewRecipe() {
                     <div className={styles.div_gen_info}>
                         <div className={styles.div_name_bkmk}>
                             <h1 className={styles.h1_recipe_name}>{recipe.title}</h1>
-                            <FaBookmark className={styles.bookmark}/>
+                            <FaRegBookmark className={styles.bookmark}/>
                         </div>
                         <p className={styles.p_author}> @{recipe.author}</p>
                         <div className={styles.div_times}>
@@ -66,14 +67,16 @@ function ViewRecipe() {
                
                 <div className={styles.div_tags_stars}>
                     <div className={styles.div_tags}>
-                        {recipe.tags && recipe.tags.map((tag, index) => (
-                            <div key={index} className={styles.div_all_tags}>
+                        <h1 className={styles.h1_tags_header}>Tags: </h1>
+                        <div className={styles.div_all_tags}>
+                            {recipe.tags && recipe.tags.map((tag, index) => (
                                 <p className={styles.p_tag}>{tag}</p>
-                            </div>
-                        ))}
+                            ))}
+                          </div>
                     </div>
                     <div className={styles.div_stars_rating}>
                         <div className={styles.div_stars}>
+                        
                             {[...Array(numberOfFullStars)].map((_, index) => (
                                 <FaStar key={index} className={styles.star} />
                             ))}
@@ -83,25 +86,26 @@ function ViewRecipe() {
                             {[...Array(numberOfEmptyStars)].map((_, index) => (
                                 <FaRegStar key={index} className={styles.star} />
                             ))}
+                            <p className={styles.p_rating}> <strong>{recipe.rating}/5</strong> </p>
                         </div>
-                        <p className={styles.p_rating}> {recipe.rating}/5 </p>
+                        
 
                     </div>
                     
                 </div>
                 <div className={styles.div_ingredients}>
                     <h1 className={styles.h1_ingredients_header}> Ingredients: </h1>
-                    {recipe.ingredients && recipe.ingredients.map((ingredient, index) => (
-                        <div key={index} className={styles.div_ingredient}>
-                            <p className={styles.p_ingredient}>{ingredient}</p>
-                        </div>
-                    ))}
+                    <div className={styles.div_ingredient}>
+                        {recipe.ingredients && recipe.ingredients.map((ingredient, index) => (
+                            <p className={styles.p_ingredient}>- {ingredient}</p>
+                        ))}
+                     </div>
                 </div>
                 <div className={styles.div_directions}>
                     <h1 className={styles.h1_directions_header}> Directions: </h1>
                     {recipe.directions && recipe.directions.map((direction, index) => (
                         <div key={index} className={styles.div_direction}>
-                            <p className={styles.p_direction}>{direction}</p>
+                            <p className={styles.p_direction}>{index + 1}. {direction}</p>
                         </div>
                     ))}
                 </div>
@@ -109,16 +113,16 @@ function ViewRecipe() {
                     <div className={styles.div_rev_title_stars}>
                         <div className={styles.div_review_header_subject}>
                             <h1 className={styles.h1_review_header}>Leave A Review!</h1>
-                            <input className={styles.input_review_header} />
+                            <input className={styles.input_review_header} placeholder="Your Review! (required)"/>
                         </div>
                         <div className={styles.div_review_stars}>
                             {[...Array(5)].map((_, index) => (
-                                <FaStar key={index} className={styles.star} />
+                                <FaRegStar key={index} className={styles.star_rating} />
                             ))}
                         </div>
                     </div>
                     <div className={styles.div_comment_post}>
-                        <input className={styles.input_comment} />
+                        <input className={styles.input_comment} placeholder="Additional Comments (optional)"/>
                         <button className={styles.button_post_review}></button>
                     </div>
                 </form>

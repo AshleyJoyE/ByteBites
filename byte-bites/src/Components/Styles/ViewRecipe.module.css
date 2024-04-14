@@ -24,6 +24,8 @@
 .div_gen_info_recipe_photo {
     display: flex;
     flex-direction: row;
+    padding: 20px;
+   
 }
 
 .nav_bar {
@@ -53,6 +55,7 @@
     height: 80px;
     width: 100px;
     margin-top: 25px;
+    color: var(--primary-orange);
 }
 
 .p_author {
@@ -118,20 +121,25 @@
 }
 
 .img_recipe_photo {
-    height: 500px;
-    width: 400px;
+    height: 600px; 
+    width: auto;
+    max-width: 100%; 
     padding: 20px;
+    object-fit: contain;
+    object-position: center;
+    margin: auto;
 }
 
 .div_tags_stars {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    padding: 20px;
 }
 
 .div_stars_rating {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 }
 
 .div_stars{
@@ -140,17 +148,24 @@
 }
 
 .p_rating{
-    font-size: 20px;
+    font-size: 40px;
     font-family: 'Kodchasan', sans-serif;
+    margin-top:15px
 }
 
 .div_tags {
     display: flex;
     flex-direction: row;
+    padding-left: 20px;
 }
 
-.div_all_tags {
+.h1_tags_header{ 
+    font-size: 40px;
+    font-family: 'Kodchasan', sans-serif;
+    text-align: center;
+    margin-top: 5px;
 }
+
 
 .div_ingredients {
     display: flex;
@@ -170,6 +185,8 @@
 .div_rev_title_stars {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 40px;
 }
 
 .div_review_header_subject{
@@ -199,30 +216,46 @@
     margin-right: 10px;
 }
 
-.div_inner_tag {
-    margin-right: 5px;
-    padding: 5px 10px;
-    background-color: #f0f0f0;
-    border-radius: 5px;
+.div_all_tags {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+}
+.div_all_tags > *{
+    margin: 0 25px; 
 }
 
+
 .p_tag {
-    font-size: 20px;
+    font-size: 25px;
     font-family: 'Kodchasan', sans-serif;
+    background-color: rgba(var(--primary-orange-rgb), 0.7);
+    border-radius: 10px;
+    text-align: center;
+    border: black solid 2px;
+    margin-top: -40px;
 }
+
 
 .div_ingredient {
     margin-bottom: 5px;
+    justify-content: center;
+    align-items: center;
+    
 }
 
 .h1_ingredients_header{
-    font-size: 20px;
+    font-size: 60px;
     font-family: 'Kodchasan', sans-serif;
+    text-align: center;
 }
 
 .p_ingredient {
-    font-size: 20px;
+    font-size: 40px;
     font-family: 'Kodchasan', sans-serif;
+    width: 50%;
+    margin: auto;
 }
 
 .div_direction {
@@ -230,19 +263,22 @@
 }
 
 .h1_directions_header {
-    font-size: 20px;
+    font-size: 60px;
     font-family: 'Kodchasan', sans-serif;
+    text-align: center;
 }
 
 .p_direction {
-    font-size: 20px;
+    font-size: 40px;
     font-family: 'Kodchasan', sans-serif;
+    width: 50%;
+    margin: auto;
 }
 
 .h1_review_header {
-    font-size: 20px;
+    font-size: 40px;
     font-family: 'Kodchasan', sans-serif;
-    margin-bottom: 5px;
+    margin-top: -5px;
 }
 
 .input_review_header {
@@ -262,6 +298,13 @@
     width: 80px;
 }
 
+.star_rating {
+    color: var(--primary-orange);
+    margin-right: 5px;
+    font-size: 20px;
+    height: 50px;
+    width: 50px;
+}
 .input_comment {
     font-size: 20px;
     font-family: 'Kodchasan', sans-serif;
@@ -270,13 +313,14 @@
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 16px;
+    height: 100px;
 }
 
 .button_post_review {
     font-size: 20px;
     font-family: 'Kodchasan', sans-serif;
     padding: 5px 10px;
-    background-color: #007bff;
+    background-color: var(--primary-orange-rgb);
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -285,5 +329,10 @@
 }
 
 .button_post_review:hover {
-    background-color: #0056b3;
+    background-color: rgba(var(--primary-orange-rgb), 1.8);
+}
+
+.form_review {
+    padding: 20px;
+    border: rgba(var(--primary-orange-rgb), 0.2) solid 10px;
 }

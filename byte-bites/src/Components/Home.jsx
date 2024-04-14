@@ -403,7 +403,7 @@ function Home() {
                 <NavBar>   </NavBar>
            </div>
            <div className={styles.div_heading}>
-                <p className={styles.header}> BYTE-BYTES</p>
+                <p className={styles.header}> BYTE-BITES</p>
                 <div className={styles.div_scrolling}>
                     <p className={styles.subheaderAnimation}>  Find, Collect, & Share Recipes&nbsp;&nbsp;&nbsp; </p>
                     <p className={styles.subheaderAnimation}>  Find, Collect, & Share Recipes&nbsp;&nbsp;&nbsp; </p>

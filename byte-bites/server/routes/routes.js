@@ -78,21 +78,21 @@ router.get("/getUser", async (req, res) => {
   }
 });
 
-// router.post("/postRecipe", async (req, res) => {
-//   const data = new Recipe({
-//     title: req.body.title,
-//     author_id: 
+router.post("/postRecipe", async (req, res) => {
+  const data = new Recipe({
+    title: req.body.title,
+    author_id: 
 
 
-//     // username: req.body.username.toLowerCase(),
-//     // email: req.body.email.toLowerCase(),
-//     // password: hash(req.body.password)
-//   });
+    // username: req.body.username.toLowerCase(),
+    // email: req.body.email.toLowerCase(),
+    // password: hash(req.body.password)
+  });
 
-//   try {
-//     const dataToSave = await data.save();
-//     res.status(200).json(dataToSave);
-//   } catch (error) {
-//     res.status(400).json({ message: error.message });
-//   }
-// });
+  try {
+    const dataToSave = await data.save();
+    res.status(200).json(dataToSave);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});

@@ -37,13 +37,18 @@ function Login(){
                     }
                 });
                 const data = await response.json();
-                console.log(data)
+
     
                 // credentials are valid
                 if (data.status === 200) {
                     console.log("Credentials valid");
+                    console.log(data.username);
                     // store the user in localStorage
                     localStorage.setItem('user', response.data)
+                    localStorage.setItem('username', data.username);
+                    localStorage.setItem('profilePhoto', data.profilePhoto);
+                    localStorage.setItem('email', data.email);
+                    
                     handleHomeNav();
                     // future plan: reset number of unsucessful attempts
                 } else {

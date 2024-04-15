@@ -1,179 +1,326 @@
 .div_view_recipe {
     display: flex;
     flex-direction: column;
+    height: auto;
+    position: relative; 
+    width: auto;
+    overflow-x: scroll;
 }
+
 .div_recipe {
     display: flex;
     flex-direction: column;
     background-color: #FFC873;
     width: 80%;
     margin: auto;
-    margin-top: 25px;
+    margin-top: 2.5%;
+    margin-bottom: 2.5%;
     border-radius: 10px;
+    height: auto;
+    min-height: 100vh;
+    width: auto
 }
+
+.div_gen_info_recipe_photo {
+    display: flex;
+    flex-direction: row;
+    padding: 20px;
+   
+}
+
 .nav_bar {
     width: 100%;
 }
+
 .div_gen_info {
     display: flex;
     flex-direction: column;
+    margin-bottom: 10px; 
 }
+
 .div_name_bkmk {
     display: flex;
     flex-direction: row;
+    align-items: center;
 }
-.p_author {
 
+.h1_recipe_name{
+    font-size: 50px;
+    font-family: 'Kodchasan', sans-serif;
+    padding: 0px 10px;
+    margin-right: 10px;
 }
+
+.bookmark {
+    height: 80px;
+    width: 100px;
+    margin-top: 25px;
+    color: var(--primary-orange);
+}
+
+.p_author {
+    font-size: 20px;
+    font-family: 'Kodchasan', sans-serif;
+    padding: 0px 10px;
+}
+
+.p_prep_time {
+    font-size: 1rem;
+    color: black;
+    margin-bottom: 10px;
+    font-size: 20px;
+    font-family: 'Kodchasan', sans-serif;
+    padding: 10px;
+    white-space: nowrap;
+    border-right: 1px solid black;
+}
+
+.p_cook_time {
+    font-size: 1rem;
+    color: black;
+    margin-bottom: 10px;
+    font-size: 20px;
+    font-family: 'Kodchasan', sans-serif;
+    padding: 10px;
+    white-space: nowrap;
+}
+
+.p_total_time {
+    font-size: 1rem;
+    color: black;
+    margin-bottom: 10px;
+    font-size: 20px;
+    font-family: 'Kodchasan', sans-serif;
+    padding: 10px;
+    white-space: nowrap;
+    border-left: 1px solid black;
+}
+
 .div_times {
     display: flex;
     flex-direction: row;
 }
+
 .div_serve_cal {
     display: flex;
     flex-direction: row;
+    padding: 10px;
+    justify-content: space-between;
+}
+
+.h1_description_header {
+    font-size: 40px;
+    font-family: 'Kodchasan', sans-serif;
+    margin-bottom: 10px;
 }
 
 .p_description {
+    font-size: 20px;
+    font-family: 'Kodchasan', sans-serif;
+    margin-bottom: 30px;
+}
 
+.img_recipe_photo {
+    height: 600px; 
+    width: auto;
+    max-width: 100%; 
+    padding: 20px;
+    object-fit: contain;
+    object-position: center;
+    margin: auto;
 }
 
 .div_tags_stars {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+    padding: 20px;
 }
+
+.div_stars_rating {
+    display: flex;
+    flex-direction: row;
+}
+
 .div_stars{
     display: flex;
     flex-direction: row;
 }
 
+.p_rating{
+    font-size: 40px;
+    font-family: 'Kodchasan', sans-serif;
+    margin-top:15px
+}
+
 .div_tags {
     display: flex;
-    flex-direction: row
+    flex-direction: row;
+    padding-left: 20px;
 }
+
+.h1_tags_header{ 
+    font-size: 40px;
+    font-family: 'Kodchasan', sans-serif;
+    text-align: center;
+    margin-top: 5px;
+}
+
+
 .div_ingredients {
     display: flex;
     flex-direction: column;
 }
+
 .div_directions {
     display: flex;
     flex-direction: column;
 }
+
 .div_review {
     display: flex;
     flex-direction: column;
 }
+
 .div_rev_title_stars {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 40px;
 }
+
 .div_review_header_subject{
     display: flex;
     flex-direction: column;
 }
+
 .div_review_stars{
     display: flex;
     flex-direction: row;
 }
+
 .div_comment_post {
     display: flex;
     flex-direction: row;
 }
 
 .p_servings {
-    /* Add your styles for servings here */
-    font-size: 16px;
     margin-right: 10px;
+    font-size: 20px;
+    font-family: 'Kodchasan', sans-serif;
 }
 
 .p_calories {
-    /* Add your styles for calories here */
-    font-size: 16px;
+    font-size: 20px;
+    font-family: 'Kodchasan', sans-serif;
     margin-right: 10px;
 }
 
-.img_recipe_photo {
-    /* Add your styles for recipe photo here */
-    max-width: 100%;
-    height: auto;
+.div_all_tags {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+}
+.div_all_tags > *{
+    margin: 0 25px; 
 }
 
-.div_inner_tag {
-    /* Add your styles for inner tag here */
-    margin-right: 5px;
-    padding: 5px 10px;
-    background-color: #f0f0f0;
-    border-radius: 5px;
-}
 
 .p_tag {
-    /* Add your styles for tag here */
-    font-size: 14px;
-    color: #333;
+    font-size: 25px;
+    font-family: 'Kodchasan', sans-serif;
+    background-color: rgba(var(--primary-orange-rgb), 0.7);
+    border-radius: 10px;
+    text-align: center;
+    border: black solid 2px;
+    margin-top: -40px;
 }
 
+
 .div_ingredient {
-    /* Add your styles for ingredient here */
     margin-bottom: 5px;
+    justify-content: center;
+    align-items: center;
+    
 }
 
 .h1_ingredients_header{
-
+    font-size: 60px;
+    font-family: 'Kodchasan', sans-serif;
+    text-align: center;
 }
 
 .p_ingredient {
-    /* Add your styles for ingredient text here */
-    font-size: 16px;
+    font-size: 40px;
+    font-family: 'Kodchasan', sans-serif;
+    width: 50%;
+    margin: auto;
 }
 
 .div_direction {
-    /* Add your styles for direction here */
     margin-bottom: 10px;
 }
 
 .h1_directions_header {
-    
+    font-size: 60px;
+    font-family: 'Kodchasan', sans-serif;
+    text-align: center;
 }
+
 .p_direction {
-    /* Add your styles for direction text here */
-    font-size: 16px;
+    font-size: 40px;
+    font-family: 'Kodchasan', sans-serif;
+    width: 50%;
+    margin: auto;
 }
 
 .h1_review_header {
-    /* Add your styles for review header here */
-    font-size: 20px;
-    margin-bottom: 5px;
+    font-size: 40px;
+    font-family: 'Kodchasan', sans-serif;
+    margin-top: -5px;
 }
 
 .input_review_header {
-    /* Add your styles for input review header here */
     width: 100%;
     padding: 5px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    font-size: 16px;
+    font-size: 20px;
+    font-family: 'Kodchasan', sans-serif;
 }
 
 .star {
-    /* Add your styles for star here */
     color: var(--primary-orange);
     margin-right: 5px;
     font-size: 20px;
+    height: 80px;
+    width: 80px;
 }
 
+.star_rating {
+    color: var(--primary-orange);
+    margin-right: 5px;
+    font-size: 20px;
+    height: 50px;
+    width: 50px;
+}
 .input_comment {
-    /* Add your styles for comment input here */
+    font-size: 20px;
+    font-family: 'Kodchasan', sans-serif;
     width: 70%;
     padding: 5px;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 16px;
+    height: 100px;
 }
 
 .button_post_review {
-    /* Add your styles for post review button here */
+    font-size: 20px;
+    font-family: 'Kodchasan', sans-serif;
     padding: 5px 10px;
-    background-color: #007bff; /* blue */
+    background-color: var(--primary-orange-rgb);
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -182,5 +329,10 @@
 }
 
 .button_post_review:hover {
-    background-color: #0056b3; /* dark blue */
+    background-color: rgba(var(--primary-orange-rgb), 1.8);
+}
+
+.form_review {
+    padding: 20px;
+    border: rgba(var(--primary-orange-rgb), 0.2) solid 10px;
 }

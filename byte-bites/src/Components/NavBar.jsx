@@ -13,7 +13,8 @@ function NavBar() {
         if (currentUser) {
             console.log(currentUser);
             setIsUserRegistered(true);
-            setProfilePhoto(currentUser.profilePhoto);
+            const userProfilePhoto = localStorage.getItem("profilePhoto");
+            setProfilePhoto(userProfilePhoto);
         } 
         else {
             setIsUserRegistered(false);
@@ -22,6 +23,9 @@ function NavBar() {
 
       const signOut = () => {
         localStorage.removeItem('user');
+        localStorage.removeItem('username');
+        localStorage.removeItem('email');
+        localStorage.removeItem('profilePhoto');
         setIsDropdownVisible(false);
         window.location.reload();
       }

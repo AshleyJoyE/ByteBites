@@ -7,6 +7,7 @@ import React from 'react';
 import RecipePage from './Components/RecipeResult';
 import ViewUserProfile from './Components/ViewUserProfile';
 import ViewRecipe from './Components/ViewRecipe';
+import CreateRecipe from './Components/CreateRecipe';
 import YourUserProfile from './Components/YourUserProfile';
 function App() {
   return (
@@ -16,7 +17,7 @@ function App() {
           <Route path='/Login' element={<Login />}/>
           <Route path='/Signup' element={<Signup />}/>
           <Route path='/Results' element={<RecipePage />}/>
-          <Route path='/Profile' element={<YourUserProfile />}/>
+          <Route path='/CreateRecipe' element={<CreateRecipe />}/><Route path='/Profile' element={<YourUserProfile />}/>
           <Route path='/Profile/:id' element={<ViewUserProfile/>}/>
           <Route path='/Recipe/:id' element={<ViewRecipe/>}/>
 

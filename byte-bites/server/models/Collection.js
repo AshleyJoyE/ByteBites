@@ -12,7 +12,7 @@ const CollectionSchema = new mongoose.Schema({
         type: [mongoose.Schema.Types.ObjectId],
         required: true,
         default: []
-    },
+    }
 });
 const RecipeCollection = new mongoose.model("RecipeCollection", CollectionSchema);
 

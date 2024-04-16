@@ -53,6 +53,7 @@ function NavBar() {
                 }
                 {!isUserRegistered &&
                     <div className={styles.no_account_div}>
+                        <button className={styles.button_text} onClick={() => window.location.href = '/CreateRecipe'}>Create Recipe</button>
                         <button className={styles.button_text} onClick={() => window.location.href = '/LogIn'}>Log In</button>
                         <button className={styles.button_text} onClick={() => window.location.href = '/SignUp'}>Sign Up</button>
                     </div>

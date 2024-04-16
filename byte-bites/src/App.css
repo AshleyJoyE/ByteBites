@@ -11,6 +11,8 @@ html, body {
   --secondary-blue: #30A0E0;
   --primary-yellow: #FFC872;
   --secondary-yellow: #FFE3B3;
+  --primary-orange: rgb(255, 60, 56);
+  --primary-orange-rgb: 255, 60, 56;
   --error-red: #cc0000;
 }
 

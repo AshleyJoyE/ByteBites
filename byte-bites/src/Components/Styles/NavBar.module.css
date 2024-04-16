@@ -2,11 +2,11 @@
 
 .primary_div {
     display: flex;
-    justify-content: space-between; /* Add this to move items to each end */
-    align-items: center; /* Align items vertically */
+    justify-content: space-between;
+    align-items: center;
     height: 50px;
     background-color: var(--primary-yellow);
-    padding: 0 20px; /* Add padding to the sides */
+    padding: 0 20px; 
 }
 
 .byte_bites {

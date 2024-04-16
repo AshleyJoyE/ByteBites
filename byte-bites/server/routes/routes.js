@@ -3,7 +3,9 @@ const express = require('express');
 const router = express.Router(); 
 module.exports = router;
 
-const User = require('../models/Login.js');
+const Credential = require('../models/Login.js');
+const Recipe = require('../models/Recipe.js');
+const Collection = require('../models/Collection.js');
 let user = null;
 
 const { createHash } = require('crypto');
@@ -14,10 +16,25 @@ function hash(string) {
 
 // add new Credential to Credentials Collection
 router.post("/postUser", async (req, res) => {
-  const data = new User({
+  const data = new Credential({
     username: req.body.username.toLowerCase(),
     email: req.body.email.toLowerCase(),
     password: hash(req.body.password)
+  });
+
+  try {
+    const dataToSave = await data.save();
+    res.status(200).json(dataToSave);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+
+router.post('/postCollection', async (req, res) => {
+  const data = new Collection({
+    collectionName: req.body.collectionName,
+    owner_id: req.body.owner_id,
   });
 
   try {
@@ -34,14 +51,15 @@ router.get("/getUserVerification", async (req, res) => {
 
     const { email, username, password } = req.query;
 
-    const check = await User.findOne({
+    const check = await Credential.findOne({
       $or: [
         { email: email.toLowerCase() },
         { username: username.toLowerCase() }
       ]
     });
     if (check && check.password === hash(password)) {
-      res.status(200).json({ status: 200 });
+      const { username, email, profilePhoto, _id, bio, admin } = check; 
+      return res.status(200).json({ status: 200, _id, username, email, profilePhoto, bio, admin });
     }
     else{
       res.status(404).json({ message: "Authorization failed" });
@@ -57,7 +75,7 @@ router.get("/getUser", async (req, res) => {
   try {
     const { email, username } = req.query;
 
-    const check = await User.findOne({
+    const check = await Credential.findOne({
       $or: [
         { email: email.toLowerCase() },
         { username: username.toLowerCase() }
@@ -67,8 +85,8 @@ router.get("/getUser", async (req, res) => {
 
     if (check) {
       console.log("User found");
-      const { name, email, profilePhoto } = check; 
-      res.status(200).json({ status: 200, name, email, profilePhoto, bio, admin });
+      const { username, email, profilePhoto, _id, bio, admin } = check; 
+      return res.status(200).json({ status: 200, _id, username, email, profilePhoto, bio, admin });
     } else {
       res.status(404).json({ message: "User Not Found" });
     }

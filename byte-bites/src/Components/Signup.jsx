@@ -92,9 +92,46 @@ function Signup(){
 
                         // account is created
                         if (postResponse.ok) {
-                            // store the user in localStorage
-                            localStorage.setItem('user', response.data)
-                            handleHomeNav();
+                            // get user information
+                            const response = await fetch(`http://localhost:3010/api/getUser?email=${encodeURIComponent(email)}&username=${encodeURIComponent(username)}`, 
+                            {
+                                method: 'GET',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                            });
+                            if (response.ok){
+                                const data = await response.json();
+                                // create default collection for new user
+                                const postResponseCollection = await fetch("http://localhost:3010/api/postCollection", {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({
+                                        collectionName: username.toLowerCase() + "'s saved recipes",
+                                        owner_id: data._id
+                                    })
+                                });
+                                if (postResponseCollection.ok){
+                                     // store the user in localStorage
+                                    localStorage.setItem('user', response.data)
+                                    localStorage.setItem('id', data._id)
+                                    localStorage.setItem('username', data.username);
+                                    localStorage.setItem('profilePhoto', data.profilePhoto);
+                                    localStorage.setItem('email', data.email);
+                                    localStorage.setItem('bio', data.bio);
+                                    localStorage.setItem('isAdmin', data.admin);
+                                    handleHomeNav();
+                                }
+                                // post request failed
+                                else {
+                                    throw new Error(`HTTP error! Status: ${postResponse.status}`);
+                                }
+                            }
+                            else {
+                                throw new Error(`HTTP error! Status: ${postResponse.status}`);
+                            }
                         } 
                         // post request failed
                         else {
@@ -125,8 +162,7 @@ function Signup(){
     }
 
     const validPassword = () => {
-        const regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,30}$/;
-
+        const regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[.!@#$%^&*])[a-zA-Z\d.!@#$%^&*]{8,30}$/
         setIsPasswordValid(regexPassword.test(password));
     }
 
@@ -181,7 +217,7 @@ function Signup(){
                             placeholder="Enter your password">
                         </input>
                         {!isPasswordCharactersValid && <p className={styles.error_message}> Invalid Character(s) Entered! </p>}
-                        {!isPasswordValid && <p className={styles.error_message}> Password Must Contain Uppercase, Lowercase, Numemrical, Special Characters, and 8 Characters </p>}
+                        {!isPasswordValid && <p className={styles.error_message}> Password Must Contain Uppercase, Lowercase, Numerical, Special Characters, and atleast 8 Characters </p>}
 
                         <label for="RepeatPassword" className={styles.form_label}> Re-enter Password </label>
                         <input type="password" value={passwordRepeat} className={styles.form_input}

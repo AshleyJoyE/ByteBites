@@ -13,7 +13,7 @@ const RecipeSchema = new mongoose.Schema({
     recipePhoto: {
         type: String,
         required: false,
-        default: "https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg"
+        default: ""
     },
     description: {
         type: String,
@@ -46,6 +46,14 @@ const RecipeSchema = new mongoose.Schema({
             message: '{VALUE} is not an integer value for servings'
         }
     },
+    caloriesPerServing: {
+        type: Number,
+        required: true,
+        validate: {
+            validator: Number.isInteger,
+            message: '{VALUE} is not an integer value for calories'
+        }
+    },
     ingredients: {
         type: [String],
         required: true
@@ -54,8 +62,12 @@ const RecipeSchema = new mongoose.Schema({
         type: [String],
         required: true
     },
+    categories: {
+        type: [String],
+        required: true
+    },
     isRecommendedRecipe: {
-        type: boolean,
+        type: Boolean,
         required: false,
         default: false
     }

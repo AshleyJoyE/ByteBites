@@ -26,7 +26,6 @@ function Login(){
             setEmailOrUsername(emailOrUsername.substring(0,50))
         if (password.length >= 30)
             setPassword(password.substring(0,30))
-        console.log("inside block")
         if (emailOrUsername.length >= 4 && password.length >= 8){
             try {
                 // validate credentials
@@ -38,13 +37,21 @@ function Login(){
                     }
                 });
                 const data = await response.json();
-                console.log(data)
+
     
                 // credentials are valid
                 if (data.status === 200) {
                     console.log("Credentials valid");
+                    console.log(data.username);
                     // store the user in localStorage
                     localStorage.setItem('user', response.data)
+                    localStorage.setItem('id', data._id)
+                    localStorage.setItem('username', data.username);
+                    localStorage.setItem('profilePhoto', data.profilePhoto);
+                    localStorage.setItem('email', data.email);
+                    localStorage.setItem('bio', data.bio);
+                    localStorage.setItem('isAdmin', data.admin);
+                    
                     handleHomeNav();
                     // future plan: reset number of unsucessful attempts
                 } else {
@@ -100,7 +107,7 @@ function Login(){
                                 onChange={(e) => setPassword(e.target.value)}
                                 placeholder="Enter your password">
                             </input>
-                            {!isCredentialsValid && <p className={styles.error_message}> Invalid Credentials! </p>}
+                            {!isCredentialsValid && <p className={styles.error_message}> Invalid Username or Password! </p>}
                             <input type="submit" className={styles.form_submit} value="Log In">  
                                 
                             </input>

@@ -19,24 +19,78 @@ function YourUserProfile(){
 
     const uploadProfileImage = async (file) => {
         try {
-            const formData = new FormData();
+            // Create a canvas element to resize the image
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
     
-            formData.append('fileData', file);
-            formData.append('fileName', file.name);
+            // Load the image file
+            const img = new Image();
+            img.src = URL.createObjectURL(file);
     
-            const response = await fetch('http://localhost:3010/uploadToS3', {
-                method: 'POST',
-                body: formData
-            });
+            // Wait for the image to load
+            img.onload = () => {
+                // Set canvas dimensions to 500x500 pixels
+                canvas.width = 500;
+                canvas.height = 500;
     
-            if (response.ok) {
-                const data = await response.json();
-                console.log('File uploaded successfully:', data.fileUrl);
-            } else {
-                console.error('Failed to upload file to S3');
-            }
+                // Draw the image onto the canvas with resizing
+                ctx.drawImage(img, 0, 0, 500, 500);
+    
+                // Convert canvas content to a blob
+                canvas.toBlob(async (blob) => {
+                    // Create a new file from the blob
+                    const resizedFile = new File([blob], file.name, { type: file.type });
+    
+                    // Create FormData and append the resized file
+                    const formData = new FormData();
+                    formData.append('fileData', resizedFile);
+                    formData.append('fileName', resizedFile.name);
+    
+                    // Upload the resized file
+                    const response = await fetch('http://localhost:3010/uploadToS3', {
+                        method: 'POST',
+                        body: formData
+                    });
+    
+                    if (response.ok) {
+                        const data = await response.json();
+                        console.log('File uploaded successfully:', data.fileUrl);
+    
+                        // Update local storage
+                        localStorage.setItem("profilePhoto", data.fileUrl);
+                        // Update profile photo in db
+                        await updateProfilePhoto(data.fileUrl);
+    
+                        // Close popup
+                        setShowUploadModal(false);
+                        // Refresh page
+                        window.location.reload();
+                    } else {
+                        console.error('Failed to upload file to S3');
+                    }
+                }, file.type);
+            };
         } catch (error) {
             console.error('Error uploading file:', error);
+        }
+    };
+    
+    const updateProfilePhoto = async (newProfilePhotoUrl) => {
+        const userId = localStorage.getItem("id");
+        try {
+            const response = await fetch(`http://localhost:3010/users/${userId}/profilePhoto`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ profilePhoto: newProfilePhotoUrl })
+            });
+    
+            if (!response.ok) {
+                console.error('Failed to update profile photo');
+            }
+        } catch (error) {
+            console.error('Error updating profile photo:', error);
         }
     };
     // when user navigates to page, check if user is already logged in, if not return to home,
@@ -451,10 +505,11 @@ function YourUserProfile(){
                     </div>
                 ))}
             </div>
-                <dialog open>
+                <dialog open={showUploadModal}>
                 <div className={styles.modal}>
                     <div className={styles.modalContent}>
                         <span className={styles.close} onClick={() => setShowUploadModal(false)}>&times;</span>
+                        
                         <h2>Upload Profile Image</h2>
                         {/* Add your image upload form here */}
                         <form>

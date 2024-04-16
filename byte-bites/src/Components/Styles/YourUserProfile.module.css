@@ -18,13 +18,11 @@
 }
 
 .img_profile_photo {
-    width: 40%;
-    border-radius: 50%;
-    border-color: black;
-    border-width: 10px;
-    border-style: solid;
-    aspect-ratio: 1 / 1;
-    justify-content: center; 
+    width: 40%; 
+    padding: 20px; 
+    object-fit: c;
+    object-position: center; 
+    margin: auto; 
 }
 
 .p_change_profile_image {
@@ -144,8 +142,15 @@
 }
 
 .close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
     cursor: pointer;
-}
+  }

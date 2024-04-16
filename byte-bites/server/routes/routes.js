@@ -95,3 +95,25 @@ router.get("/getUser", async (req, res) => {
     res.status(400).json({ message: "User Could Not Be Found" });
   }
 });
+
+// update user's profile photo
+router.put('/putUser/:userId/profilePhoto', async (req, res) => {
+  const userId = req.params.userId;
+  const newProfilePhotoUrl = req.body.profilePhoto;
+  try {
+     // find user
+      const user = await User.findById(userId);
+      if (!user) {
+          return res.status(404).json({ message: "User not found" });
+      }
+      //update profile photo
+      user.profilePhoto = newProfilePhotoUrl;
+      // save
+      const updatedUser = await user.save();
+      // return
+      res.status(200).json(updatedUser);
+  } catch (error) {
+      console.error("Error updating user profile photo:", error);
+      res.status(500).json({ message: "Internal server error" });
+  }
+});

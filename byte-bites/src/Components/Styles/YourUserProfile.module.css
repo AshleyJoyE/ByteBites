@@ -1,0 +1,113 @@
+.div_primary {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.div_nav_bar {
+    width: 100%;
+}
+
+.div_profileimg_username_email_bio {
+    display: flex;
+    flex-direction: row;
+    margin: 30px;
+    position: relative;
+}
+
+.img_profile_photo {
+    width: 40%;
+    border-radius: 50%;
+    border-color: black;
+    border-width: 10px;
+    border-style: solid;
+    aspect-ratio: 1 / 1;
+    justify-content: center; 
+}
+
+.p_change_profile_image {
+    font-style: bold;
+    font-family: 'Kodchasan', sans-serif;
+    font-size: 1vw;
+    background-color: transparent;
+    border: none;
+    color: black;
+    display: flex;
+    justify-content: center; 
+    width: 40%;
+    
+}
+
+.div_username_email_bio {
+    display: flex;
+    flex-direction: column;
+}
+
+.p_username {
+    font-style: bold;
+    font-family: 'Kodchasan', sans-serif;
+    font-size: 4vw;
+    background-color: transparent;
+    border: none;
+    color: black;
+}
+
+.div_email_changePassword {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.p_email {
+    font-style: bold;
+    font-family: 'Kodchasan', sans-serif;
+    font-size: 2vw;
+    background-color: transparent;
+    border: none;
+    color: black;
+}
+
+.button_changePassword {
+    width: 10px;
+    height: 10px;
+}
+
+.div_yourRecipes{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex: 0 0 30%;
+    height: 1%;
+    width: 100%;
+    margin: 15px;
+}
+
+.div_wrapper_yourRecipe{
+    overflow-x: auto;
+    white-space: nowrap;
+}
+.p_yourRecipes{
+    font-style: bold;
+    font-family: 'Kodchasan', sans-serif;
+    font-size: 4vw;
+    background-color: transparent;
+    border: none;
+    color: black;
+    margin: 15px;
+}
+
+.div_yourCollection{
+    display: flex;
+    flex-direction: row;
+}
+
+.p_yourCollection{
+    font-style: bold;
+    font-family: 'Kodchasan', sans-serif;
+    font-size: 4vw;
+    background-color: transparent;
+    border: none;
+    color: black;
+}

@@ -45,9 +45,12 @@ function Login(){
                     console.log(data.username);
                     // store the user in localStorage
                     localStorage.setItem('user', response.data)
+                    localStorage.setItem('id', data._id)
                     localStorage.setItem('username', data.username);
                     localStorage.setItem('profilePhoto', data.profilePhoto);
                     localStorage.setItem('email', data.email);
+                    localStorage.setItem('bio', data.bio);
+                    localStorage.setItem('isAdmin', data.admin);
                     
                     handleHomeNav();
                     // future plan: reset number of unsucessful attempts

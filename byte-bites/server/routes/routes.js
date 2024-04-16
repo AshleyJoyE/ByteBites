@@ -5,6 +5,7 @@ module.exports = router;
 
 const Credential = require('../models/Login.js');
 const Recipe = require('../models/Recipe.js');
+const Collection = require('../models/Collection.js');
 let user = null;
 
 const { createHash } = require('crypto');
@@ -30,19 +31,17 @@ router.post("/postUser", async (req, res) => {
 });
 
 
-router.post('/postRecipes', async (req, res) => {
+router.post('/postCollection', async (req, res) => {
+  const data = new Collection({
+    collectionName: req.body.collectionName,
+    owner_id: req.body.owner_id,
+  });
+
   try {
-      // Create a new recipe object using the request body
-      const newRecipe = new Recipe(req.body);
-
-      // Save the recipe to the database
-      await newRecipe.save();
-
-      // Send a success response
-      res.status(201).json({ message: 'Recipe added successfully', recipe: newRecipe });
+    const dataToSave = await data.save();
+    res.status(200).json(dataToSave);
   } catch (error) {
-      // If there's an error, send a 500 status code along with the error message
-      res.status(500).json({ error: error.message });
+    res.status(400).json({ message: error.message });
   }
 });
 
@@ -59,8 +58,8 @@ router.get("/getUserVerification", async (req, res) => {
       ]
     });
     if (check && check.password === hash(password)) {
-      const { username, email, profilePhoto } = check; 
-      return res.status(200).json({ status: 200, username, email, profilePhoto });
+      const { username, email, profilePhoto, _id, bio, admin } = check; 
+      return res.status(200).json({ status: 200, _id, username, email, profilePhoto, bio, admin });
     }
     else{
       res.status(404).json({ message: "Authorization failed" });
@@ -86,8 +85,8 @@ router.get("/getUser", async (req, res) => {
 
     if (check) {
       console.log("User found");
-      const { username, email, profilePhoto } = check; 
-      return res.status(200).json({ status: 200, username, email, profilePhoto });
+      const { username, email, profilePhoto, _id, bio, admin } = check; 
+      return res.status(200).json({ status: 200, _id, username, email, profilePhoto, bio, admin });
     } else {
       res.status(404).json({ message: "User Not Found" });
     }

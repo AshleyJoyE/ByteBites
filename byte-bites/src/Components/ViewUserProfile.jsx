@@ -95,10 +95,7 @@ function ViewUserProfile() {
     };
     // when user navigates to page, check if user is already logged in, if not return to home,
     useEffect(() => {
-        const currentUser = localStorage.getItem("user");
-        if (!currentUser) {
-            handleHomeNav();
-        }
+        
         const profilePhoto = localStorage.getItem("profilePhoto");
         const username = localStorage.getItem("username");
         const email = localStorage.getItem("email");

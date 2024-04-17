@@ -8,6 +8,13 @@ const Recipe = require('../models/Recipe.js');
 const Collection = require('../models/Collection.js');
 let user = null;
 
+const multer = require('multer');
+const { v4: uuidv4 } = require('uuid');
+
+
+
+
+
 const { createHash } = require('crypto');
 
 function hash(string) {
@@ -71,7 +78,6 @@ router.post('/postCollection', async (req, res) => {
 // get User from Credentials  & Verify Password
 router.get("/getUserVerification", async (req, res) => {
   try {
-
     const { email, username, password } = req.query;
 
     const check = await Credential.findOne({
@@ -140,21 +146,53 @@ router.put('/putUser/:userId/profilePhoto', async (req, res) => {
       res.status(500).json({ message: "Internal server error" });
   }
 });
-router.post("/postRecipe", async (req, res) => {
-  const data = new Recipe({
-    title: req.body.title,
-    author_id: 
+// router.post("/postRecipe", async (req, res) => {
+//   const data = new Recipe({
+//     title: req.body.title,
+//     author_id: 
 
 
-    // username: req.body.username.toLowerCase(),
-    // email: req.body.email.toLowerCase(),
-    // password: hash(req.body.password)
-  });
+//     // username: req.body.username.toLowerCase(),
+//     // email: req.body.email.toLowerCase(),
+//     // password: hash(req.body.password)
+//   });
 
-  try {
-    const dataToSave = await data.save();
-    res.status(200).json(dataToSave);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
+//   try {
+//     const dataToSave = await data.save();
+//     res.status(200).json(dataToSave);
+//   } catch (error) {
+//     res.status(400).json({ message: error.message });
+//   }
+// });
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
+
+router.use(upload.single('fileData')); 
+
+
+router.post('/uploadToS3', (req, res) => {
+    const fileData = req.file;
+    const fileName = req.body.fileName;
+    
+    console.log(process.env.AWS_BUCKET_NAME);
+    console.log(fileName);
+    console.log(fileData.buffer);
+
+    const params = {
+        Bucket: process.env.AWS_BUCKET_NAME,
+        Key: uuidv4(),
+        Body: fileData.buffer, 
+    };
+
+    s3.upload(params, (err, data) => {
+        if (err) {
+            console.error(err);
+            res.status(500).json({ message: 'Failed to upload file to S3' });
+        } else {
+            console.log('File uploaded successfully:', data.Location);
+            res.status(200).json({ message: 'File uploaded successfully', fileUrl: data.Location });
+        }
+    });
 });

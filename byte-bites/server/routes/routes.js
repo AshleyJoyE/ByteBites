@@ -14,7 +14,30 @@ function hash(string) {
   return createHash('sha256').update(string).digest('hex');
 }
 
-// add new Credential to Credentials Collection
+// add new Recipe to Recipe Collection
+router.post("/postRecipe", async (req, res) => {
+  const data = new Recipe({
+    title: req.body.title,
+    author_id: req.body.author_id,
+    recipePhoto: req.body.recipePhoto,
+    description: req.body.description,
+    cookTime: req.body.cookTime,
+    prepTime: req.body.prepTime,
+    servings: req.body.servings,
+    caloriesPerServing: req.body.caloriesPerServing,
+    ingredients: req.body.ingredients,
+    directions: req.body.directions,
+    categories: req.body.categories,
+  });
+
+  try {
+    const dataToSave = await data.save();
+    res.status(200).json(dataToSave);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
 router.post("/postUser", async (req, res) => {
   const data = new Credential({
     username: req.body.username.toLowerCase(),

@@ -18,8 +18,9 @@ const AddRecipePage = () => {
     cookTime: '',
     caloriesPerServing: '',
     description: '',
+    directions:[],
     tags: '',
-    ingredients: '',
+    ingredients: [],
     image: null,
   });
 
@@ -39,18 +40,37 @@ const AddRecipePage = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const response = await fetch("http://localhost:3010/api/postRecipe", {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                title: formData.title,
+                                author_id: formData.author_id,
+                                recipePhoto: formData.recipePhoto,
+                                description: formData.description,
+                                cookTime: formData.cookTime,
+                                prepTime: formData.prepTime,
+                                servings: formData.servings,
+                                caloriesPerServing: formData.caloriesPerServing,
+                                ingredients: formData.ingredients,
+                                directions: formData.directions,
+                                categories: formData.categories
+                            })
+                        });
     // Here you can submit formData to your backend
     console.log(formData);
   };
 
   return (
-    <div className="centered-container"> {/* Container div for centering */}
+    <div className="centered-container"> 
     <div className={styles.div_nav_bar}>
                 <NavBar>   </NavBar>
             </div>
-      <div className="form-container"> {/* Box structure around the form */}
+      <div className="form-container"> 
 
 
         <h2>Add Recipe</h2>

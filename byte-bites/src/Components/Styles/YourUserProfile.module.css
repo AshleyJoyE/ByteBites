@@ -18,11 +18,11 @@
 }
 
 .img_profile_photo {
-    width: 40%; 
-    padding: 20px; 
+    width: 80%; 
+    margin-left: 15px;
     object-fit: c;
     object-position: center; 
-    margin: auto; 
+    border-radius: 50%;
 }
 
 .p_change_profile_image {
@@ -31,10 +31,13 @@
     font-size: 1vw;
     background-color: transparent;
     border: none;
-    color: black;
+    color: blue;
     display: flex;
-    justify-content: center; 
     width: 40%;
+    margin-left: 55px;
+    justify-content: center;
+    width: 60%;
+    text-decoration: underline;
     
 }
 
@@ -51,6 +54,30 @@
     border: none;
     color: black;
 }
+
+.form_bio {
+  }
+
+.p_bio{
+    font-style: bold;
+    font-family: 'Kodchasan', sans-serif;
+    font-size: 3vw;
+    background-color: transparent;
+    border: none;
+    color: black;
+}
+ 
+ .input_bio {
+    width: 100%; /* Make the input span the entire width */
+    height: 200px; /* Set the height of the input box */
+    padding: 10px; /* Add padding for better readability */
+    font-size: 16px; /* Adjust font size as needed */
+    border: 1px solid #ccc; /* Add border for visual clarity */
+    border-radius: 5px; /* Round the corners of the input box */
+    resize: vertical; /* Allow vertical resizing */
+    font-family: 'Kodchasan', sans-serif;
+    font-size: 1vw;
+  }
 
 .div_email_changePassword {
     display: flex;
@@ -76,7 +103,7 @@
     font-size: 1vw;
     font-family: 'Kodchasan', sans-serif;
     margin-top: 10px;
-    margin-left`: 15px;
+    margin-left: 15px;
 }
 
 .div_yourRecipes{
@@ -120,8 +147,10 @@
     background-color: transparent;
     border: none;
     color: black;
+    margin-left: 15px;
 }
 .modal {
+    font-family: 'Kodchasan', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;

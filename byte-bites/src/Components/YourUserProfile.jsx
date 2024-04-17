@@ -13,6 +13,7 @@ function YourUserProfile(){
     const profilePhoto = localStorage.getItem("profilePhoto");
     const username = localStorage.getItem("username");
     const email = localStorage.getItem("email");
+    const [bio, setBio] = useState(localStorage.getItem("bio"));
     const [recipes, setRecipes] = useState([]);
     const [collections, setCollections] = useState([]);
     const [showUploadModal, setShowUploadModal] = useState(false);
@@ -99,6 +100,10 @@ function YourUserProfile(){
         if (!currentUser) {
             handleHomeNav();
         }
+        const profilePhoto = localStorage.getItem("profilePhoto");
+        const username = localStorage.getItem("username");
+        const email = localStorage.getItem("email");
+        const bio = localStorage.getItem("bio")
         setRecipes( [
             {
                 title: "Spaghetti Carbonara",
@@ -483,9 +488,13 @@ function YourUserProfile(){
                 </div>
                 <div className={styles.div_username_email_bio}>
                     <p className={styles.p_username}>@{username}</p>
+                    <form className={styles.form_bio}>
+                        <label className={styles.p_bio}>Bio:</label>
+                        <input className={styles.input_bio} type="text"  onChange={(e) => setBio(e.target.value)} placeholder={bio}></input>
+                    </form>
                     <div className={styles.div_email_changePassword}>
                         <p className={styles.p_email}>{email}</p>
-                        <button className={styles.button_changePassword}>Change password!</button>
+                        <p className={styles.button_changePassword}>Change password!</p>
                     </div>
                 </div>
             </div>

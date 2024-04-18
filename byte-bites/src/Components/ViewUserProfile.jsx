@@ -480,17 +480,12 @@ function ViewUserProfile() {
             <div className={styles.div_profileimg_username_email_bio}>
                 <div className={styles.div_profile_photo}>
                     <img className={styles.img_profile_photo} src={profilePhoto} alt="Profile" />
-                    <button className={styles.p_change_profile_image} onClick={() => setShowUploadModal(true)}>Change Profile Image</button>
                 </div>
                 <div className={styles.div_username_email_bio}>
                     <p className={styles.p_username}>@{username}</p>
-                    <form className={styles.form_bio}>
-                        <label className={styles.p_bio}>Bio:</label>
-                        <input className={styles.input_bio} type="text"  onChange={(e) => setBio(e.target.value)} placeholder={bio}></input>
-                    </form>
-                    <div className={styles.div_email_changePassword}>
-                        <p className={styles.p_email}>{email}</p>
-                        <p className={styles.button_changePassword}>Change password!</p>
+                    <label className={styles.p_bio_header}>Bio:</label>
+                    <div className={styles.div_bio}>
+                        <p className={styles.p_bio}>{bio}</p>
                     </div>
                 </div>
             </div>
@@ -510,22 +505,6 @@ function ViewUserProfile() {
                     </div>
                 ))}
             </div>
-                <dialog open={showUploadModal}>
-                <div className={styles.modal}>
-                    <div className={styles.modalContent}>
-                        <span className={styles.close} onClick={() => setShowUploadModal(false)}>&times;</span>
-                        
-                        <h2>Upload Profile Image</h2>
-                        {/* Add your image upload form here */}
-                        <form>
-                            <input type="file" onChange={(e) => uploadProfileImage(e.target.files[0])} />
-                            <button type="button" onClick={() => setShowUploadModal(false)}>Upload</button>
-                        </form>
-                    </div>
-                </div>
-            </dialog>
-               
-            
         </div>
     );
 }

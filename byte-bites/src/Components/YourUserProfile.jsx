@@ -48,7 +48,7 @@ function YourUserProfile(){
                     formData.append('fileName', resizedFile.name);
     
                     // Upload the resized file
-                    const response = await fetch('http://localhost:3010/uploadToS3', {
+                    const response = await fetch('http://localhost:3010/api/uploadToS3', {
                         method: 'POST',
                         body: formData
                     });

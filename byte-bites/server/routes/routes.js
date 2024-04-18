@@ -11,7 +11,11 @@ let user = null;
 const multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
 
-
+const AWS = require('aws-sdk'); 
+AWS.config.update({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+});
 
 
 
@@ -170,7 +174,7 @@ const upload = multer({ storage: storage });
 
 
 router.use(upload.single('fileData')); 
-
+const s3 = new AWS.S3();
 
 router.post('/uploadToS3', (req, res) => {
     const fileData = req.file;

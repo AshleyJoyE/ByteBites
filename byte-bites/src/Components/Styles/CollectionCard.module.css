@@ -31,3 +31,6 @@
     font-family: 'Kodchasan', sans-serif;
     margin-top: 10px;
 }
+.view_btn:hover{
+    background-color: #d41f1c;
+}

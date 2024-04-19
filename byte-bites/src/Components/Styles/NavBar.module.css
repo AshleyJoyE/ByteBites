@@ -70,5 +70,14 @@
     border: none;
     color: black;
 }
+.button_text:hover{
+    margin-right: 10px;
+    font-style: bold;
+    font-family: 'Kodchasan', sans-serif;
+    font-size: 25px;
+    background-color: transparent;
+    border: none;
+    color: #FF3C39;
+}
 
 

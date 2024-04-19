@@ -118,7 +118,6 @@
 
 .div_wrapper_yourRecipe{
     overflow-x: auto;
-    white-space: nowrap;
 }
 .p_yourRecipes{
     font-style: bold;
@@ -128,6 +127,10 @@
     border: none;
     color: black;
     margin: 15px;
+}
+
+.div_wrapper_yourCollection{
+    overflow-x: auto;
 }
 
 .div_yourCollection{

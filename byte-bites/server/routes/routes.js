@@ -129,6 +129,26 @@ router.get("/getUser", async (req, res) => {
   }
 });
 
+// get User from User Collection by Object ID
+router.get("/getUserByObjectID", async (req, res) => {
+  try {
+    const { id } = req.query;
+
+    const check = await Credential.findById(id);
+
+    if (check) {
+      console.log("User found");
+      const { username, email, profilePhoto, _id, bio, admin } = check; 
+      return res.status(200).json({ status: 200, _id, username, email, profilePhoto, bio, admin });
+    } else {
+      res.status(404).json({ message: "User Not Found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ message: "User Could Not Be Found" });
+  }
+});
+
 // update user's profile photo
 router.put('/putUser/:userId/profilePhoto', async (req, res) => {
   const userId = req.params.userId;
@@ -172,25 +192,6 @@ router.put('/putUser/:userId/bio', async (req, res) => {
       res.status(500).json({ message: "Internal server error" });
   }
 });
-
-// router.post("/postRecipe", async (req, res) => {
-//   const data = new Recipe({
-//     title: req.body.title,
-//     author_id: 
-
-
-//     // username: req.body.username.toLowerCase(),
-//     // email: req.body.email.toLowerCase(),
-//     // password: hash(req.body.password)
-//   });
-
-//   try {
-//     const dataToSave = await data.save();
-//     res.status(200).json(dataToSave);
-//   } catch (error) {
-//     res.status(400).json({ message: error.message });
-//   }
-// });
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });

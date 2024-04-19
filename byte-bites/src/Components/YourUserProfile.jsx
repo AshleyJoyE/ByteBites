@@ -18,6 +18,11 @@ function YourUserProfile(){
     const [collections, setCollections] = useState([]);
     const [showUploadModal, setShowUploadModal] = useState(false);
 
+    const handleBioSubmit = (e) =>{
+        e.preventDefault();
+        updateBio(bio);
+    }
+
     const uploadProfileImage = async (file) => {
         try {
             // Create a canvas element to resize the image
@@ -95,16 +100,33 @@ function YourUserProfile(){
             console.error('Error updating profile photo:', error);
         }
     };
+    const updateBio = async (newBio) => {
+    
+        const userId = localStorage.getItem("id");
+        try {
+            const response = await fetch(`http://localhost:3010/api/putUser/${userId}/bio`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ bio: newBio })
+            });
+    
+            if (!response.ok) {
+                console.error('Failed to update bio');
+            } else {
+                localStorage.setItem("bio", newBio);
+            }
+        } catch (error) {
+            console.error('Error updating bio:', error);
+        }
+    };
     // when user navigates to page, check if user is already logged in, if not return to home,
     useEffect(() => {
         const currentUser = localStorage.getItem("user");
         if (!currentUser) {
             handleHomeNav();
         }
-        const profilePhoto = localStorage.getItem("profilePhoto");
-        const username = localStorage.getItem("username");
-        const email = localStorage.getItem("email");
-        const bio = localStorage.getItem("bio")
         setRecipes( [
             {
                 title: "Spaghetti Carbonara",
@@ -489,9 +511,9 @@ function YourUserProfile(){
                 </div>
                 <div className={styles.div_username_email_bio}>
                     <p className={styles.p_username}>@{username}</p>
-                    <form className={styles.form_bio}>
+                    <form className={styles.form_bio} onSubmit={handleBioSubmit}>
                         <label className={styles.p_bio}>Bio:</label>
-                        <input className={styles.input_bio} type="text"  onChange={(e) => setBio(e.target.value)} placeholder={bio}></input>
+                        <textarea className={styles.input_bio} type="text"  onChange={(e) => setBio(e.target.value)} placeholder={bio} value={bio} onBlur={handleBioSubmit}></textarea>
                     </form>
                     <div className={styles.div_email_changePassword}>
                         <p className={styles.p_email}>{email}</p>
@@ -500,20 +522,24 @@ function YourUserProfile(){
                 </div>
             </div>
             <p className={styles.p_yourRecipes}>Your Recipes</p>
-            <div className={styles.div_yourRecipes}>
-                {recipes.map((recipe, index) => (
-                    <div key={index} className={styles.div_yourRecipes}>
-                        <RecipeCard recipe={recipe} />
-                    </div>
-                ))}
+            <div className={styles.div_wrapper_yourRecipe}>
+                <div className={styles.div_yourRecipes}>
+                    {recipes.map((recipe, index) => (
+                        <div key={index} className={styles.div_yourRecipes}>
+                            <RecipeCard recipe={recipe} />
+                        </div>
+                    ))}
+                </div>
             </div>
             <p className={styles.p_yourCollection}>Your Collections</p>
-            <div className={styles.div_yourCollection}>
-                {collections.map((collection, index) => (
-                    <div key={index} className={styles.div_yourCollection}>
-                        <CollectionCard collection={collection} />
-                    </div>
-                ))}
+            <div className={styles.div_wrapper_yourCollection}> 
+                <div className={styles.div_yourCollection}>
+                    {collections.map((collection, index) => (
+                        <div key={index} className={styles.div_yourCollection}>
+                            <CollectionCard collection={collection} />
+                        </div>
+                    ))}
+                </div>
             </div>
                 <dialog open={showUploadModal}>
                 <div className={styles.modal}>

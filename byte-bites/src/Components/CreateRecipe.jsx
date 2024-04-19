@@ -16,11 +16,12 @@ const AddRecipePage = () => {
     title: '',
     prepTime: '',
     cookTime: '',
+    serving: ' ',
     caloriesPerServing: '',
     description: '',
-    directions:[],
-    tags: '',
-    ingredients: [],
+    tags: [''],
+    ingredients: [''],
+    directions:[''],
     image: null,
   });
 
@@ -40,6 +41,39 @@ const AddRecipePage = () => {
     });
   };
 
+  const handleAddIngredient = () => {
+    setFormData({
+      ...formData,
+      ingredients: [...formData.ingredients, ''],
+    });
+    console.log(formData.ingredients);
+  };
+
+  const handleIngredientChange = (index, value) => {
+    const updatedIngredients = [...formData.ingredients];
+    updatedIngredients[index] = value;
+    setFormData({
+      ...formData,
+      ingredients: updatedIngredients,
+    });
+  };
+
+  const handleAddDirection = () => {
+    setFormData({
+      ...formData,
+      directions: [...formData.directions, ''],
+    });
+  };
+  
+  const handleDirectionChange = (index, value) => {
+    const updatedDirections = [...formData.directions];
+    updatedDirections[index] = value;
+    setFormData({
+      ...formData,
+      directions: updatedDirections,
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await fetch("http://localhost:3010/api/postRecipe", {
@@ -54,7 +88,7 @@ const AddRecipePage = () => {
                                 description: formData.description,
                                 cookTime: formData.cookTime,
                                 prepTime: formData.prepTime,
-                                servings: formData.servings,
+                                servings: formData.serving,
                                 caloriesPerServing: formData.caloriesPerServing,
                                 ingredients: formData.ingredients,
                                 directions: formData.directions,
@@ -74,7 +108,7 @@ const AddRecipePage = () => {
 
 
         <h2>Add Recipe</h2>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit="return false">
           <div>
             <label>Title:</label>
             <input
@@ -101,6 +135,16 @@ const AddRecipePage = () => {
               type="number"
               name="cookTime"
               value={formData.cookTime}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div>
+            <label>Servings:</label>
+            <input
+              type="number"
+              name="serving"
+              value={formData.serving}
               onChange={handleChange}
             />
           </div>
@@ -135,12 +179,34 @@ const AddRecipePage = () => {
           </div>
 
           <div>
-            <label>Ingredients (comma-separated):</label>
+            <label>Ingredients:</label>
+              {formData.ingredients.map((ingredient, index) => (
+            <div key={index}>
+            <input
+              type="text"
+              value={ingredient}
+              onChange={(e) => handleIngredientChange(index, e.target.value)}
+            />
+            </div>
+            ))}
+            <button type="button" onClick={handleAddIngredient}>
+              + Add Ingredient
+            </button>
+          </div>
+
+          <div>
+            <label>Directions:</label>
+              {formData.directions.map((direction, index) => (
+              <div key={index}>
             <textarea
-              name="ingredients"
-              value={formData.ingredients}
-              onChange={handleChange}
-            ></textarea>
+              value={direction}
+            onChange={(e) => handleDirectionChange(index, e.target.value)}
+            />
+            </div>
+            ))}
+            <button type="button" onClick={handleAddDirection}>
+              + Add Direction
+            </button>
           </div>
 
           <div>
@@ -148,7 +214,7 @@ const AddRecipePage = () => {
             <input type="file" onChange={handleImageChange} />
           </div>
 
-          <button type="submit">Submit</button>
+          <button onClick={handleSubmit}>Submit</button>
         </form>
       </div>
     </div>

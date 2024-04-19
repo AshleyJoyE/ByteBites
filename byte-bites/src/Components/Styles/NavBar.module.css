@@ -62,6 +62,7 @@
 
 
 .button_text {
+    margin-right: 10px;
     font-style: bold;
     font-family: 'Kodchasan', sans-serif;
     font-size: 25px;

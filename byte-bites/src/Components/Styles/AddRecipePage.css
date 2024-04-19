@@ -14,6 +14,7 @@ centered-container {
     padding: 20px;
     border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
   }
   
   .form-container h2 {
@@ -42,7 +43,6 @@ centered-container {
     border: 1px solid #ccc;
     border-radius: 5px;
     resize: none;
-     
   }
   
   .form-container button {
@@ -50,7 +50,7 @@ centered-container {
     padding: 10px;
     border: none;
     border-radius: 5px;
-    background-color: #4caf50;
+    background-color: #FF3C39;
     color: white;
     cursor: pointer;
     font-weight: bold;
@@ -58,6 +58,6 @@ centered-container {
   }
   
   .form-container button:hover {
-    background-color: #45a049;
+    background-color: #FF3C39;
   }
   

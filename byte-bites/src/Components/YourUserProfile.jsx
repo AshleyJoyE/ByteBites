@@ -48,7 +48,7 @@ function YourUserProfile(){
                     formData.append('fileName', resizedFile.name);
     
                     // Upload the resized file
-                    const response = await fetch('http://localhost:3010/uploadToS3', {
+                    const response = await fetch('http://localhost:3010/api/uploadToS3', {
                         method: 'POST',
                         body: formData
                     });
@@ -79,13 +79,14 @@ function YourUserProfile(){
     const updateProfilePhoto = async (newProfilePhotoUrl) => {
         const userId = localStorage.getItem("id");
         try {
-            const response = await fetch(`http://localhost:3010/users/${userId}/profilePhoto`, {
+            const response = await fetch(`http://localhost:3010/api/putUser/${userId}/profilePhoto`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ profilePhoto: newProfilePhotoUrl })
             });
+
     
             if (!response.ok) {
                 console.error('Failed to update profile photo');

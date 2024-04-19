@@ -11,7 +11,11 @@ let user = null;
 const multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
 
-
+const AWS = require('aws-sdk'); 
+AWS.config.update({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+});
 
 
 
@@ -131,7 +135,7 @@ router.put('/putUser/:userId/profilePhoto', async (req, res) => {
   const newProfilePhotoUrl = req.body.profilePhoto;
   try {
      // find user
-      const user = await User.findById(userId);
+      const user = await Credential.findById(userId);
       if (!user) {
           return res.status(404).json({ message: "User not found" });
       }
@@ -146,6 +150,29 @@ router.put('/putUser/:userId/profilePhoto', async (req, res) => {
       res.status(500).json({ message: "Internal server error" });
   }
 });
+
+// update user's bio
+router.put('/putUser/:userId/bio', async (req, res) => {
+  const userId = req.params.userId;
+  const newBio = req.body.bio;
+  try {
+     // find user
+      const user = await Credential.findById(userId);
+      if (!user) {
+          return res.status(404).json({ message: "User not found" });
+      }
+      //update profile photo
+      user.bio = newBio;
+      // save
+      const updatedUser = await user.save();
+      // return
+      res.status(200).json(updatedUser);
+  } catch (error) {
+      console.error("Error updating user profile photo:", error);
+      res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 // router.post("/postRecipe", async (req, res) => {
 //   const data = new Recipe({
 //     title: req.body.title,
@@ -170,7 +197,7 @@ const upload = multer({ storage: storage });
 
 
 router.use(upload.single('fileData')); 
-
+const s3 = new AWS.S3();
 
 router.post('/uploadToS3', (req, res) => {
     const fileData = req.file;

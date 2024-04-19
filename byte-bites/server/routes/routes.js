@@ -135,7 +135,7 @@ router.put('/putUser/:userId/profilePhoto', async (req, res) => {
   const newProfilePhotoUrl = req.body.profilePhoto;
   try {
      // find user
-      const user = await User.findById(userId);
+      const user = await Credential.findById(userId);
       if (!user) {
           return res.status(404).json({ message: "User not found" });
       }
@@ -150,6 +150,29 @@ router.put('/putUser/:userId/profilePhoto', async (req, res) => {
       res.status(500).json({ message: "Internal server error" });
   }
 });
+
+// update user's bio
+router.put('/putUser/:userId/bio', async (req, res) => {
+  const userId = req.params.userId;
+  const newBio = req.body.bio;
+  try {
+     // find user
+      const user = await Credential.findById(userId);
+      if (!user) {
+          return res.status(404).json({ message: "User not found" });
+      }
+      //update profile photo
+      user.bio = newBio;
+      // save
+      const updatedUser = await user.save();
+      // return
+      res.status(200).json(updatedUser);
+  } catch (error) {
+      console.error("Error updating user profile photo:", error);
+      res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 // router.post("/postRecipe", async (req, res) => {
 //   const data = new Recipe({
 //     title: req.body.title,

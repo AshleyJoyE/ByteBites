@@ -1,4 +1,5 @@
 const express = require('express');
+const Fuse = require('fuse.js');
 
 const router = express.Router(); 
 module.exports = router;
@@ -451,6 +452,65 @@ router.delete('/deleteReview/:reviewId', async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 });
+
+const searchAlgorithm = (recipe, query) => {
+  query = query.trim();
+  const queries = query.split(/\s+/);
+  const wordsInRecipe = [];
+
+  // Combine title and description into a single string
+  const combinedText = recipe.title + ' ' + recipe.description;
+
+  // Iterate over each word in the query
+  for (let queryWord of queries) {
+      // Check if the query word is present in the combined text
+      if (combinedText.includes(queryWord) || recipe.categories.includes(queryWord)) {
+          wordsInRecipe.push(queryWord);
+      }
+  }
+
+  // Calculate the score based on the number of matching words and the recipe's rating
+  let score = wordsInRecipe.length * 1.5 * recipe.rating;
+  return score;
+}
+
+
+router.get('/searchRecipes', async (req, res) => {
+  try {
+      const { query } = req.query;
+     
+      const words = query.trim().split(/\s+/);
+
+      // Constructing the query to find recipes matching the search criteria
+      const recipes = await Recipe.find({
+          $or: [
+              { title: { $regex: new RegExp(words.join('|'), 'i') } },
+              { description: { $regex: new RegExp(words.join('|'), 'i') } },
+              { categories: { $in: words } }
+          ]
+      });
+
+
+      // Calculate scores for each recipe based on the search query
+      const recipeScores = recipes.map(recipe => ({
+          recipe,
+          score: searchAlgorithm(recipe, query)
+      }));
+
+      // Sort recipes by score in descending order
+      recipeScores.sort((a, b) => b.score - a.score);
+
+      // Extract only the recipe objects from the sorted array
+      const sortedRecipes = recipeScores.map(entry => entry.recipe);
+
+      // Return the sorted recipes
+      res.status(200).json(sortedRecipes);
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });

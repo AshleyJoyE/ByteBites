@@ -79,6 +79,47 @@ router.post('/postCollection', async (req, res) => {
   }
 });
 
+// get Collection from Recioe Collection by Object ID
+router.get("/getCollectionByCollectionObjectID", async (req, res) => {
+  try {
+    const { id } = req.query;
+
+    const check = await Collection.findById(id);
+
+    if (check) {
+      console.log("Collection Found");
+      const { collectionName, owner_id, recipes, _id} = check; 
+      return res.status(200).json({ status: 200, collectionName, owner_id, recipes, _id });
+    } else {
+      res.status(404).json({ message: "Collection Not Found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ message: "Collection Could Not Be Found" });
+  }
+});
+
+
+// get Collection from Recioe Collection by Object ID
+router.get("/getCollectionByUserObjectID", async (req, res) => {
+  try {
+    const { id } = req.query;
+
+    const collections = await Collection.find({ owner_id: id });
+
+    if (collections.length > 0) {
+      console.log("Collections found");
+      return res.status(200).json({ status: 200, collections });
+    } else {
+      res.status(404).json({ message: "Collections Not Found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+
 router.put('/putCollection/:collectionId/addRecipe', async (req, res) => {
   const collectionId = req.params.collectionId;
   const recipeId = req.body.recipeId; // Assuming the recipe ID is passed in the request body
@@ -107,6 +148,57 @@ router.put('/putCollection/:collectionId/addRecipe', async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 });
+
+router.put('/putCollection/:collectionId/removeRecipe', async (req, res) => {
+  const collectionId = req.params.collectionId;
+  const recipeId = req.body.recipeId;
+  
+  try {
+    // Find the collection
+    const collection = await Collection.findById(collectionId);
+    if (!collection) {
+      return res.status(404).json({ message: "Collection not found" });
+    }
+
+    // Check if the recipe exists in the collection
+    const recipeIndex = collection.recipes.indexOf(recipeId);
+    if (recipeIndex === -1) {
+      return res.status(404).json({ message: "Recipe not found in the collection" });
+    }
+
+    // Remove the recipe from the collection
+    collection.recipes.splice(recipeIndex, 1);
+
+    // Save the updated collection
+    const updatedCollection = await collection.save();
+    
+    // Return the updated collection
+    res.status(200).json(updatedCollection);
+  } catch (error) {
+    console.error("Error updating collection's recipes:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+router.delete('/deleteCollection/:collectionId', async (req, res) => {
+  const collectionId = req.params.collectionId;
+  try {
+   
+    const response = await Collection.deleteOne({ _id: collectionId });
+    
+   
+    if (response.deletedCount === 0) {
+      return res.status(404).json({ message: "Collection not found" });
+    }
+    
+   
+    res.status(200).json(`${collectionId} collection successfully deleted`);
+  } catch (error) {
+    console.error("Error deleting collection:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 
 // get User from Credentials  & Verify Password
 router.get("/getUserVerification", async (req, res) => {

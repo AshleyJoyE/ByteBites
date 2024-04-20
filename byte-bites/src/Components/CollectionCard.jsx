@@ -12,9 +12,9 @@ export default function Collection({collection}){
     }
     return (
         <div className={styles.collection_card}>
-            <p className={styles.collection_title}>{collection.collectionName}</p>
+            <label className={styles.collection_title}>{collection.collectionName}</label>
             <p className={styles.collection_author}>@{collection.author}</p>
-            <a className={styles.view_btn} onClick={handleNavigateCollection}>View collection</a>
+            <a className={styles.view_btn} onClick={handleNavigateCollection}><center>View Collection</center></a>
         </div>
     )
 }

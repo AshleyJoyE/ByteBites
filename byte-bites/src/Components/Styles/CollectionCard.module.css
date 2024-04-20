@@ -7,7 +7,7 @@
     background-color: var(--primary-yellow);
 }
 .collection_title {
-    font-size: 1.2rem;
+
     font-weight: bold;
     margin-bottom: 5px;
     font-size: 2vw;
@@ -22,6 +22,8 @@
     font-family: 'Kodchasan', sans-serif;
 }
 .view_btn {
+    display: inline-block;
+    width: 155px;
     background-color: var(--primary-orange);
     color: #fff;
     text-decoration: none;

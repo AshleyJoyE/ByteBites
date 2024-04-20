@@ -16,7 +16,7 @@ const AddRecipePage = () => {
     title: '',
     prepTime: '',
     cookTime: '',
-    serving: ' ',
+    servings: ' ',
     caloriesPerServing: '',
     description: '',
     tags: [''],
@@ -38,6 +38,22 @@ const AddRecipePage = () => {
     setFormData({
       ...formData,
       image: imageFile,
+    });
+  };
+
+  const handleTagChange = (index, value) => {
+    const updatedTags = [...formData.tags];
+    updatedTags[index] = value;
+    setFormData({
+      ...formData,
+      tags: updatedTags,
+    });
+  };
+
+  const handleAddTag = () => {
+    setFormData({
+      ...formData,
+      tags: [...formData.tags, ''],
     });
   };
 
@@ -88,7 +104,7 @@ const AddRecipePage = () => {
                                 description: formData.description,
                                 cookTime: formData.cookTime,
                                 prepTime: formData.prepTime,
-                                servings: formData.serving,
+                                servings: formData.servings,
                                 caloriesPerServing: formData.caloriesPerServing,
                                 ingredients: formData.ingredients,
                                 directions: formData.directions,
@@ -143,8 +159,8 @@ const AddRecipePage = () => {
             <label>Servings:</label>
             <input
               type="number"
-              name="serving"
-              value={formData.serving}
+              name="servings"
+              value={formData.servings}
               onChange={handleChange}
             />
           </div>
@@ -169,13 +185,19 @@ const AddRecipePage = () => {
           </div>
 
           <div>
-            <label>Tags (comma-separated):</label>
-            <input
-              type="text"
-              name="tags"
-              value={formData.tags}
-              onChange={handleChange}
-            />
+            <label>Tags:</label>
+              {formData.tags.map((tag, index) => (
+              <div key={index}>
+              <input
+                type="text"
+                value={tag}
+                onChange={(e) => handleTagChange(index, e.target.value)}
+              />
+              </div>
+              ))}
+              <button type="button" onClick={handleAddTag}>
+                + Add Tag
+              </button>
           </div>
 
           <div>

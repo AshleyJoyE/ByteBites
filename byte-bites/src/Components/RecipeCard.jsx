@@ -1,60 +1,40 @@
 import { useEffect, useState } from "react";
 import styles from "./Styles/RecipeCard.module.css";
 import { useNavigate } from 'react-router-dom';
-import axios from "axios";
-import NavBar from './NavBar';
 import { FaStar } from "react-icons/fa";
 import { FaRegStarHalfStroke } from "react-icons/fa6";
 import { FaRegStar } from "react-icons/fa";
 
-
-export default function RecipeCard({recipe}){
-
-    var numberOfFullStars = 0;
-    var numberOfEmptyStars = 0;
-    var numberOfHalfStars = 0;
-    if (recipe.averageRating){
-        if (recipe.rating - Math.floor(recipe.averageRating) < 0.25){
-            numberOfFullStars = Math.floor(recipe.averageRating);
-        }
-        else if (recipe.rating - Math.floor(recipe.averageRating) < 0.75){
-            numberOfFullStars = Math.floor(recipe.averageRating);
-            numberOfHalfStars = 1;
-        }
-        else {
-            numberOfFullStars = Math.ceil(recipe.averageRating);
-        }
-        numberOfEmptyStars = 5 - numberOfFullStars - numberOfHalfStars;
-    }
-    else{
-        numberOfEmptyStars = 5;
-    }
+export default function RecipeCard({ recipe }) {
     const navigate = useNavigate();
     const handleNavigateRecipe = () => {
         navigate(`/Recipe/${recipe.title}`, { state: { recipe: recipe } });
     }
 
+    let numberOfFullStars = Math.floor(recipe.averageRating);
+    let numberOfHalfStars = Math.ceil(recipe.averageRating - numberOfFullStars);
+    let numberOfEmptyStars = 5 - numberOfFullStars - numberOfHalfStars;
 
     return (
         <div className={styles.recipe_card}>
-            <img src={recipe.recipePhoto} className={styles.img}></img>
+            <img src={recipe.recipePhoto} className={styles.img} alt="Recipe" />
             <p className={styles.recipe_title}>{recipe.title}</p>
             <p className={styles.recipe_author}>@{recipe.author}</p>
             <div className={styles.recipe_card_total_time_rating}>
                 <p className={styles.total_time}>{recipe.totalTime}</p>
                 <p className={styles.rating_text}>{recipe.averageRating}</p>
-                {[...Array(numberOfFullStars)].map(() => (
-                  <FaStar className={styles.star}> </FaStar>
+                {[...Array(numberOfFullStars)].map((_, index) => (
+                    <FaStar key={index} className={styles.star} />
                 ))}
-                {[...Array(numberOfHalfStars)].map(() => (
-                  <FaRegStarHalfStroke className={styles.star}> </FaRegStarHalfStroke>
+                {[...Array(numberOfHalfStars)].map((_, index) => (
+                    <FaRegStarHalfStroke key={index} className={styles.star} />
                 ))}
-                {[...Array(numberOfEmptyStars)].map(() => (
-                  <FaRegStar className={styles.star}> </FaRegStar>
+                {[...Array(numberOfEmptyStars)].map((_, index) => (
+                    <FaRegStar key={index} className={styles.star} />
                 ))}
             </div>
             <p className={styles.recipe_description}>{recipe.description}</p>
-                <a className={styles.view_btn} onClick={handleNavigateRecipe}>View recipe</a>
+            <a className={styles.view_btn} onClick={handleNavigateRecipe}>View recipe</a>
         </div>
-    )
+    );
 }

@@ -6,6 +6,7 @@ module.exports = router;
 const Credential = require('../models/Login.js');
 const Recipe = require('../models/Recipe.js');
 const Collection = require('../models/Collection.js');
+const Review = require("../models/Review.js");
 let user = null;
 
 const multer = require('multer');
@@ -61,6 +62,25 @@ router.post("/postUser", async (req, res) => {
     res.status(200).json(dataToSave);
   } catch (error) {
     res.status(400).json({ message: error.message });
+  }
+});
+
+router.delete('/deleteRecipe/:recipeId', async (req, res) => {
+  const recipeId = req.params.recipeId;
+  try {
+   
+    const response = await Recipe.deleteOne({ _id: recipeId });
+    
+   
+    if (response.deletedCount === 0) {
+      return res.status(404).json({ message: "Recipe not found" });
+    }
+    
+   
+    res.status(200).json(`${recipeId} successfully deleted`);
+  } catch (error) {
+    console.error("Error deleting recipe:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 
@@ -293,6 +313,28 @@ router.put('/putUser/:userId/profilePhoto', async (req, res) => {
 });
 
 // update user's bio
+router.put('/putUser/:userId/admin', async (req, res) => {
+  const userId = req.params.userId;
+  const newAdmin = req.body.admin;
+  try {
+     // find user
+      const user = await Credential.findById(userId);
+      if (!user) {
+          return res.status(404).json({ message: "User not found" });
+      }
+      //update admin
+      user.admin = newAdmin;
+      // save
+      const updatedUser = await user.save();
+      // return
+      res.status(200).json(updatedUser);
+  } catch (error) {
+      console.error("Error updating user admin status:", error);
+      res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+// update user's bio
 router.put('/putUser/:userId/bio', async (req, res) => {
   const userId = req.params.userId;
   const newBio = req.body.bio;
@@ -302,15 +344,106 @@ router.put('/putUser/:userId/bio', async (req, res) => {
       if (!user) {
           return res.status(404).json({ message: "User not found" });
       }
-      //update profile photo
+      //update bio
       user.bio = newBio;
       // save
       const updatedUser = await user.save();
       // return
       res.status(200).json(updatedUser);
   } catch (error) {
-      console.error("Error updating user profile photo:", error);
+      console.error("Error updating user bio:", error);
       res.status(500).json({ message: "Internal server error" });
+  }
+});
+router.delete('/deleteUser/:userId', async (req, res) => {
+  const userId = req.params.userId;
+  try {
+   
+    const response = await Credential.deleteOne({ _id: userId });
+    
+   
+    if (response.deletedCount === 0) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    
+   
+    res.status(200).json(`${userId} successfully deleted`);
+  } catch (error) {
+    console.error("Error deleting user:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+// add new Recipe to Recipe Collection
+router.post("/postReview", async (req, res) => {
+  const data = new Review({
+    title: req.body.title,
+    reviewer_id: req.body.reviewer_id,
+    recipe_id: req.body.recipe_id,
+    description: req.body.description || "",
+    rating: req.body.rating
+  });
+
+  try {
+    const dataToSave = await data.save();
+    res.status(200).json(dataToSave);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+router.get("/getReviewsByRecipeObjectID", async (req, res) => {
+  try {
+    const { id } = req.query;
+
+    const reviews = await Review.find({ recipe_id: id });
+
+    if (reviews.length > 0) {
+      console.log("Review found");
+      return res.status(200).json({ status: 200, reviews: reviews });
+    } else {
+      res.status(404).json({ message: "Review Not Found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+router.get("/getReviewsByReviewerObjectID", async (req, res) => {
+  try {
+    const { id } = req.query;
+
+    const reviews = await Review.find({ reviewer_id: id });
+
+    if (reviews.length > 0) {
+      console.log("Review found");
+      return res.status(200).json({ status: 200, reviews: reviews });
+    } else {
+      res.status(404).json({ message: "Review Not Found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+router.delete('/deleteReview/:reviewId', async (req, res) => {
+  const reviewId = req.params.reviewId;
+  try {
+   
+    const response = await Review.deleteOne({ _id: reviewId });
+    
+   
+    if (response.deletedCount === 0) {
+      return res.status(404).json({ message: "Review not found" });
+    }
+    
+   
+    res.status(200).json(`${reviewId} successfully deleted`);
+  } catch (error) {
+    console.error("Error deleting review:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 

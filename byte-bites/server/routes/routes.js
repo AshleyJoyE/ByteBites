@@ -51,6 +51,24 @@ router.post("/postRecipe", async (req, res) => {
   }
 });
 
+router.get("/getRecipesByUserObjectId", async (req, res) => {
+  try {
+    const { id } = req.query;
+
+    const recipes = await Recipe.find({ author_id: id });
+
+    if (recipes) {
+      console.log("Recipes Found");
+      return res.status(200).json({ status: 200, recipes });
+    } else {
+      res.status(404).json({ message: "Recipes Not Found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ message: "Collection Could Not Be Found" });
+  }
+});
+
 router.post("/postUser", async (req, res) => {
   const data = new Credential({
     username: req.body.username.toLowerCase(),

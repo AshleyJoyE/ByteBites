@@ -13,16 +13,16 @@ export default function RecipeCard({recipe}){
     var numberOfFullStars = 0;
     var numberOfEmptyStars = 0;
     var numberOfHalfStars = 0;
-    if (recipe.rating){
-        if (recipe.rating - Math.floor(recipe.rating) < 0.25){
-            numberOfFullStars = Math.floor(recipe.rating);
+    if (recipe.averageRating){
+        if (recipe.rating - Math.floor(recipe.averageRating) < 0.25){
+            numberOfFullStars = Math.floor(recipe.averageRating);
         }
-        else if (recipe.rating - Math.floor(recipe.rating) < 0.75){
-            numberOfFullStars = Math.floor(recipe.rating);
+        else if (recipe.rating - Math.floor(recipe.averageRating) < 0.75){
+            numberOfFullStars = Math.floor(recipe.averageRating);
             numberOfHalfStars = 1;
         }
         else {
-            numberOfFullStars = Math.ceil(recipe.rating);
+            numberOfFullStars = Math.ceil(recipe.averageRating);
         }
         numberOfEmptyStars = 5 - numberOfFullStars - numberOfHalfStars;
     }
@@ -42,7 +42,7 @@ export default function RecipeCard({recipe}){
             <p className={styles.recipe_author}>@{recipe.author}</p>
             <div className={styles.recipe_card_total_time_rating}>
                 <p className={styles.total_time}>{recipe.totalTime}</p>
-                <p className={styles.rating_text}>{recipe.rating}</p>
+                <p className={styles.rating_text}>{recipe.averageRating}</p>
                 {[...Array(numberOfFullStars)].map(() => (
                   <FaStar className={styles.star}> </FaStar>
                 ))}

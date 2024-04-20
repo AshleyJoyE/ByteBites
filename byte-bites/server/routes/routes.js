@@ -79,6 +79,35 @@ router.post('/postCollection', async (req, res) => {
   }
 });
 
+router.put('/putCollection/:collectionId/addRecipe', async (req, res) => {
+  const collectionId = req.params.collectionId;
+  const recipeId = req.body.recipeId; // Assuming the recipe ID is passed in the request body
+  
+  try {
+    // Find the collection
+    const collection = await Collection.findById(collectionId);
+    if (!collection) {
+      return res.status(404).json({ message: "Collection not found" });
+    }
+
+    // Add the recipe ID to the collection's recipes array
+    if (!collection.recipes) {
+      collection.recipes = [recipeId]; // Create array if it doesn't exist
+    } else {
+      collection.recipes.push(recipeId); // Add recipe ID to existing array
+    }
+
+    // Save the updated collection
+    const updatedCollection = await collection.save();
+    
+    // Return the updated collection
+    res.status(200).json(updatedCollection);
+  } catch (error) {
+    console.error("Error updating collection's recipes:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 // get User from Credentials  & Verify Password
 router.get("/getUserVerification", async (req, res) => {
   try {

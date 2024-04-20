@@ -5,6 +5,7 @@ import NavBar from './NavBar';
 import { FaPencilAlt } from "react-icons/fa";
 import RecipeCard from "./RecipeCard";
 import CollectionCard from "./CollectionCard";
+import { BsPlusSquare } from "react-icons/bs";
 
 
 function YourUserProfile(){
@@ -17,6 +18,7 @@ function YourUserProfile(){
     const [recipes, setRecipes] = useState([]);
     const [collections, setCollections] = useState([]);
     const [showUploadModal, setShowUploadModal] = useState(false);
+    const [showUploadModal2, setShowUploadModal2] = useState(false);
 
     const handleBioSubmit = (e) =>{
         e.preventDefault();
@@ -531,7 +533,11 @@ function YourUserProfile(){
                     ))}
                 </div>
             </div>
-            <p className={styles.p_yourCollection}>Your Collections</p>
+            <div className={styles.addCollection}>
+                <p className={styles.p_yourCollection}>Your Collections</p>   
+                <BsPlusSquare className={styles.add_btn} onClick={} />
+            </div>
+           
             <div className={styles.div_wrapper_yourCollection}> 
                 <div className={styles.div_yourCollection}>
                     {collections.map((collection, index) => (
@@ -554,9 +560,24 @@ function YourUserProfile(){
                         </form>
                     </div>
                 </div>
-            </dialog>
+                </dialog>
                
-            
+                <dialog open={showUploadModal2}>
+                <div className={styles.modal}>
+                    <div className={styles.modalContent}>
+                        <span className={styles.close} onClick={() => setShowUploadModal2(false)}>&times;</span>
+                        
+                        <h2>Create Collection</h2>
+                        
+                        <form>
+                            <input type="file" onChange={(e) => uploadProfileImage(e.target.files[0])} />
+                            <button type="button" onClick={() => setShowUploadModal2(false)}>Upload</button>
+                        </form>
+                    </div>
+                </div>
+                </dialog>
+
+
         </div>
     );
 }

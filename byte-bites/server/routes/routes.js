@@ -154,7 +154,12 @@ router.put('/putCollection/:collectionId/addRecipe', async (req, res) => {
     // Add the recipe ID to the collection's recipes array
     if (!collection.recipes) {
       collection.recipes = [recipeId]; // Create array if it doesn't exist
-    } else {
+    }
+    else if (collection.recipes.indexOf(recipeId) !=-1){
+      console.error("Recipe is already saved!");
+      res.status(500).json({ message: "Internal server error" });
+    } 
+    else {
       collection.recipes.push(recipeId); // Add recipe ID to existing array
     }
 

@@ -3,10 +3,12 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 
 
+
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+
 
 app.listen(3010, () => {
     console.log(`Server Started at ${3010}`)
@@ -24,5 +26,6 @@ database.once('connected', () => {
     console.log('Database Connected');
 })
 
-const routes = require('./routes/routes'); 
-app.use('/api', routes);
+const routes = require('./routes/routes');
+
+app.use('/api', routes)

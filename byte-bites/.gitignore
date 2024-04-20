@@ -26,3 +26,5 @@ yarn-error.log*
 
 # DONT PUBLISH THE ENV FILES
 /server/.env
+# DONT PUBLISH THE PEM FILE FOR AWS
+/home/ashley/Documents/CSIT415SP24/byte-bites/pk-APKAVRUVSDJ2K2OMHXOA.pem

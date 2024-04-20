@@ -34,6 +34,7 @@ function NavBar() {
                 <button className={styles.byte_bites} onClick={() => window.location.href = '/'}>Byte-Bites</button>
                 {isUserRegistered &&
                     <div className={styles.profile_div}>
+                        <button className={styles.button_text} onClick={() => window.location.href = '/CreateRecipe'}>Create Recipe</button>
                         <img className={styles.profile_img} src={profilePhoto} onClick={() => {window.location.href = '/Profile';}}/>
                         <div className={styles.div_dropdown}>
                             <img className={styles.img_drop_down_array} src={dropDownArrowImg} alt="Drop Down Arrow" onClick={() => setIsDropdownVisible(x => !x)}/>

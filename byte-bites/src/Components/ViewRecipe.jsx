@@ -22,6 +22,8 @@ function ViewRecipe() {
     const [reviewTitle, setReviewTitle] = useState("");
     const [reviewDescription, setReviewDescription] = useState();
     const [yourId, setYourId] = useState();
+    const [isRecipeSaved, setIsRecipeSaved] = useState(false);
+    const [yourCollections, setYourCollections] = useState([]);
 
     useEffect(() => {
         const currentUser = localStorage.getItem("user");
@@ -36,6 +38,7 @@ function ViewRecipe() {
     useEffect(() => {
         const fetchData = async () => {
             try {
+                // get the recipe
                 const recipeResponse = await fetch(`http://localhost:3010/api/getRecipesByObjectId?id=${id}`, {
                     method: 'GET',
                     headers: {
@@ -50,7 +53,7 @@ function ViewRecipe() {
 
                 const recipeData = await recipeResponse.json();
 
-                // Fetch the author's username
+                // fetch the author of the recipe username
                 const authorId = recipeData.author_id;
                 const userResponse = await fetch(`http://localhost:3010/api/getUserByObjectId?id=${encodeURIComponent(authorId)}`, {
                     method: 'GET',
@@ -67,7 +70,7 @@ function ViewRecipe() {
                 const userData = await userResponse.json();
                 const username = userData.username;
 
-                // Fetch average rating
+                // fetch all reviews and calculate the average rating
                 const reviewResponse = await fetch(`http://localhost:3010/api/getReviewsByRecipeObjectID?id=${recipeData._id}`, {
                     method: 'GET',
                     headers: {
@@ -121,6 +124,41 @@ function ViewRecipe() {
                     setNumberOfHalfStars(0);
                     setNumberOfEmptyStars(5);
                 }
+
+                // fetch user's collections
+                if (yourId) {
+                    const collectionResponse = await fetch(`http://localhost:3010/api/getCollectionByUserObjectID?id=${encodeURIComponent(yourId)}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                    });
+            
+                    if (!collectionResponse.ok) {
+                        console.error('Failed to fetch collections');
+                        return;
+                    }
+            
+                    const collectionData = await collectionResponse.json();
+                    console.log("Collection Data:", collectionData);
+
+                    // Process collections
+                    if (Array.isArray(collectionData.collections)) {
+                        const updatedCollections = collectionData.collections.map((collection) => ({
+                            ...collection,
+                            yourCollections: [...(collection.yourCollections || []), collection.collectionName]
+                        }));
+                        setYourCollections(updatedCollections);
+                        if (!isRecipeSaved) {
+                            setIsRecipeSaved(updatedCollections.some(collection => collection.recipes.includes(recipeData._id)));
+                        }
+                    } else {
+                        console.error('Data is not an array');
+                    }
+                }
+
+                
+
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -178,7 +216,8 @@ function ViewRecipe() {
                     <div className={styles.div_gen_info}>
                         <div className={styles.div_name_bkmk}>
                             <h1 className={styles.h1_recipe_name}>{recipe.title}</h1>
-                            <FaRegBookmark className={styles.bookmark}/>
+                            {(isSignedIn && !isRecipeSaved) && <FaRegBookmark className={styles.bookmark}/>}
+                            {(isSignedIn && isRecipeSaved) && <FaBookmark className={styles.bookmark}/>} 
                         </div>
                         <p className={styles.p_author}> <a href={`/Profile/${recipe.author_id}`}>@{recipe.author}</a></p>
                         <div className={styles.div_times}>
@@ -267,7 +306,6 @@ function ViewRecipe() {
                     <div>
                     <button className={styles.button_post_review} type="submit">Submit Review</button>
                     </div>
-                  
                 </form>}
             </div>
         </div>

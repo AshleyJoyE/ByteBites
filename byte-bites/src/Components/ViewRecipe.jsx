@@ -8,6 +8,7 @@ import { FaRegStar } from "react-icons/fa";
 import { FaBookmark } from "react-icons/fa";
 import { FaRegBookmark } from "react-icons/fa";
 
+
 function ViewRecipe() {
     const { id } = useParams();
     const [recipe, setRecipe] = useState({});
@@ -24,6 +25,8 @@ function ViewRecipe() {
     const [yourId, setYourId] = useState();
     const [isRecipeSaved, setIsRecipeSaved] = useState(false);
     const [yourCollections, setYourCollections] = useState([]);
+    const [showUpdateCollectionsModal, setShowUpdateCollectionsModal] = useState(false);
+    const [collectionsState, setCollectionsState] = useState({}); 
 
     useEffect(() => {
         const currentUser = localStorage.getItem("user");
@@ -140,25 +143,27 @@ function ViewRecipe() {
                     }
             
                     const collectionData = await collectionResponse.json();
-                    console.log("Collection Data:", collectionData);
-
-                    // Process collections
                     if (Array.isArray(collectionData.collections)) {
                         const updatedCollections = collectionData.collections.map((collection) => ({
                             ...collection,
-                            yourCollections: [...(collection.yourCollections || []), collection.collectionName]
+                            containsRecipe: collection.recipes.includes(id) // Check if the collection contains the recipe
                         }));
                         setYourCollections(updatedCollections);
+
                         if (!isRecipeSaved) {
                             setIsRecipeSaved(updatedCollections.some(collection => collection.recipes.includes(recipeData._id)));
+
+                        // Update the collections state
+                        const state = {};
+                        updatedCollections.forEach(collection => {
+                            state[collection._id] = collection.containsRecipe;
+                        });
+                        setCollectionsState(state);
                         }
                     } else {
                         console.error('Data is not an array');
                     }
                 }
-
-                
-
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -166,6 +171,7 @@ function ViewRecipe() {
 
         fetchData();
     }, [id]);
+    
     
     
    
@@ -205,6 +211,21 @@ function ViewRecipe() {
             setIsReviewTitleValid(false);
         }
     }
+
+    // Function to handle updating the collections state
+    const handleCollectionCheckboxChange = (collectionId) => {
+        setCollectionsState(prevState => ({
+            ...prevState,
+            [collectionId]: !prevState[collectionId]
+        }));
+        console.log(collectionsState);
+    };
+
+    // Function to update collections
+    const updateCollections = () => {
+        // Implement your logic for updating collections here
+        console.log("Updating collections...");
+    };
    
     return (
         <div className={styles.div_view_recipe}>
@@ -216,8 +237,8 @@ function ViewRecipe() {
                     <div className={styles.div_gen_info}>
                         <div className={styles.div_name_bkmk}>
                             <h1 className={styles.h1_recipe_name}>{recipe.title}</h1>
-                            {(isSignedIn && !isRecipeSaved) && <FaRegBookmark className={styles.bookmark}/>}
-                            {(isSignedIn && isRecipeSaved) && <FaBookmark className={styles.bookmark}/>} 
+                            {(isSignedIn && !isRecipeSaved) && <FaRegBookmark className={styles.bookmark} onClick={() => setShowUpdateCollectionsModal(true)}/>}
+                            {(isSignedIn && isRecipeSaved) && <FaBookmark className={styles.bookmark} onClick={() => setShowUpdateCollectionsModal(true)}/>} 
                         </div>
                         <p className={styles.p_author}> <a href={`/Profile/${recipe.author_id}`}>@{recipe.author}</a></p>
                         <div className={styles.div_times}>
@@ -307,6 +328,33 @@ function ViewRecipe() {
                     <button className={styles.button_post_review} type="submit">Submit Review</button>
                     </div>
                 </form>}
+                <div className={styles.div_dialog}>
+                    <dialog open={showUpdateCollectionsModal}>
+                        <div className={styles.dialog_overlay}>
+                            <div className={styles.dialog_content}>
+                                <div className={styles.dialog_header}>
+                                    <span className={styles.dialog_title}>Add or Remove From Collection</span>
+                                    <span className={styles.close} onClick={() => setShowUpdateCollectionsModal(false)}>&times;</span>
+                                </div>
+                                <div className={styles.checkbox_container}>
+                                    {yourCollections.map(collection => (
+                                    <div key={collection._id}>
+                                        <input
+                                            type="checkbox"
+                                            checked={collectionsState[collection._id]}
+                                            onChange={() => handleCollectionCheckboxChange(collection._id)}
+                                        />
+                                        <label>{collection.collectionName}</label>
+                                    </div>
+                                ))}
+                                </div>
+                                {/* Update collection button */}
+                                <button className={styles.update_button} onClick={updateCollections}>Update Collection</button>
+                            </div>
+                        </div>
+                    </dialog>
+                </div>
+               
             </div>
         </div>
     );

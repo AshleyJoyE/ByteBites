@@ -334,14 +334,76 @@
     background-color: rgba(var(--primary-orange-rgb), 1.8);
 }
 
-.form_review {
-    padding: 20px;
-    border: rgba(var(--primary-orange-rgb), 0.2) solid 10px;
+.dialog_overlay {
+    font-family: 'Kodchasan', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 9999;
 }
 
-.label_reviewErrorMessage{
-    font-size: 60px;
-    font-family: 'Kodchasan', sans-serif;
-    text-align: center;
-    color: rgba(var(--primary-orange-rgb), 2.5)
+
+.dialog_content {
+    background-color: #FFC873;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 500px;
 }
+
+.dialog_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    font-family: 'Kodchasan', sans-serif;
+}
+
+.dialog_title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+.close {
+    cursor: pointer;
+    color: #333;
+    font-size: 50px;
+    justify-content: end;
+    font-family: 'Kodchasan', sans-serif;
+}
+
+.close:hover {
+    color: #FF5733;
+}
+
+.checkbox_container {
+    margin-bottom: 20px;
+}
+
+.checkbox_label {
+    font-size: 20px;
+    color: #333;
+    font-family: 'Kodchasan', sans-serif;
+}
+
+.checkbox_input {
+    margin-right: 10px;
+}
+
+.update_button {
+    padding: 10px 20px;
+    background-color: #FF5733;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    font-family: 'Kodchasan', sans-serif;
+}
+

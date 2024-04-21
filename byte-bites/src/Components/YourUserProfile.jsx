@@ -163,6 +163,7 @@ function YourUserProfile(){
                     handleHomeNav();
                     return; // Exit early if user is not logged in
                 }
+              
         
                 // Fetch recipes
                 const recipeResponse = await fetch(`http://localhost:3010/api/getRecipesByUserObjectId?id=${encodeURIComponent(id)}`, {

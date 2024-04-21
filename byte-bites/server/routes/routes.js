@@ -105,22 +105,24 @@ router.post("/postUser", async (req, res) => {
 router.delete('/deleteRecipe/:recipeId', async (req, res) => {
   const recipeId = req.params.recipeId;
   try {
-   
+    // Find and delete the recipe
     const response = await Recipe.deleteOne({ _id: recipeId });
-    
-   
     if (response.deletedCount === 0) {
       return res.status(404).json({ message: "Recipe not found" });
     }
     
-   
+    // Remove the recipe from all collections it belongs to
+    await Collection.updateMany({}, { $pull: { recipes: recipeId } });
+    
+    // Delete all reviews associated with the deleted recipe
+    await Review.deleteMany({ recipe_id: recipeId });
+
     res.status(200).json(`${recipeId} successfully deleted`);
   } catch (error) {
     console.error("Error deleting recipe:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 });
-
 
 router.post('/postCollection', async (req, res) => {
   const data = new Collection({
@@ -245,15 +247,15 @@ router.put('/putCollection/:collectionId/removeRecipe', async (req, res) => {
 router.delete('/deleteCollection/:collectionId', async (req, res) => {
   const collectionId = req.params.collectionId;
   try {
-   
+    // Find and delete the collection
     const response = await Collection.deleteOne({ _id: collectionId });
-    
-   
     if (response.deletedCount === 0) {
       return res.status(404).json({ message: "Collection not found" });
     }
     
-   
+    // Remove all recipes from the deleted collection
+    await Recipe.updateMany({}, { $pull: { collections: collectionId } });
+
     res.status(200).json(`${collectionId} collection successfully deleted`);
   } catch (error) {
     console.error("Error deleting collection:", error);
@@ -400,15 +402,21 @@ router.put('/putUser/:userId/bio', async (req, res) => {
 router.delete('/deleteUser/:userId', async (req, res) => {
   const userId = req.params.userId;
   try {
-   
+    // Find and delete the user
     const response = await Credential.deleteOne({ _id: userId });
-    
-   
     if (response.deletedCount === 0) {
       return res.status(404).json({ message: "User not found" });
     }
     
-   
+    // Remove all recipes created by the deleted user
+    await Recipe.deleteMany({ author_id: userId });
+
+    // Remove all collections owned by the deleted user
+    await Collection.deleteMany({ owner_id: userId });
+
+    // Remove all reviews by the deleted user
+    await Review.deleteMany({ reviewer_id: userId });
+
     res.status(200).json(`${userId} successfully deleted`);
   } catch (error) {
     console.error("Error deleting user:", error);

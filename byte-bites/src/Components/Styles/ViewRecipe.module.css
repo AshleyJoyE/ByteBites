@@ -298,6 +298,19 @@
     width: 80px;
 }
 
+.trashCan {
+    color: rgb(255, 60, 56);
+    margin-right: 5px;
+    font-size: 20px;
+    height: 80px;
+    width: 80px;
+}
+
+.p_recipeID{
+    font-size: .5vm;
+    font-family: 'Kodchasan', sans-serif;
+}
+
 .star_rating {
     color: var(--primary-orange);
     margin-right: 5px;
@@ -319,6 +332,7 @@
 .button_post_review {
     font-size: 20px;
     font-family: 'Kodchasan', sans-serif;
+    margin-top: 10px;
     padding: 5px 10px;
     background-color: var(--primary-orange-rgb);
     color: #fff;
@@ -326,13 +340,83 @@
     border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
+    background-color: rgba(var(--primary-orange-rgb), 1);
 }
 
 .button_post_review:hover {
     background-color: rgba(var(--primary-orange-rgb), 1.8);
 }
 
-.form_review {
-    padding: 20px;
-    border: rgba(var(--primary-orange-rgb), 0.2) solid 10px;
+.dialog_overlay {
+    font-family: 'Kodchasan', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 9999;
 }
+
+
+.dialog_content {
+    background-color: #FFC873;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 500px;
+}
+
+.dialog_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    font-family: 'Kodchasan', sans-serif;
+}
+
+.dialog_title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+.close {
+    cursor: pointer;
+    color: #333;
+    font-size: 50px;
+    justify-content: end;
+    font-family: 'Kodchasan', sans-serif;
+}
+
+.close:hover {
+    color: #FF5733;
+}
+
+.checkbox_container {
+    margin-bottom: 20px;
+}
+
+.checkbox_label {
+    font-size: 20px;
+    color: #333;
+    font-family: 'Kodchasan', sans-serif;
+}
+
+.checkbox_input {
+    margin-right: 10px;
+}
+
+.update_button {
+    padding: 10px 20px;
+    background-color: #FF5733;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    font-family: 'Kodchasan', sans-serif;
+}
+

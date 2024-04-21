@@ -133,8 +133,7 @@
 .div_yourCollection{
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    flex: 0 0 30%;
+   
     height: 1%;
     width: 100%;
     margin: 15px;
@@ -175,11 +174,34 @@
     float: right;
     font-size: 28px;
     font-weight: bold;
-  }
+}
   
   .close:hover,
   .close:focus {
     color: black;
     text-decoration: none;
     cursor: pointer;
-  }
+}
+
+.addCollection {
+    display: flex;
+    flex-direction: row;   
+    align-items: center; 
+    margin-left: 15px; 
+}
+
+.add_btn {
+    margin-top: 15px;
+    margin-left: 10px; 
+    font-size: 50px; 
+    padding: 8px 12px; 
+    background-color: transparent; /* Set background color to transparent by default */
+    border: none; /* Remove border */
+    transition: background-color 0.3s, color 0.3s; /* Add transition effect */
+    
+}
+
+.add_btn:hover {
+  
+    color: #FF3C39; 
+}

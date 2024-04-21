@@ -51,6 +51,42 @@ router.post("/postRecipe", async (req, res) => {
   }
 });
 
+router.get("/getRecipesByUserObjectId", async (req, res) => {
+  try {
+    const { id } = req.query;
+
+    const recipes = await Recipe.find({ author_id: id });
+
+    if (recipes) {
+      console.log("Recipes Found");
+      return res.status(200).json({ status: 200, recipes });
+    } else {
+      res.status(404).json({ message: "Recipes Not Found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ message: "Collection Could Not Be Found" });
+  }
+});
+
+router.get("/getRecipesByObjectId", async (req, res) => {
+  try {
+    const { id } = req.query;
+
+    const check = await Recipe.findById(id);
+
+    if (check) {
+      console.log("Recipes Found");
+      const { title, author_id, recipePhoto, description, prepTime, cookTime, totalTime, averageRating, servings, caloriesPerServing, ingredients, directions, categories, isRecommendedRecipe, _id } = check;
+      return res.status(200).json({ status: 200, title, author_id, recipePhoto, description, prepTime, cookTime, servings, caloriesPerServing, ingredients, directions, categories, isRecommendedRecipe, _id, totalTime, averageRating });
+    } else {
+      res.status(404).json({ message: "Recipes Not Found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ message: "Collection Could Not Be Found" });
+  }
+});
 router.post("/postUser", async (req, res) => {
   const data = new Credential({
     username: req.body.username.toLowerCase(),
@@ -69,22 +105,24 @@ router.post("/postUser", async (req, res) => {
 router.delete('/deleteRecipe/:recipeId', async (req, res) => {
   const recipeId = req.params.recipeId;
   try {
-   
+    // Find and delete the recipe
     const response = await Recipe.deleteOne({ _id: recipeId });
-    
-   
     if (response.deletedCount === 0) {
       return res.status(404).json({ message: "Recipe not found" });
     }
     
-   
+    // Remove the recipe from all collections it belongs to
+    await Collection.updateMany({}, { $pull: { recipes: recipeId } });
+    
+    // Delete all reviews associated with the deleted recipe
+    await Review.deleteMany({ recipe_id: recipeId });
+
     res.status(200).json(`${recipeId} successfully deleted`);
   } catch (error) {
     console.error("Error deleting recipe:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 });
-
 
 router.post('/postCollection', async (req, res) => {
   const data = new Collection({
@@ -209,15 +247,15 @@ router.put('/putCollection/:collectionId/removeRecipe', async (req, res) => {
 router.delete('/deleteCollection/:collectionId', async (req, res) => {
   const collectionId = req.params.collectionId;
   try {
-   
+    // Find and delete the collection
     const response = await Collection.deleteOne({ _id: collectionId });
-    
-   
     if (response.deletedCount === 0) {
       return res.status(404).json({ message: "Collection not found" });
     }
     
-   
+    // Remove all recipes from the deleted collection
+    await Recipe.updateMany({}, { $pull: { collections: collectionId } });
+
     res.status(200).json(`${collectionId} collection successfully deleted`);
   } catch (error) {
     console.error("Error deleting collection:", error);
@@ -364,21 +402,28 @@ router.put('/putUser/:userId/bio', async (req, res) => {
 router.delete('/deleteUser/:userId', async (req, res) => {
   const userId = req.params.userId;
   try {
-   
+    // Find and delete the user
     const response = await Credential.deleteOne({ _id: userId });
-    
-   
     if (response.deletedCount === 0) {
       return res.status(404).json({ message: "User not found" });
     }
     
-   
+    // Remove all recipes created by the deleted user
+    await Recipe.deleteMany({ author_id: userId });
+
+    // Remove all collections owned by the deleted user
+    await Collection.deleteMany({ owner_id: userId });
+
+    // Remove all reviews by the deleted user
+    await Review.deleteMany({ reviewer_id: userId });
+
     res.status(200).json(`${userId} successfully deleted`);
   } catch (error) {
     console.error("Error deleting user:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 });
+
 
 // add new Recipe to Recipe Collection
 router.post("/postReview", async (req, res) => {
@@ -408,7 +453,7 @@ router.get("/getReviewsByRecipeObjectID", async (req, res) => {
       console.log("Review found");
       return res.status(200).json({ status: 200, reviews: reviews });
     } else {
-      res.status(404).json({ message: "Review Not Found" });
+      res.status(200).json({ message: "Review Not Found" });
     }
   } catch (error) {
     console.error(error);

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./Styles/ViewRecipe.module.css";
-import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import NavBar from "./NavBar";
 import { FaStar } from "react-icons/fa";
 import { FaRegStarHalfStroke } from "react-icons/fa6";
@@ -9,34 +9,165 @@ import { FaBookmark } from "react-icons/fa";
 import { FaRegBookmark } from "react-icons/fa";
 
 function ViewRecipe() {
-    const { state } = useLocation();
-    const [recipe, setRecipe] = useState([]);
-    var numberOfFullStars = 0;
-    var numberOfEmptyStars = 0;
-    var numberOfHalfStars = 0;
+    const { id } = useParams();
+    const [recipe, setRecipe] = useState({});
+    const [numberOfFullStars, setNumberOfFullStars] = useState(0);
+    const [numberOfEmptyStars, setNumberOfEmptyStars] = useState(0);
+    const [numberOfHalfStars, setNumberOfHalfStars] = useState(0);
+    const [recipeObject, setRecipeObject] = useState({});
+    const [rating, setRating] = useState(0);
+    const [isSignedIn, setIsSignedIn] = useState(false);
+    const [reviewStars, setReviewStars] = useState([true, false, false, false, false]);
+    const [isReviewTitleValid, setIsReviewTitleValid] = useState(true);
+    const [reviewTitle, setReviewTitle] = useState("");
+    const [reviewDescription, setReviewDescription] = useState();
+    const [yourId, setYourId] = useState();
 
     useEffect(() => {
-        if (state && state.recipe) {
-            setRecipe(state.recipe);
+        const currentUser = localStorage.getItem("user");
+        const userId = localStorage.getItem("id");
+        if (currentUser && userId) {
+            setIsSignedIn(true);
+            setYourId(userId);
         }
-    }, [state]);
+        console.log(yourId)
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const recipeResponse = await fetch(`http://localhost:3010/api/getRecipesByObjectId?id=${id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!recipeResponse.ok) {
+                    console.error('Failed to fetch recipe data');
+                    return;
+                }
+
+                const recipeData = await recipeResponse.json();
+
+                // Fetch the author's username
+                const authorId = recipeData.author_id;
+                const userResponse = await fetch(`http://localhost:3010/api/getUserByObjectId?id=${encodeURIComponent(authorId)}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!userResponse.ok) {
+                    console.error(`Failed to fetch user with ObjectId: ${authorId}`);
+                    return;
+                }
+
+                const userData = await userResponse.json();
+                const username = userData.username;
+
+                // Fetch average rating
+                const reviewResponse = await fetch(`http://localhost:3010/api/getReviewsByRecipeObjectID?id=${recipeData._id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!reviewResponse.ok) {
+                    console.error(`Failed to fetch reviews with recipe ID: ${recipeData._id}`);
+                    return;
+                }
+
+                const reviewsData = await reviewResponse.json();
+                let averageRating = 0;
+                if (reviewsData && reviewsData.reviews && reviewsData.reviews.length > 0) {
+                    const ratings = reviewsData.reviews.map(review => review.rating);
+                    averageRating = ratings.reduce((acc, curr) => acc + curr, 0) / ratings.length;
+                }
+
+                // Update the recipe with the author's username and average rating
+                const updatedRecipe = {
+                    ...recipeData,
+                    author: username,
+                    averageRating: parseFloat(averageRating)
+                };
+
+                // Set the updated recipe in the state
+                setRecipe(updatedRecipe);
+
+                // Calculate the number of full, half, and empty stars based on the average rating
+                if (updatedRecipe.averageRating) {
+                    let tempNumberOfFullStars = 0;
+                    let tempNumberOfHalfStars = 0;
+                    if (updatedRecipe.averageRating - Math.floor(updatedRecipe.averageRating) < 0.25) {
+                        tempNumberOfFullStars = Math.floor(updatedRecipe.averageRating);
+                    } else if (updatedRecipe.averageRating - Math.floor(updatedRecipe.averageRating) < 0.75) {
+                        tempNumberOfFullStars = Math.floor(updatedRecipe.averageRating);
+                        tempNumberOfHalfStars = 1;
+                    } else {
+                        tempNumberOfFullStars = Math.ceil(updatedRecipe.averageRating);
+                    }
+                    const tempNumberOfEmptyStars = 5 - tempNumberOfFullStars - tempNumberOfHalfStars;
+
+                    // Update the state variables for the star counts
+                    setNumberOfFullStars(tempNumberOfFullStars);
+                    setNumberOfHalfStars(tempNumberOfHalfStars);
+                    setNumberOfEmptyStars(tempNumberOfEmptyStars);
+                } else {
+                    // If there is no average rating, set all stars as empty
+                    setNumberOfFullStars(0);
+                    setNumberOfHalfStars(0);
+                    setNumberOfEmptyStars(5);
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+    }, [id]);
     
-    if (recipe.rating){
-        if (recipe.rating - Math.floor(recipe.rating) < 0.25){
-            numberOfFullStars = Math.floor(recipe.rating);
-        }
-        else if (recipe.rating - Math.floor(recipe.rating) < 0.75){
-            numberOfFullStars = Math.floor(recipe.rating);
-            numberOfHalfStars = 1;
+    
+   
+    const submitReview = async (event) => {
+        event.preventDefault();
+        if (reviewTitle.length > 0){
+            const yourRating = reviewStars.filter(star => star).length;
+            console.log({
+                title: reviewTitle,
+                    reviewer_id: yourId,
+                    recipe_id: id,
+                    description: reviewDescription,
+                    rating: yourRating
+            });
+            const postReviewResponse = await fetch("http://localhost:3010/api/postReview", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    title: reviewTitle,
+                    reviewer_id: yourId,
+                    recipe_id: id,
+                    description: reviewDescription,
+                    rating: yourRating
+                })
+            });
+            if (postReviewResponse.ok){
+                window.location.reload();
+            }
+            else {
+                throw new Error(`HTTP error! Status: ${postReviewResponse.status}`);
+            }
+                            
         }
         else {
-            numberOfFullStars = Math.ceil(recipe.rating);
+            setIsReviewTitleValid(false);
         }
-        numberOfEmptyStars = 5 - numberOfFullStars - numberOfHalfStars;
     }
-    else{
-        numberOfEmptyStars = 5;
-    }
+   
     return (
         <div className={styles.div_view_recipe}>
             <div className={styles.nav_bar}>
@@ -49,10 +180,10 @@ function ViewRecipe() {
                             <h1 className={styles.h1_recipe_name}>{recipe.title}</h1>
                             <FaRegBookmark className={styles.bookmark}/>
                         </div>
-                        <p className={styles.p_author}> @{recipe.author}</p>
+                        <p className={styles.p_author}> <a href={`/Profile/${recipe.author_id}`}>@{recipe.author}</a></p>
                         <div className={styles.div_times}>
-                            <p className={styles.p_prep_time}><strong> Prep Time:</strong> {recipe.prepTime} </p>
-                            <p className={styles.p_cook_time}><strong> Cook Time:</strong> {recipe.cookTime}</p>
+                            <p className={styles.p_prep_time}><strong> Prep Time:</strong> {recipe.prepTime} minutes </p>
+                            <p className={styles.p_cook_time}><strong> Cook Time:</strong> {recipe.cookTime} minutes</p>
                             <p className={styles.p_total_time}><strong> Total Time:</strong> {recipe.totalTime}</p>
                         </div>
                         <div className={styles.div_serve_cal}>
@@ -69,7 +200,7 @@ function ViewRecipe() {
                     <div className={styles.div_tags}>
                         <h1 className={styles.h1_tags_header}>Tags: </h1>
                         <div className={styles.div_all_tags}>
-                            {recipe.tags && recipe.tags.map((tag, index) => (
+                            {recipe.categories && recipe.categories.map((tag, index) => (
                                 <p className={styles.p_tag}>{tag}</p>
                             ))}
                           </div>
@@ -86,7 +217,7 @@ function ViewRecipe() {
                             {[...Array(numberOfEmptyStars)].map((_, index) => (
                                 <FaRegStar key={index} className={styles.star} />
                             ))}
-                            <p className={styles.p_rating}> <strong>{recipe.rating}/5</strong> </p>
+                            <p className={styles.p_rating}> <strong>{recipe.averageRating}/5</strong> </p>
                         </div>
                         
 
@@ -109,23 +240,35 @@ function ViewRecipe() {
                         </div>
                     ))}
                 </div>
-                <form className={styles.form_review}>
+                {isSignedIn && <form className={styles.form_review} onSubmit={submitReview}>
                     <div className={styles.div_rev_title_stars}>
                         <div className={styles.div_review_header_subject}>
                             <h1 className={styles.h1_review_header}>Leave A Review!</h1>
-                            <input className={styles.input_review_header} placeholder="Your Review! (required)"/>
+                            <input className={styles.input_review_header} placeholder="Your Review! (required)" value={reviewTitle} onChange={(e) => setReviewTitle(e.target.value)}/>
                         </div>
                         <div className={styles.div_review_stars}>
-                            {[...Array(5)].map((_, index) => (
-                                <FaRegStar key={index} className={styles.star_rating} />
-                            ))}
+                            {!reviewStars[0] && <FaRegStar className={styles.star} onClick={() => setReviewStars([true, false, false, false, false])}/>}
+                            {reviewStars[0] && <FaStar className={styles.star} onClick={() => setReviewStars([true, false, false, false, false])}/>}
+                            {!reviewStars[1] && <FaRegStar className={styles.star} onClick={() => setReviewStars([true, true, false, false, false])}/>}
+                            {reviewStars[1] && <FaStar className={styles.star} onClick={() => setReviewStars([true, true, false, false, false])}/>}
+                            {!reviewStars[2] && <FaRegStar className={styles.star} onClick={() => setReviewStars([true, true, true, false, false])}/>}
+                            {reviewStars[2] && <FaStar className={styles.star} onClick={() => setReviewStars([true, true, true, false, false])}/>}
+                            {!reviewStars[3] && <FaRegStar className={styles.star} onClick={() => setReviewStars([true, true, true, true, false])}/>}
+                            {reviewStars[3] && <FaStar className={styles.star} onClick={() => setReviewStars([true, true, true, true, false])}/>}
+                            {!reviewStars[4] && <FaRegStar className={styles.star} onClick={() => setReviewStars([true, true, true, true, true])}/>}
+                            {reviewStars[4] && <FaStar className={styles.star} onClick={() => setReviewStars([true, true, true, true, true])}/>}
+                            
                         </div>
                     </div>
                     <div className={styles.div_comment_post}>
-                        <input className={styles.input_comment} placeholder="Additional Comments (optional)"/>
-                        <button className={styles.button_post_review}></button>
+                        <input className={styles.input_comment} placeholder="Additional Comments (optional)" value={reviewDescription} onChange={(e) => setReviewDescription(e.target.value)}/>
                     </div>
-                </form>
+                    {!isReviewTitleValid && <label className={styles.label_reviewErrorMessage}>Review requires a title!</label>}
+                    <div>
+                    <button className={styles.button_post_review} type="submit">Submit Review</button>
+                    </div>
+                  
+                </form>}
             </div>
         </div>
     );

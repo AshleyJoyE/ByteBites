@@ -69,6 +69,24 @@ router.get("/getRecipesByUserObjectId", async (req, res) => {
   }
 });
 
+router.get("/getRecipesByObjectId", async (req, res) => {
+  try {
+    const { id } = req.query;
+
+    const check = await Recipe.findById(id);
+
+    if (check) {
+      console.log("Recipes Found");
+      const { title, author_id, recipePhoto, description, prepTime, cookTime, totalTime, averageRating, servings, caloriesPerServing, ingredients, directions, categories, isRecommendedRecipe, _id } = check;
+      return res.status(200).json({ status: 200, title, author_id, recipePhoto, description, prepTime, cookTime, servings, caloriesPerServing, ingredients, directions, categories, isRecommendedRecipe, _id, totalTime, averageRating });
+    } else {
+      res.status(404).json({ message: "Recipes Not Found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ message: "Collection Could Not Be Found" });
+  }
+});
 router.post("/postUser", async (req, res) => {
   const data = new Credential({
     username: req.body.username.toLowerCase(),
@@ -397,6 +415,7 @@ router.delete('/deleteUser/:userId', async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 });
+
 
 // add new Recipe to Recipe Collection
 router.post("/postReview", async (req, res) => {

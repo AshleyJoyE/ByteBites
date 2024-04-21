@@ -319,6 +319,7 @@
 .button_post_review {
     font-size: 20px;
     font-family: 'Kodchasan', sans-serif;
+    margin-top: 10px;
     padding: 5px 10px;
     background-color: var(--primary-orange-rgb);
     color: #fff;
@@ -326,6 +327,7 @@
     border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
+    background-color: rgba(var(--primary-orange-rgb), 1);
 }
 
 .button_post_review:hover {
@@ -335,4 +337,11 @@
 .form_review {
     padding: 20px;
     border: rgba(var(--primary-orange-rgb), 0.2) solid 10px;
+}
+
+.label_reviewErrorMessage{
+    font-size: 60px;
+    font-family: 'Kodchasan', sans-serif;
+    text-align: center;
+    color: rgba(var(--primary-orange-rgb), 2.5)
 }

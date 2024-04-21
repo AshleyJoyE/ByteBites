@@ -92,7 +92,8 @@ RecipeSchema.virtual('averageRating').get(async function() {
     ]);
 
     if (reviews.length > 0) {
-        return reviews[0].averageRating;
+        console.log(parseFloat(reviews[0].averageRating));
+        return parseFloat(reviews[0].averageRating);
     } else {
         return 0; 
     }

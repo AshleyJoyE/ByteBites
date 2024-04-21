@@ -15,13 +15,17 @@ export default function RecipeCard({ recipe }) {
     useEffect(() => {
         // Calculate the number of stars based on the average rating
         if (typeof recipe.averageRating === 'number' && !isNaN(recipe.averageRating)) {
-            const fullStars = Math.floor(recipe.averageRating);
-            const halfStars = Math.ceil(recipe.averageRating - fullStars);
-            const emptyStars = 5 - fullStars - halfStars;
-            setNumberOfFullStars(fullStars);
-            setNumberOfHalfStars(halfStars);
-            setNumberOfEmptyStars(emptyStars);
-            setRating(recipe.averageRating);
+            if (recipe.averageRating - Math.floor(recipe.averageRating) < 0.25){
+                setNumberOfFullStars(Math.floor(recipe.averageRating));
+            }
+            else if (recipe.averageRating - Math.floor(recipe.averageRating) < 0.75){
+                setNumberOfFullStars(Math.floor(recipe.averageRating));
+                setNumberOfHalfStars(1);
+            }
+            else {
+                setNumberOfFullStars(Math.ceil(recipe.averageRating));
+            }
+           setNumberOfEmptyStars(5 - numberOfFullStars - numberOfHalfStars);
         } else {
             // If no reviews, show all stars as empty
             setNumberOfFullStars(0);
@@ -38,7 +42,7 @@ export default function RecipeCard({ recipe }) {
         <div className={styles.recipe_card}>
             <img src={recipe.recipePhoto} className={styles.img} alt="Recipe" />
             <p className={styles.recipe_title}>{recipe.title}</p>
-            <p className={styles.recipe_author}>  <a href={`/Profile/${recipe.author_id}`}>@{recipe.author}</a> </p>
+            <p className={styles.recipe_author}> <a href={`/Profile/${recipe.author_id}`}>@{recipe.author}</a> </p>
 
             <p className={styles.total_time}>total time: {recipe.totalTime} minutes</p>
             <div className={styles.recipe_card_total_time_rating}>

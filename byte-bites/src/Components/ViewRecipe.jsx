@@ -8,6 +8,7 @@ import { FaRegStar } from "react-icons/fa";
 import { FaBookmark } from "react-icons/fa";
 import { FaRegBookmark } from "react-icons/fa";
 import ReviewCard from "./ReviewCard";
+import { AiFillDelete } from "react-icons/ai";
 
 
 function ViewRecipe() {
@@ -26,14 +27,20 @@ function ViewRecipe() {
     const [yourCollections, setYourCollections] = useState([]);
     const [showUpdateCollectionsModal, setShowUpdateCollectionsModal] = useState(false);
     const [collectionsState, setCollectionsState] = useState({});
+    const [isAdmin, setIsAdmin] = useState(false);
+    const [isAuthor, setIsAuthor] = useState(false);
+    const [isUserReviewed, setIsUserReviewed] = useState(false);
     const [reviews, setReviews] = useState([]); 
+    
 
     useEffect(() => {
         const currentUser = localStorage.getItem("user");
         const userId = localStorage.getItem("id");
+        const admin = localStorage.getItem("admin");
         if (currentUser && userId) {
             setIsSignedIn(true);
             setYourId(userId);
+            setIsAdmin(admin);
         }
     }, []);
 
@@ -57,6 +64,7 @@ function ViewRecipe() {
     
                 // Fetch the author's username
                 const authorId = recipeData.author_id;
+                setIsAuthor(authorId == yourId);
                 const userResponse = await fetch(`http://localhost:3010/api/getUserByObjectId?id=${encodeURIComponent(authorId)}`, {
                     method: 'GET',
                     headers: {
@@ -82,16 +90,18 @@ function ViewRecipe() {
     
                 if (!reviewResponse.ok) {
                     console.error(`Failed to fetch reviews with recipe ID: ${recipeData._id}`);
-                    return;
                 }
-    
-                const reviewsData = await reviewResponse.json();
-                let averageRating = 0;
-                setReviews(reviewsData.reviews);
-                if (reviewsData && reviewsData.reviews && reviewsData.reviews.length > 0) {
-                    const ratings = reviewsData.reviews.map(review => review.rating);
-                    averageRating = ratings.reduce((acc, curr) => acc + curr, 0) / ratings.length;
-                }
+                else {
+                    const reviewsData = await reviewResponse.json();
+                    let averageRating = 0;
+                    setReviews(reviewsData.reviews);
+                    if (reviewsData && reviewsData.reviews && reviewsData.reviews.length > 0) {
+                        const ratings = reviewsData.reviews.map(review => review.rating);
+                        averageRating = ratings.reduce((acc, curr) => acc + curr, 0) / ratings.length;
+                        const userHasReviewed = reviewsData.reviews.some(review => review.reviewer_id === yourId);
+                        setIsUserReviewed(userHasReviewed);
+                    } 
+                      
     
                 // Update the recipe with the average rating and author's username
                 const updatedRecipe = {
@@ -127,6 +137,9 @@ function ViewRecipe() {
                     setNumberOfHalfStars(0);
                     setNumberOfEmptyStars(5);
                 }
+                }
+    
+                
     
                 // Fetch user's collections
                 if (yourId) {
@@ -257,9 +270,11 @@ function ViewRecipe() {
                 <div className={styles.div_gen_info_recipe_photo}>
                     <div className={styles.div_gen_info}>
                         <div className={styles.div_name_bkmk}>
+                            {(isAdmin || isAuthor) && <AiFillDelete className={styles.trashCan}></AiFillDelete>}
                             <h1 className={styles.h1_recipe_name}>{recipe.title}</h1>
                             {(isSignedIn && !isRecipeSaved) && <FaRegBookmark className={styles.bookmark} onClick={() => setShowUpdateCollectionsModal(true)}/>}
-                            {(isSignedIn && isRecipeSaved) && <FaBookmark className={styles.bookmark} onClick={() => setShowUpdateCollectionsModal(true)}/>} 
+                            {(isSignedIn && isRecipeSaved) && <FaBookmark className={styles.bookmark} onClick={() => setShowUpdateCollectionsModal(true)}/>}
+                            {isAdmin && <h1 className={styles.h1_recipe_name}>Recipe Id: {recipe._id}</h1>} 
                         </div>
                         <p className={styles.p_author}> <a href={`/Profile/${recipe.author_id}`}>@{recipe.author}</a></p>
                         <div className={styles.div_times}>
@@ -321,7 +336,7 @@ function ViewRecipe() {
                         </div>
                     ))}
                 </div>
-                {isSignedIn && <form className={styles.form_review} onSubmit={submitReview}>
+                {(isSignedIn && !isUserReviewed && !isAuthor) && <form className={styles.form_review} onSubmit={submitReview}>
                     <div className={styles.div_rev_title_stars}>
                         <div className={styles.div_review_header_subject}>
                             <h1 className={styles.h1_review_header}>Leave A Review!</h1>

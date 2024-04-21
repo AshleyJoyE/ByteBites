@@ -445,7 +445,7 @@ router.get("/getReviewsByRecipeObjectID", async (req, res) => {
       console.log("Review found");
       return res.status(200).json({ status: 200, reviews: reviews });
     } else {
-      res.status(404).json({ message: "Review Not Found" });
+      res.status(200).json({ message: "Review Not Found" });
     }
   } catch (error) {
     console.error(error);

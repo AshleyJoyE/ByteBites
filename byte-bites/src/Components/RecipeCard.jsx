@@ -65,7 +65,7 @@ export default function RecipeCard({ recipe }) {
     };
 
     const handleNavigateRecipe = () => {
-        navigate(`/Recipe/${recipe.title}`, { state: { recipe: recipe } });
+        navigate(`/Recipe/${recipe._id}`, { state: { recipe: recipe } });
     };
 
     return (

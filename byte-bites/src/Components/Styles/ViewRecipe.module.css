@@ -298,6 +298,14 @@
     width: 80px;
 }
 
+.trashCan {
+    color: rgb(255, 60, 56);
+    margin-right: 5px;
+    font-size: 20px;
+    height: 80px;
+    width: 80px;
+}
+
 .star_rating {
     color: var(--primary-orange);
     margin-right: 5px;

@@ -21,6 +21,7 @@ function YourUserProfile(){
     const [showUploadModal, setShowUploadModal] = useState(false);
     const [showCollectionModal, setShowCollectionModal] = useState(false);
     const [collection, setCollection] = useState("");
+    const [isValidCollection, setIsValidCollection] = useState(true);
 
     const handleBioSubmit = (e) =>{
         e.preventDefault();
@@ -125,6 +126,33 @@ function YourUserProfile(){
             console.error('Error updating bio:', error);
         }
     };
+
+    const createCollection = async () =>{
+        if (collection.length > 0){
+            const response = await fetch("http://localhost:3010/api/postCollection", {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({
+                                        collectionName: collection,
+                                        owner_id: id
+                                    })
+            });
+            if (response.ok){
+              setIsValidCollection(true);
+              setShowCollectionModal(false);
+           }
+           // post request failed
+           else {
+               throw new Error(`HTTP error! Status: ${response.status}`);
+           }
+        }
+        else {
+            setIsValidCollection(false);
+        }
+       
+    }
     // when user navigates to page, check if user is already logged in, if not return to home,
     useEffect(() => {
         const fetchData = async () => {
@@ -270,6 +298,7 @@ function YourUserProfile(){
                            
                         <input type="text" placeholder="Enter Collection Name" value={collection} onChange={(e) => setCollection(e.target.value)} />
                             <button type="button" onClick={() => setShowCollectionModal(false)}>Create Collection</button>
+                            {!isValidCollection && <label> Must Enter Collection Name! </label>}
                         </form>
                     </div>
                 </div>

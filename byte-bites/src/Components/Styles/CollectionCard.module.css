@@ -1,20 +1,23 @@
 .collection_card {
-    width: 50%;
+    width: auto;
     border: 1px solid #ccc;
     border-radius: 5px;
     padding: 20px;
     margin-bottom: 20px;
     background-color: var(--primary-yellow);
+    text-align: center; 
 }
 .collection_title {
 
     font-weight: bold;
+    overflow-wrap: break-word;
     margin-bottom: 5px;
     font-size: 2vw;
     font-family: 'Kodchasan', sans-serif;
 }
 
 .collection_author {
+    overflow-wrap: break-word;
     font-size: 1rem;
     color: black;
     margin-bottom: 10px;

@@ -133,8 +133,7 @@
 .div_yourCollection{
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    flex: 0 0 30%;
+   
     height: 1%;
     width: 100%;
     margin: 15px;

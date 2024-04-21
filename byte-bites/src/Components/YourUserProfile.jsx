@@ -142,6 +142,7 @@ function YourUserProfile(){
             if (response.ok){
               setIsValidCollection(true);
               setShowCollectionModal(false);
+              window.location.reload();
            }
            // post request failed
            else {
@@ -162,67 +163,103 @@ function YourUserProfile(){
                     handleHomeNav();
                     return; // Exit early if user is not logged in
                 }
-    
-                const response = await fetch(`http://localhost:3010/api/getRecipesByUserObjectId?id=${encodeURIComponent(id)}`, {
+        
+                // Fetch recipes
+                const recipeResponse = await fetch(`http://localhost:3010/api/getRecipesByUserObjectId?id=${encodeURIComponent(id)}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'
                     }
                 });
-    
-                if (!response.ok) {
+        
+                if (!recipeResponse.ok) {
                     console.error('Failed to fetch recipes');
                     return;
                 }
-    
-                const data = await response.json();
-                console.log(data);
-    
-                if (Array.isArray(data.recipes)) {
-                    // Iterate through each recipe
-                    const updatedRecipes = await Promise.all(data.recipes.map(async (recipe) => {
-                        // Get the author_id from the recipe
+        
+                const recipeData = await recipeResponse.json();
+                console.log("Recipe Data:", recipeData);
+        
+                // Process recipes
+                if (Array.isArray(recipeData.recipes)) {
+                    const updatedRecipes = await Promise.all(recipeData.recipes.map(async (recipe) => {
                         const authorId = recipe.author_id;
-                        
-                        // Make a request to get the user details by ObjectId
                         const userResponse = await fetch(`http://localhost:3010/api/getUserByObjectId?id=${encodeURIComponent(authorId)}`, {
                             method: 'GET',
                             headers: {
                                 'Content-Type': 'application/json'
                             }
                         });
-    
+        
                         if (!userResponse.ok) {
                             console.error(`Failed to fetch user with ObjectId: ${authorId}`);
-                            return recipe; // Return the original recipe if user fetch fails
+                            return recipe;
                         }
-    
+        
                         const userData = await userResponse.json();
                         const username = userData.username;
-    
-                        // Update the recipe with the actual username
+        
                         return {
                             ...recipe,
                             author: username
                         };
                     }));
-                    
+        
                     setRecipes(updatedRecipes);
                 } else {
                     console.error('Data is not an array');
                 }
-                
-                setCollections([
-                    {
-                        collectionName: "test",
-                        author: "abc"
+        
+                // Fetch collections
+                const collectionResponse = await fetch(`http://localhost:3010/api/getCollectionByUserObjectID?id=${encodeURIComponent(id)}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
                     }
-                ]);
+                });
+        
+                if (!collectionResponse.ok) {
+                    console.error('Failed to fetch collections');
+                    return;
+                }
+        
+                const collectionData = await collectionResponse.json();
+                console.log("Collection Data:", collectionData);
+        
+                // Process collections
+                if (Array.isArray(collectionData.collections)) {
+                    const updatedCollections = await Promise.all(collectionData.collections.map(async (collection) => {
+                        const authorId = collection.owner_id;
+                        const userResponse = await fetch(`http://localhost:3010/api/getUserByObjectId?id=${encodeURIComponent(authorId)}`, {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        });
+        
+                        if (!userResponse.ok) {
+                            console.error(`Failed to fetch user with ObjectId: ${authorId}`);
+                            return collection;
+                        }
+        
+                        const userData = await userResponse.json();
+                        const username = userData.username;
+        
+                        return {
+                            ...collection,
+                            author: username
+                        };
+                    }));
+        
+                    setCollections(updatedCollections);
+                } else {
+                    console.error('Data is not an array');
+                }
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
         };
-    
+        
         fetchData();
     }, []);
     return (
@@ -297,7 +334,7 @@ function YourUserProfile(){
                         <form>
                            
                         <input type="text" placeholder="Enter Collection Name" value={collection} onChange={(e) => setCollection(e.target.value)} />
-                            <button type="button" onClick={() => setShowCollectionModal(false)}>Create Collection</button>
+                            <button type="button" onClick={createCollection}>Create Collection</button>
                             {!isValidCollection && <label> Must Enter Collection Name! </label>}
                         </form>
                     </div>

@@ -38,7 +38,8 @@ export default function RecipeCard({ recipe }) {
         <div className={styles.recipe_card}>
             <img src={recipe.recipePhoto} className={styles.img} alt="Recipe" />
             <p className={styles.recipe_title}>{recipe.title}</p>
-            <p className={styles.recipe_author}>@{recipe.author}</p>
+            <p className={styles.recipe_author}>  <a href={`/Profile/${recipe.author_id}`}>@{recipe.author}</a> </p>
+
             <p className={styles.total_time}>total time: {recipe.totalTime} minutes</p>
             <div className={styles.recipe_card_total_time_rating}>
                 <p className={styles.rating_text}>{rating}/5</p>

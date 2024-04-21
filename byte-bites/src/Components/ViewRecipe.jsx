@@ -15,8 +15,6 @@ function ViewRecipe() {
     const [numberOfFullStars, setNumberOfFullStars] = useState(0);
     const [numberOfEmptyStars, setNumberOfEmptyStars] = useState(0);
     const [numberOfHalfStars, setNumberOfHalfStars] = useState(0);
-    const [recipeObject, setRecipeObject] = useState({});
-    const [rating, setRating] = useState(0);
     const [isSignedIn, setIsSignedIn] = useState(false);
     const [reviewStars, setReviewStars] = useState([true, false, false, false, false]);
     const [isReviewTitleValid, setIsReviewTitleValid] = useState(true);
@@ -35,28 +33,27 @@ function ViewRecipe() {
             setIsSignedIn(true);
             setYourId(userId);
         }
-        console.log(yourId)
     }, []);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // get the recipe
+                // Fetch the recipe data
                 const recipeResponse = await fetch(`http://localhost:3010/api/getRecipesByObjectId?id=${id}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'
                     }
                 });
-
+    
                 if (!recipeResponse.ok) {
                     console.error('Failed to fetch recipe data');
                     return;
                 }
-
+    
                 const recipeData = await recipeResponse.json();
-
-                // fetch the author of the recipe username
+    
+                // Fetch the author's username
                 const authorId = recipeData.author_id;
                 const userResponse = await fetch(`http://localhost:3010/api/getUserByObjectId?id=${encodeURIComponent(authorId)}`, {
                     method: 'GET',
@@ -64,45 +61,45 @@ function ViewRecipe() {
                         'Content-Type': 'application/json'
                     }
                 });
-
+    
                 if (!userResponse.ok) {
                     console.error(`Failed to fetch user with ObjectId: ${authorId}`);
                     return;
                 }
-
+    
                 const userData = await userResponse.json();
                 const username = userData.username;
-
-                // fetch all reviews and calculate the average rating
+    
+                // Fetch all reviews and calculate the average rating
                 const reviewResponse = await fetch(`http://localhost:3010/api/getReviewsByRecipeObjectID?id=${recipeData._id}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'
                     }
                 });
-
+    
                 if (!reviewResponse.ok) {
                     console.error(`Failed to fetch reviews with recipe ID: ${recipeData._id}`);
                     return;
                 }
-
+    
                 const reviewsData = await reviewResponse.json();
                 let averageRating = 0;
                 if (reviewsData && reviewsData.reviews && reviewsData.reviews.length > 0) {
                     const ratings = reviewsData.reviews.map(review => review.rating);
                     averageRating = ratings.reduce((acc, curr) => acc + curr, 0) / ratings.length;
                 }
-
-                // Update the recipe with the author's username and average rating
+    
+                // Update the recipe with the average rating and author's username
                 const updatedRecipe = {
                     ...recipeData,
-                    author: username,
-                    averageRating: parseFloat(averageRating)
+                    averageRating: parseFloat(averageRating),
+                    author: username // Add the author's username to the recipe data
                 };
-
+    
                 // Set the updated recipe in the state
                 setRecipe(updatedRecipe);
-
+    
                 // Calculate the number of full, half, and empty stars based on the average rating
                 if (updatedRecipe.averageRating) {
                     let tempNumberOfFullStars = 0;
@@ -116,7 +113,7 @@ function ViewRecipe() {
                         tempNumberOfFullStars = Math.ceil(updatedRecipe.averageRating);
                     }
                     const tempNumberOfEmptyStars = 5 - tempNumberOfFullStars - tempNumberOfHalfStars;
-
+    
                     // Update the state variables for the star counts
                     setNumberOfFullStars(tempNumberOfFullStars);
                     setNumberOfHalfStars(tempNumberOfHalfStars);
@@ -127,21 +124,21 @@ function ViewRecipe() {
                     setNumberOfHalfStars(0);
                     setNumberOfEmptyStars(5);
                 }
-
-                // fetch user's collections
+    
+                // Fetch user's collections
                 if (yourId) {
                     const collectionResponse = await fetch(`http://localhost:3010/api/getCollectionByUserObjectID?id=${encodeURIComponent(yourId)}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
                     });
-            
+    
                     if (!collectionResponse.ok) {
                         console.error('Failed to fetch collections');
                         return;
                     }
-            
+    
                     const collectionData = await collectionResponse.json();
                     if (Array.isArray(collectionData.collections)) {
                         const updatedCollections = collectionData.collections.map((collection) => ({
@@ -149,17 +146,16 @@ function ViewRecipe() {
                             containsRecipe: collection.recipes.includes(id) // Check if the collection contains the recipe
                         }));
                         setYourCollections(updatedCollections);
-
-                        if (!isRecipeSaved) {
-                            setIsRecipeSaved(updatedCollections.some(collection => collection.recipes.includes(recipeData._id)));
-
+    
                         // Update the collections state
                         const state = {};
                         updatedCollections.forEach(collection => {
                             state[collection._id] = collection.containsRecipe;
                         });
                         setCollectionsState(state);
-                        }
+
+                        const isSaved = updatedCollections.some(collection => collection.containsRecipe);
+                        setIsRecipeSaved(isSaved);
                     } else {
                         console.error('Data is not an array');
                     }
@@ -168,23 +164,20 @@ function ViewRecipe() {
                 console.error('Error fetching data:', error);
             }
         };
-
+    
         fetchData();
-    }, [id]);
-    
-    
-    
-   
+    }, [id, yourId]);
+
     const submitReview = async (event) => {
         event.preventDefault();
         if (reviewTitle.length > 0){
             const yourRating = reviewStars.filter(star => star).length;
             console.log({
                 title: reviewTitle,
-                    reviewer_id: yourId,
-                    recipe_id: id,
-                    description: reviewDescription,
-                    rating: yourRating
+                reviewer_id: yourId,
+                recipe_id: id,
+                description: reviewDescription,
+                rating: yourRating
             });
             const postReviewResponse = await fetch("http://localhost:3010/api/postReview", {
                 method: 'POST',
@@ -218,13 +211,38 @@ function ViewRecipe() {
             ...prevState,
             [collectionId]: !prevState[collectionId]
         }));
-        console.log(collectionsState);
     };
 
-    // Function to update collections
-    const updateCollections = () => {
-        // Implement your logic for updating collections here
+    const updateCollections = async () => {
         console.log("Updating collections...");
+        try {
+            for (const collection of yourCollections) {
+                const containsRecipe = collectionsState[collection._id];
+                const recipeContained = collection.recipes.includes(id);
+                
+                if (containsRecipe && !recipeContained) {
+                    await fetch(`http://localhost:3010/api/putCollection/${collection._id}/addRecipe`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ recipeId: id })
+                    });
+                } else if (!containsRecipe && recipeContained) {
+                    await fetch(`http://localhost:3010/api/putCollection/${collection._id}/removeRecipe`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ recipeId: id })
+                    });
+                }
+            }
+            // Refresh the page after updating collections
+            window.location.reload();
+        } catch (error) {
+            console.error('Error updating collections:', error);
+        }
     };
    
     return (

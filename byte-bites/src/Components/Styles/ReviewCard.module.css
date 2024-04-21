@@ -1,0 +1,46 @@
+
+.reviewCard {
+    border: rgb(255, 60, 56);;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.reviewTitle {
+    font-size: 18px;
+    margin-bottom: 10px;
+    font-family: 'Kodchasan', sans-serif;
+    font-size: 2vw;
+}
+
+.author {
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-family: 'Kodchasan', sans-serif;
+    font-size: 1vw;
+}
+
+.description {
+    margin-bottom: 10px;
+    font-family: 'Kodchasan', sans-serif;
+    font-size: 1.5vw;
+
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+}
+
+.star {
+    color: rgb(255, 60, 56);
+    margin-right: 5px;
+    font-size: 20px;
+    height: 80px;
+    width: 80px;
+}
+
+.titleAndStars {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

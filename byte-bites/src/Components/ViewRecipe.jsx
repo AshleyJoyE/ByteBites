@@ -7,6 +7,7 @@ import { FaRegStarHalfStroke } from "react-icons/fa6";
 import { FaRegStar } from "react-icons/fa";
 import { FaBookmark } from "react-icons/fa";
 import { FaRegBookmark } from "react-icons/fa";
+import ReviewCard from "./ReviewCard";
 
 
 function ViewRecipe() {
@@ -24,7 +25,8 @@ function ViewRecipe() {
     const [isRecipeSaved, setIsRecipeSaved] = useState(false);
     const [yourCollections, setYourCollections] = useState([]);
     const [showUpdateCollectionsModal, setShowUpdateCollectionsModal] = useState(false);
-    const [collectionsState, setCollectionsState] = useState({}); 
+    const [collectionsState, setCollectionsState] = useState({});
+    const [reviews, setReviews] = useState([]); 
 
     useEffect(() => {
         const currentUser = localStorage.getItem("user");
@@ -85,6 +87,7 @@ function ViewRecipe() {
     
                 const reviewsData = await reviewResponse.json();
                 let averageRating = 0;
+                setReviews(reviewsData.reviews);
                 if (reviewsData && reviewsData.reviews && reviewsData.reviews.length > 0) {
                     const ratings = reviewsData.reviews.map(review => review.rating);
                     averageRating = ratings.reduce((acc, curr) => acc + curr, 0) / ratings.length;
@@ -372,7 +375,13 @@ function ViewRecipe() {
                         </div>
                     </dialog>
                 </div>
-               
+                <div className={styles.reviews_section}>
+                    <h2 className={styles.h1_review_header}>Reviews</h2>
+                    {reviews &&
+                        reviews.map((review, index) => (
+                            <ReviewCard key={index} review={review} />
+                    ))}
+                </div>
             </div>
         </div>
     );

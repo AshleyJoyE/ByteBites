@@ -306,6 +306,11 @@
     width: 80px;
 }
 
+.p_recipeID{
+    font-size: .5vm;
+    font-family: 'Kodchasan', sans-serif;
+}
+
 .star_rating {
     color: var(--primary-orange);
     margin-right: 5px;

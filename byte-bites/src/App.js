@@ -17,7 +17,7 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path='/Login' element={<Login />}/>
           <Route path='/Signup' element={<Signup />}/>
-          <Route path='/Results' element={<RecipePage />}/>
+          <Route path='/Results/:query' element={<RecipePage />}/>
           <Route path='/CreateRecipe' element={<CreateRecipe />}/><Route path='/Profile' element={<YourUserProfile />}/>
           <Route path='/Profile/:id' element={<ViewUserProfile/>}/>
           <Route path='/Recipe/:id' element={<ViewRecipe/>}/>

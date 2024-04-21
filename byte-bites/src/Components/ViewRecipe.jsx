@@ -9,6 +9,7 @@ import { FaBookmark } from "react-icons/fa";
 import { FaRegBookmark } from "react-icons/fa";
 import ReviewCard from "./ReviewCard";
 import { AiFillDelete } from "react-icons/ai";
+import { useNavigate } from 'react-router-dom';
 
 
 function ViewRecipe() {
@@ -31,15 +32,18 @@ function ViewRecipe() {
     const [isAuthor, setIsAuthor] = useState(false);
     const [isUserReviewed, setIsUserReviewed] = useState(false);
     const [reviews, setReviews] = useState([]); 
+    const navigate = useNavigate();
+    const handleHomeNav = () => navigate(`/`);
     
 
     useEffect(() => {
         const currentUser = localStorage.getItem("user");
         const userId = localStorage.getItem("id");
-        const admin = localStorage.getItem("admin");
+        const admin = localStorage.getItem("isAdmin");
         if (currentUser && userId) {
             setIsSignedIn(true);
             setYourId(userId);
+            console.log(admin);
             setIsAdmin(admin);
         }
     }, []);
@@ -260,6 +264,27 @@ function ViewRecipe() {
             console.error('Error updating collections:', error);
         }
     };
+
+    const handleDeleteRecipe = async () => {
+        const confirmDelete = window.confirm(`Are you sure you want to delete "${recipe.title}"?`);
+        if (confirmDelete) {
+            try {
+                const deleteResponse = await fetch(`http://localhost:3010/api/deleteRecipe/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                if (deleteResponse.ok) {
+                    handleHomeNav();
+                } else {
+                    console.error('Failed to delete recipe');
+                }
+            } catch (error) {
+                console.error('Error deleting recipe:', error);
+            }
+        }
+    };
    
     return (
         <div className={styles.div_view_recipe}>
@@ -270,17 +295,17 @@ function ViewRecipe() {
                 <div className={styles.div_gen_info_recipe_photo}>
                     <div className={styles.div_gen_info}>
                         <div className={styles.div_name_bkmk}>
-                            {(isAdmin || isAuthor) && <AiFillDelete className={styles.trashCan}></AiFillDelete>}
+                            {(isAdmin || isAuthor) && <AiFillDelete className={styles.trashCan} onClick={handleDeleteRecipe}></AiFillDelete>}
                             <h1 className={styles.h1_recipe_name}>{recipe.title}</h1>
                             {(isSignedIn && !isRecipeSaved) && <FaRegBookmark className={styles.bookmark} onClick={() => setShowUpdateCollectionsModal(true)}/>}
                             {(isSignedIn && isRecipeSaved) && <FaBookmark className={styles.bookmark} onClick={() => setShowUpdateCollectionsModal(true)}/>}
-                            {isAdmin && <h1 className={styles.h1_recipe_name}>Recipe Id: {recipe._id}</h1>} 
                         </div>
+                        {isAdmin && <p className={styles.p_recipeID}>Recipe Id: {recipe._id}</p>} 
                         <p className={styles.p_author}> <a href={`/Profile/${recipe.author_id}`}>@{recipe.author}</a></p>
                         <div className={styles.div_times}>
                             <p className={styles.p_prep_time}><strong> Prep Time:</strong> {recipe.prepTime} minutes </p>
                             <p className={styles.p_cook_time}><strong> Cook Time:</strong> {recipe.cookTime} minutes</p>
-                            <p className={styles.p_total_time}><strong> Total Time:</strong> {recipe.totalTime}</p>
+                            <p className={styles.p_total_time}><strong> Total Time:</strong> {recipe.totalTime} minutes</p>
                         </div>
                         <div className={styles.div_serve_cal}>
                             <p className={styles.p_servings}><strong> Servings:</strong>  {recipe.servings} </p>

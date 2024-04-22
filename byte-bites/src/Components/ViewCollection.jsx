@@ -3,13 +3,22 @@ import styles from "./Styles/ViewCollection.module.css";
 import { useParams } from 'react-router-dom';
 import NavBar from './NavBar';
 import RecipeCard from "./RecipeCard";
+import { useNavigate } from 'react-router-dom';
+import { AiFillDelete } from "react-icons/ai";
+
 
 export default function ViewCollection(){
     const [recipes, setRecipes] = useState([]);
     const [collectionName, setCollectionName] = useState("");
+    const [collectionId, setCollectionId] = useState("");
     const [collectionAuthor, setCollectionAuthor] = useState("");
     const [collectionAuthorId, setCollectionAuthorId] = useState("");
-    const { id } = useParams(); // Extracting id parameter using useParams()
+    const [isAdmin, setIsAdmin] = useState(false);
+    const [isAuthor, setIsAuthor] = useState(false);
+    const [yourId, setYourId] = useState();
+    const { id } = useParams(); 
+    const navigate = useNavigate();
+    const handleProfileNav = () => navigate(`/Profile/${collectionAuthorId}`);
 
     useEffect(() => {
         const fetchCollection = async () => {
@@ -20,6 +29,8 @@ export default function ViewCollection(){
                     const data = await response.json();
                     setCollectionName(data.collectionName);
                     setCollectionAuthorId(data.owner_id);
+                    setCollectionId(data._id);
+                    setIsAuthor(collectionAuthorId == yourId);
                     const authorResponse = await fetch(`http://localhost:3010/api/getUserByObjectId?id=${data.owner_id}`);
                             if (authorResponse.ok) {
                                 const authorData = await authorResponse.json();
@@ -60,16 +71,46 @@ export default function ViewCollection(){
                 console.error('Error fetching collection:', error);
             }
         };
-
+        const currentUser = localStorage.getItem("user");
+        const userId = localStorage.getItem("id");
+        const admin = localStorage.getItem("isAdmin");
+        if (currentUser && userId && admin) {
+            setYourId(userId);
+            setIsAdmin(admin === "true");
+        }
         fetchCollection();
-    }, [id]); // Ensure useEffect runs whenever id changes
+    }, [id]);
 
+    const handleDeleteCollection = async () => {
+        const confirmDelete = window.confirm(`Are you sure you want to delete "${collectionName}"?`);
+        if (confirmDelete) {
+            try {
+                const deleteResponse = await fetch(`http://localhost:3010/api/deleteCollection/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                if (deleteResponse.ok) {
+                    handleProfileNav();
+                } else {
+                    console.error('Failed to delete collection');
+                }
+            } catch (error) {
+                console.error('Error deleting collection:', error);
+            }
+        }
+    };
     return (
         <div> 
             <div className={styles.div_nav_bar}>
                 <NavBar />
             </div>
-            <label className={styles.collectionName}>{collectionName}</label>
+            <div className={styles.collectionHeader}>
+                {(isAuthor || isAdmin) && <AiFillDelete title="Delete Collection" className={styles.trashCan} onClick={handleDeleteCollection} />}
+                <label className={styles.collectionName}>{collectionName}</label>
+            </div>
+            {isAdmin && <label className={styles.collectionAuthor}>Collection Object Id: {collectionId}</label>}
             <label className={styles.collectionAuthor}><a href={`/Profile/${collectionAuthorId}`}>@{collectionAuthor}</a></label>
             
             <div className={styles.cardGroup}>

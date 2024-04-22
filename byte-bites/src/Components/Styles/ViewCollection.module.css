@@ -6,7 +6,6 @@
     display: flex;
     flex-direction: column;
     margin-top: 20px;
-    margin-left: 30px;
     font-size: 45px;
     font-family: 'Kodchasan', sans-serif;
     font-weight: 900;
@@ -26,4 +25,18 @@
     justify-content: space-around;
     padding: 20px;
     margin-bottom: 50px;
+}
+
+.trashCan {
+    color: rgb(255, 60, 56);
+    margin-right: 5px;
+    font-size: 20px;
+    height: 80px;
+    width: 80px;
+}
+.collectionHeader {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    margin-left: 30px;
 }

@@ -44,7 +44,7 @@ function ViewRecipe() {
             setIsSignedIn(true);
             setYourId(userId);
             console.log(admin);
-            setIsAdmin(admin);
+            setIsAdmin(admin === "true");
         }
     }, []);
 
@@ -295,7 +295,8 @@ function ViewRecipe() {
                 <div className={styles.div_gen_info_recipe_photo}>
                     <div className={styles.div_gen_info}>
                         <div className={styles.div_name_bkmk}>
-                            {(isAdmin || isAuthor) && <AiFillDelete className={styles.trashCan} onClick={handleDeleteRecipe}></AiFillDelete>}
+                            {(isAuthor || isAdmin) && <AiFillDelete className={styles.trashCan} onClick={handleDeleteRecipe}></AiFillDelete>}
+                           
                             <h1 className={styles.h1_recipe_name}>{recipe.title}</h1>
                             {(isSignedIn && !isRecipeSaved) && <FaRegBookmark className={styles.bookmark} onClick={() => setShowUpdateCollectionsModal(true)}/>}
                             {(isSignedIn && isRecipeSaved) && <FaBookmark className={styles.bookmark} onClick={() => setShowUpdateCollectionsModal(true)}/>}

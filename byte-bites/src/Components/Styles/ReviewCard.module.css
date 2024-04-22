@@ -6,8 +6,6 @@
 }
 
 .reviewTitle {
-    font-size: 18px;
-    margin-bottom: 10px;
     font-family: 'Kodchasan', sans-serif;
     font-size: 2vw;
 }
@@ -44,4 +42,18 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.trashCan {
+    color: rgb(255, 60, 56);
+    margin-right: 5px;
+    font-size: 2vw;
+    height: auto;
+    width: auto;
+}
+
+.div_trash_reviewTitle{
+    display: flex;
+    flex-direction: row;
+    vertical-align: center;
 }

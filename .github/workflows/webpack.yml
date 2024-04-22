@@ -25,8 +25,8 @@ jobs:
 
     - name: Install Dependencies
       run: |
-        npm install
-        npm install react-icons fuse.js react react-router-dom express mongoose cors aws-sdk multer dotenv
+        npm install -y
+        npm install -y react-icons fuse.js react react-router-dom express mongoose cors aws-sdk multer dotenv
 
     - name: Build
       run: |

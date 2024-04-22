@@ -182,7 +182,7 @@ function ViewUserProfile() {
                     <img className={styles.img_profile_photo} src={profilePhoto} alt="Profile" />
                 </div>
                 <div className={styles.div_username_email_bio}>
-                    <p className={styles.p_username}>@{username} <span className={styles.viewUserId}>Object id: {viewUserId}</span></p>
+                    <p className={styles.p_username}>@{username} {(isAdmin) && <span className={styles.viewUserId}>Object id: {viewUserId}</span>}</p>
                     <label className={styles.p_bio_header}>Bio:</label>
                     <div className={styles.div_bio}>
                         <p className={styles.p_bio}>{bio}</p>

@@ -146,7 +146,7 @@ function ViewUserProfile() {
             if (id1 === viewUserId) {
                 navigate(`/profile`);
             }
-            setIsAdmin(admin);
+            setIsAdmin(admin === "true");
         }
     }, [id, viewUserId]);
 

@@ -61,3 +61,7 @@ centered-container {
     background-color: #FF3C39;
   }
   
+  .div_trash{
+    display: flex;
+    flex-direction: row;
+  }

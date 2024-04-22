@@ -1,5 +1,4 @@
 const express = require('express');
-const Fuse = require('fuse.js');
 
 const router = express.Router(); 
 module.exports = router;

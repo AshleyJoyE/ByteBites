@@ -62,9 +62,17 @@ const RecipePage = () => {
       <div className={styles.div_header}>  
         <p className={styles.heading}> Results: {userQuery}</p>
       </div>
-      {recipes.map((recipe, index) => (
-        <RecipeCard key={recipe._id} recipe={recipe} />
-      ))}
+      {recipes.map((recipe, index) => {
+        // Check if there's a recipe at the next index
+        const nextRecipe = recipes[index + 1];
+        // Render the current recipe and the next one side by side
+        return (
+          <div key={index} className={styles.cardGroup}>
+            <RecipeCard recipe={recipe} />
+            {nextRecipe && <RecipeCard recipe={nextRecipe} />}
+          </div>
+        );
+      })}
     </div>
   );
 };

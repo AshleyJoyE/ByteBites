@@ -55,6 +55,12 @@
     margin-left: -250px;
 }
 
+.viewUserId {
+    font-size: 1vw;
+    font-family: 'Kodchasan', sans-serif;
+    color: black;
+}
+
 .div_bio {
     background-color: #FFC873;
     width: 400px; /* Make the input span the entire width */
@@ -90,9 +96,9 @@
     margin: 15px;
 }
 
+.div_wrapper_yourCollection
 .div_wrapper_yourRecipe{
     overflow-x: auto;
-    white-space: nowrap;
 }
 .p_yourRecipes{
     font-style: bold;
@@ -122,4 +128,11 @@
     border: none;
     color: black;
     margin-left: 15px;
+}
+.trashCan {
+    color: rgb(255, 60, 56);
+    margin-right: 5px;
+    font-size: 20px;
+    height: 80px;
+    width: 80px;
 }

@@ -109,9 +109,10 @@ const AddRecipePage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    uploadRecipeImage(formData.image);
+   
   
     try {
+      await uploadRecipeImage(formData.image);
       const response = await fetch("https://bytebites-bzpd.onrender.com/api/postRecipe", {
         method: 'POST',
         headers: {

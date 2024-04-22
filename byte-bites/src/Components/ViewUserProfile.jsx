@@ -4,6 +4,7 @@ import styles from "./Styles/ViewUserProfile.module.css";
 import NavBar from './NavBar';
 import RecipeCard from "./RecipeCard";
 import CollectionCard from "./CollectionCard";
+import { useNavigate } from 'react-router-dom';
 
 function ViewUserProfile() {
     const { id } = useParams();
@@ -13,6 +14,10 @@ function ViewUserProfile() {
     const [bio, setBio] = useState("");
     const [recipes, setRecipes] = useState([]);
     const [collections, setCollections] = useState([]);
+    const [isAdmin, setIsAdmin] = useState(false);
+    const [yourUserId, setYourUserId] = useState('');
+    const [recipeUserId, setRecipeUserId] = useState("");
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -34,6 +39,7 @@ function ViewUserProfile() {
                 setUsername(userData.username);
                 setEmail(userData.email);
                 setBio(userData.bio);
+                setRecipeUserId(userData._id);
 
                 // Fetch recipes
                 const recipeResponse = await fetch(`http://localhost:3010/api/getRecipesByUserObjectId?id=${encodeURIComponent(id)}`, {
@@ -130,7 +136,18 @@ function ViewUserProfile() {
         };
 
         fetchData();
-    }, [id]);
+        const currentUser = localStorage.getItem("user");
+        const id1 = localStorage.getItem("id");
+        const admin = localStorage.getItem("isAdmin");
+        if (currentUser && id1 && admin) {
+            setYourUserId(id1);
+            if (id1 === recipeUserId) {
+                navigate(`/profile`);
+            }
+            setIsAdmin(admin);
+        }
+    }, [id, recipeUserId]);
+
 
     return (
         <div className={styles.div_primary}>

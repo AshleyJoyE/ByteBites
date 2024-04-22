@@ -8,6 +8,7 @@ export default function ViewCollection(){
     const [recipes, setRecipes] = useState([]);
     const [collectionName, setCollectionName] = useState("");
     const [collectionAuthor, setCollectionAuthor] = useState("");
+    const [collectionAuthorId, setCollectionAuthorId] = useState("");
     const { id } = useParams(); // Extracting id parameter using useParams()
 
     useEffect(() => {
@@ -17,8 +18,15 @@ export default function ViewCollection(){
 
                 if (response.ok) {
                     const data = await response.json();
-                    setCollectionName(data.name);
-                    setCollectionAuthor(data.author);
+                    setCollectionName(data.collectionName);
+                    setCollectionAuthorId(data.owner_id);
+                    const authorResponse = await fetch(`http://localhost:3010/api/getUserByObjectId?id=${data.owner_id}`);
+                            if (authorResponse.ok) {
+                                const authorData = await authorResponse.json();
+                                setCollectionAuthor(authorData.username);
+                            } else {
+                                console.error(`Failed to fetch author for recipe ${data.owner_id}`);
+                            }
 
                     // Fetch recipe details for each recipe object id
                     const recipeDetailsPromises = data.recipes.map(async (recipeId) => {
@@ -62,7 +70,7 @@ export default function ViewCollection(){
                 <NavBar />
             </div>
             <label className={styles.collectionName}>{collectionName}</label>
-            <label className={styles.collectionAuthor}>@{collectionAuthor}</label>
+            <label className={styles.collectionAuthor}><a href={`/Profile/${collectionAuthorId}`}>@{collectionAuthor}</a></label>
             
             <div className={styles.cardGroup}>
                 {recipes.map((recipe, index) => (

@@ -17,7 +17,7 @@ const ReviewCard = ({ review }) => {
         const confirmDelete = window.confirm(`Are you sure you want to delete "${review.title}"?`);
         if (confirmDelete) {
             try {
-                const deleteResponse = await fetch(`http://localhost:3010/api/deleteReview/${review._id}`, {
+                const deleteResponse = await fetch(`https://bytebites-bzpd.onrender.com/api/deleteReview/${review._id}`, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json'
@@ -40,7 +40,7 @@ const ReviewCard = ({ review }) => {
             try {
                 setIsAuthor(review.reviewer_id === yourId);
                 console.log(isAuthor);
-                const userResponse = await fetch(`http://localhost:3010/api/getUserByObjectId?id=${encodeURIComponent(review.reviewer_id)}`, {
+                const userResponse = await fetch(`https://bytebites-bzpd.onrender.com/api/getUserByObjectId?id=${encodeURIComponent(review.reviewer_id)}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'

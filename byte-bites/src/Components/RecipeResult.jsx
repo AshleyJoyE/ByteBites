@@ -13,7 +13,7 @@ const RecipePage = () => {
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
-        const response = await fetch(`http://localhost:3010/api/searchRecipes?query=${searchQuery}`);
+        const response = await fetch(`https://bytebites-bzpd.onrender.com/api/searchRecipes?query=${searchQuery}`);
 
         if (response.ok) {
           const data = await response.json();
@@ -21,7 +21,7 @@ const RecipePage = () => {
             // Process recipes to add author information
             const updatedRecipes = await Promise.all(data.map(async (recipe) => {
               // Fetch author information
-              const authorResponse = await fetch(`http://localhost:3010/api/getUserByObjectId?id=${recipe.author_id}`, {
+              const authorResponse = await fetch(`https://bytebites-bzpd.onrender.com/api/getUserByObjectId?id=${recipe.author_id}`, {
                 method: 'GET',
                 headers: {
                   'Content-Type': 'application/json'

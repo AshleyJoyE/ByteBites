@@ -14,7 +14,7 @@ export default function RecipeCard({ recipe }) {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const reviewResponse = await fetch(`http://localhost:3010/api/getReviewsByRecipeObjectID?id=${recipe._id}`, {
+                const reviewResponse = await fetch(`https://bytebites-bzpd.onrender.com/api/getReviewsByRecipeObjectID?id=${recipe._id}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'

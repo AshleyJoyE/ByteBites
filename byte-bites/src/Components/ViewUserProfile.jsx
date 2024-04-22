@@ -24,7 +24,7 @@ function ViewUserProfile() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const userResponse = await fetch(`http://localhost:3010/api/getUserByObjectID?id=${id}`, {
+                const userResponse = await fetch(`https://bytebites-bzpd.onrender.com/api/getUserByObjectID?id=${id}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'
@@ -44,7 +44,7 @@ function ViewUserProfile() {
                 setViewUserId(id);
 
                 // Fetch recipes
-                const recipeResponse = await fetch(`http://localhost:3010/api/getRecipesByUserObjectId?id=${encodeURIComponent(id)}`, {
+                const recipeResponse = await fetch(`https://bytebites-bzpd.onrender.com/api/getRecipesByUserObjectId?id=${encodeURIComponent(id)}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'
@@ -62,7 +62,7 @@ function ViewUserProfile() {
                 if (Array.isArray(recipeData.recipes)) {
                     const updatedRecipes = await Promise.all(recipeData.recipes.map(async (recipe) => {
                         const authorId = recipe.author_id;
-                        const userResponse = await fetch(`http://localhost:3010/api/getUserByObjectId?id=${encodeURIComponent(authorId)}`, {
+                        const userResponse = await fetch(`https://bytebites-bzpd.onrender.com/api/getUserByObjectId?id=${encodeURIComponent(authorId)}`, {
                             method: 'GET',
                             headers: {
                                 'Content-Type': 'application/json'
@@ -89,7 +89,7 @@ function ViewUserProfile() {
                 }
 
                 // Fetch collections
-                const collectionResponse = await fetch(`http://localhost:3010/api/getCollectionByUserObjectID?id=${encodeURIComponent(id)}`, {
+                const collectionResponse = await fetch(`https://bytebites-bzpd.onrender.com/api/getCollectionByUserObjectID?id=${encodeURIComponent(id)}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'
@@ -107,7 +107,7 @@ function ViewUserProfile() {
                 if (Array.isArray(collectionData.collections)) {
                     const updatedCollections = await Promise.all(collectionData.collections.map(async (collection) => {
                         const authorId = collection.owner_id;
-                        const userResponse = await fetch(`http://localhost:3010/api/getUserByObjectId?id=${encodeURIComponent(authorId)}`, {
+                        const userResponse = await fetch(`https://bytebites-bzpd.onrender.com/api/getUserByObjectId?id=${encodeURIComponent(authorId)}`, {
                             method: 'GET',
                             headers: {
                                 'Content-Type': 'application/json'
@@ -154,7 +154,7 @@ function ViewUserProfile() {
         const confirmDelete = window.confirm(`Are you sure you want to delete "${username}"?`);
         if (confirmDelete) {
             try {
-                const deleteResponse = await fetch(`http://localhost:3010/api/deleteUser/${viewUserId}`, {
+                const deleteResponse = await fetch(`https://bytebites-bzpd.onrender.com/api/deleteUser/${viewUserId}`, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json'

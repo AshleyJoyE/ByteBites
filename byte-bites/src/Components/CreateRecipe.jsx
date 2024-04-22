@@ -92,7 +92,7 @@ const AddRecipePage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch("http://localhost:3010/api/postRecipe", {
+    const response = await fetch("https://bytebites-bzpd.onrender.com/api/postRecipe", {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json'

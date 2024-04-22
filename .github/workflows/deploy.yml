@@ -1,0 +1,30 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: # This enables manual triggering of the workflow
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Trigger NodeJS with Webpack Build
+      uses: actions/github-script@v5
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const response = await octokit.request('POST /repos/{owner}/{repo}/actions/workflows/8777539507/dispatches', {
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            ref: 'main', // Specify the branch you want to build
+            inputs: {
+              // You can pass inputs to your workflow if needed
+            }
+          });
+          console.log(response.status);

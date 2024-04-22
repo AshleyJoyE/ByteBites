@@ -13,7 +13,7 @@ const RecipeSchema = new mongoose.Schema({
     recipePhoto: {
         type: String,
         required: false,
-        default: ""
+        default: "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg"
     },
     description: {
         type: String,

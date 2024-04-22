@@ -21,9 +21,25 @@ const AddRecipePage = () => {
     description: '',
     tags: [''],
     ingredients: [''],
-    directions: [''],
-    image: null,
+    directions:[''],
+    image: null, // Initialize image as null
   });
+
+  useEffect(() => {
+    const currentUser = localStorage.getItem("user");
+    const id = localStorage.getItem("id");
+    if (currentUser && id) {
+      setFormData(prevFormData => ({
+          ...prevFormData,
+          author_id: id // Correct syntax for setting a new property
+      }));
+    }
+    else{
+      handleHomeNav();
+    }
+  }, []);
+
+  const [recipePhoto, setRecipePhoto] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -33,6 +49,8 @@ const AddRecipePage = () => {
     });
   };
 
+  
+
   const handleImageChange = (e) => {
     const imageFile = e.target.files[0];
     setFormData({
@@ -40,7 +58,6 @@ const AddRecipePage = () => {
       image: imageFile,
     });
   };
-
   const handleTagChange = (index, value) => {
     const updatedTags = [...formData.tags];
     updatedTags[index] = value;
@@ -93,24 +110,24 @@ const AddRecipePage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await fetch("https://bytebites-bzpd.onrender.com/api/postRecipe", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        title: formData.title,
-        author_id: formData.author_id,
-        recipePhoto: formData.recipePhoto,
-        description: formData.description,
-        cookTime: formData.cookTime,
-        prepTime: formData.prepTime,
-        servings: formData.servings,
-        caloriesPerServing: formData.caloriesPerServing,
-        ingredients: formData.ingredients,
-        directions: formData.directions,
-        categories: formData.categories
-      })
-    });
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                title: formData.title,
+                                author_id: formData.author_id,
+                                recipePhoto: formData.recipePhoto,
+                                description: formData.description,
+                                cookTime: formData.cookTime,
+                                prepTime: formData.prepTime,
+                                servings: formData.servings,
+                                caloriesPerServing: formData.caloriesPerServing,
+                                ingredients: formData.ingredients,
+                                directions: formData.directions,
+                                categories: formData.categories
+                            })
+                        });
     // Here you can submit formData to your backend
     console.log(formData);
   };
@@ -233,7 +250,7 @@ const AddRecipePage = () => {
 
           <div>
             <label>Image:</label>
-            <input type="file" onChange={handleImageChange} />
+            <input type="file" onChange={handleImageChange}/>
           </div>
 
           <button onClick={handleSubmit}>Submit</button>

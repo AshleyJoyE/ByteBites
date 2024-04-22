@@ -61,3 +61,18 @@
 .div_nav_bar {
   width: 100%;
 }
+.form-container button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #FF3C39;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  font-family: 'Kodchasan', sans-serif;
+}
+
+.form-container button:hover {
+  background-color: #FF3C39;
+}

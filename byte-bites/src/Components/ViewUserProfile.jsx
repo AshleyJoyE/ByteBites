@@ -5,6 +5,7 @@ import NavBar from './NavBar';
 import RecipeCard from "./RecipeCard";
 import CollectionCard from "./CollectionCard";
 import { useNavigate } from 'react-router-dom';
+import { AiFillDelete } from "react-icons/ai";
 
 function ViewUserProfile() {
     const { id } = useParams();
@@ -16,8 +17,9 @@ function ViewUserProfile() {
     const [collections, setCollections] = useState([]);
     const [isAdmin, setIsAdmin] = useState(false);
     const [yourUserId, setYourUserId] = useState('');
-    const [recipeUserId, setRecipeUserId] = useState("");
+    const [viewUserId, setViewUserId] = useState("");
     const navigate = useNavigate();
+    const handleHomeNav = () => navigate(`/`);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -39,7 +41,7 @@ function ViewUserProfile() {
                 setUsername(userData.username);
                 setEmail(userData.email);
                 setBio(userData.bio);
-                setRecipeUserId(userData._id);
+                setViewUserId(id);
 
                 // Fetch recipes
                 const recipeResponse = await fetch(`http://localhost:3010/api/getRecipesByUserObjectId?id=${encodeURIComponent(id)}`, {
@@ -141,13 +143,33 @@ function ViewUserProfile() {
         const admin = localStorage.getItem("isAdmin");
         if (currentUser && id1 && admin) {
             setYourUserId(id1);
-            if (id1 === recipeUserId) {
+            if (id1 === viewUserId) {
                 navigate(`/profile`);
             }
             setIsAdmin(admin);
         }
-    }, [id, recipeUserId]);
+    }, [id, viewUserId]);
 
+    const handleDeleteUser = async () => {
+        const confirmDelete = window.confirm(`Are you sure you want to delete "${username}"?`);
+        if (confirmDelete) {
+            try {
+                const deleteResponse = await fetch(`http://localhost:3010/api/deleteUser/${viewUserId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                if (deleteResponse.ok) {
+                    handleHomeNav();
+                } else {
+                    console.error('Failed to delete recipe');
+                }
+            } catch (error) {
+                console.error('Error deleting recipe:', error);
+            }
+        }
+    };
 
     return (
         <div className={styles.div_primary}>
@@ -156,10 +178,11 @@ function ViewUserProfile() {
             </div>
             <div className={styles.div_profileimg_username_email_bio}>
                 <div className={styles.div_profile_photo}>
+                {(isAdmin) && <AiFillDelete className={styles.trashCan} onClick={handleDeleteUser}></AiFillDelete>}
                     <img className={styles.img_profile_photo} src={profilePhoto} alt="Profile" />
                 </div>
                 <div className={styles.div_username_email_bio}>
-                    <p className={styles.p_username}>@{username}</p>
+                    <p className={styles.p_username}>@{username} <span className={styles.viewUserId}>Object id: {viewUserId}</span></p>
                     <label className={styles.p_bio_header}>Bio:</label>
                     <div className={styles.div_bio}>
                         <p className={styles.p_bio}>{bio}</p>
@@ -167,20 +190,24 @@ function ViewUserProfile() {
                 </div>
             </div>
             <p className={styles.p_yourRecipes}>Your Recipes</p>
-            <div className={styles.div_yourRecipes}>
-                {recipes.map((recipe, index) => (
-                    <div key={index} className={styles.div_yourRecipes}>
-                        <RecipeCard recipe={recipe} />
-                    </div>
-                ))}
+            <div className={styles.div_wrapper_yourRecipe}>
+                <div className={styles.div_yourRecipes}>
+                    {recipes.map((recipe, index) => (
+                        <div key={index} className={styles.div_yourRecipes}>
+                            <RecipeCard recipe={recipe} />
+                        </div>
+                    ))}
+                </div>
             </div>
             <p className={styles.p_yourCollection}>Your Collections</p>
-            <div className={styles.div_yourCollection}>
-                {collections.map((collection, index) => (
-                    <div key={index} className={styles.div_yourCollection}>
-                        <CollectionCard collection={collection} />
-                    </div>
-                ))}
+            <div className={styles.div_wrapper_yourCollection}>
+                <div className={styles.div_yourCollection}>
+                    {collections.map((collection, index) => (
+                        <div key={index} className={styles.div_yourCollection}>
+                            <CollectionCard collection={collection} />
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     );

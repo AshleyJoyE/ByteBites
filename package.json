@@ -4,7 +4,8 @@
   "description": "Attempt | #1 | #2 | #3 | #4 | #5 | #6 | #7 | #8 | #9 | #10 | #11\r --- | --- | --- | --- |--- |--- |--- |--- |--- |--- |--- |---\r Seconds | 301 | 283 | 290 | 286 | 289 | 285 | 287 | 287 | 272 | 276 | 269",
   "main": "index.js",
   "scripts": {
-    "build": "webpack"
+    "build": "webpack",
+    "start": "node server/app.js"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +18,8 @@
     "react-router-dom": "^6.22.3",
     "webpack": "^5.91.0",
     "webpack-cli": "^5.1.4"
-
+  },
+  "devDependencies": {
+    "react-scripts": "^5.0.0"
   }
 }

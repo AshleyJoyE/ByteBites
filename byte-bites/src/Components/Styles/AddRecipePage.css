@@ -1,67 +1,63 @@
-centered-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  .header {
-    font-family: 'Kodchasan', sans-serif;
-  }
-  .form-container {
-    margin: auto;
-    width: 70%;
-    background-color: #FFC872;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
-  }
-  
-  .form-container h2 {
-    text-align: center;
-    font-family: 'Kodchasan', sans-serif;
-  }
-  
-  .form-container form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .form-container div {
-    margin-bottom: 10px;
-  }
-  
-  .form-container label {
-    font-weight: bold;
-    font-family: 'Kodchasan', sans-serif;
-  }
-  
-  .form-container input,
-  .form-container textarea {
-    width: 100%;
-    padding: 8px left, 8px right;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    resize: none;
-  }
-  
-  .form-container button {
-    width: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    background-color: #FF3C39;
-    color: white;
-    cursor: pointer;
-    font-weight: bold;
-    font-family: 'Kodchasan', sans-serif;
-  }
-  
-  .form-container button:hover {
-    background-color: #FF3C39;
-  }
-  
-  .div_trash{
-    display: flex;
-    flex-direction: row;
-  }
+.centered-container {
+  display: flex;
+  flex-direction: column; /* Change flex direction to column */
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.header {
+  font-family: 'Kodchasan', sans-serif;
+}
+
+.form-container {
+  margin: auto;
+  width: 70%;
+  background-color: #FFC872;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+.form-container h2 {
+  text-align: center;
+  font-family: 'Kodchasan', sans-serif;
+}
+
+.form-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-container div {
+  margin-bottom: 10px;
+}
+
+.form-container label {
+  font-weight: bold;
+  font-family: 'Kodchasan', sans-serif;
+}
+
+.form-container input,
+.form-container textarea {
+  width: calc(100% - 40px); /* Adjusted width to accommodate trash can icon */
+  padding: 8px left, 8px right;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: none;
+}
+
+.ingredient-container,
+.direction-container {
+  display: flex;
+  align-items: center;
+}
+
+.delete-button-container {
+  margin-left: 10px; /* Adjust as needed */
+}
+
+.div_nav_bar {
+  width: 100%;
+}

@@ -163,10 +163,10 @@ function ViewUserProfile() {
                 if (deleteResponse.ok) {
                     handleHomeNav();
                 } else {
-                    console.error('Failed to delete recipe');
+                    console.error('Failed to delete user');
                 }
             } catch (error) {
-                console.error('Error deleting recipe:', error);
+                console.error('Error deleting user:', error);
             }
         }
     };

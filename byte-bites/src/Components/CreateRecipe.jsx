@@ -109,29 +109,89 @@ const AddRecipePage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch("https://bytebites-bzpd.onrender.com/api/postRecipe", {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                title: formData.title,
-                                author_id: formData.author_id,
-                                recipePhoto: formData.recipePhoto,
-                                description: formData.description,
-                                cookTime: formData.cookTime,
-                                prepTime: formData.prepTime,
-                                servings: formData.servings,
-                                caloriesPerServing: formData.caloriesPerServing,
-                                ingredients: formData.ingredients,
-                                directions: formData.directions,
-                                categories: formData.categories
-                            })
-                        });
-    // Here you can submit formData to your backend
-    console.log(formData);
+   
+  
+    try {
+      await uploadRecipeImage(formData.image);
+      const response = await fetch("https://bytebites-bzpd.onrender.com/api/postRecipe", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          title: formData.title,
+          author_id: formData.author_id,
+          recipePhoto: recipePhoto,
+          description: formData.description,
+          cookTime: formData.cookTime,
+          prepTime: formData.prepTime,
+          servings: formData.servings,
+          caloriesPerServing: formData.caloriesPerServing,
+          ingredients: formData.ingredients,
+          directions: formData.directions,
+          categories: formData.categories
+        })
+      });
+  
+      if (response.ok) {
+        handleHomeNav();
+      } else {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+    } catch (error) {
+      console.error('Error occurred during form submission:', error);
+      // Handle error here, e.g., display a message to the user
+    }
   };
 
+  const uploadRecipeImage = async (file) => {
+    try {
+        // Create a canvas element to resize the image
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Load the image file
+        const img = new Image();
+        img.src = URL.createObjectURL(file);
+
+        // Wait for the image to load
+        img.onload = () => {
+            // Set canvas dimensions to 500x500 pixels
+            canvas.width = 500;
+            canvas.height = 500;
+
+            // Draw the image onto the canvas with resizing
+            ctx.drawImage(img, 0, 0, 500, 500);
+
+            // Convert canvas content to a blob
+            canvas.toBlob(async (blob) => {
+                // Create a new file from the blob
+                const resizedFile = new File([blob], file.name, { type: file.type });
+
+                // Create FormData and append the resized file
+                const formData = new FormData();
+                formData.append('fileData', resizedFile);
+                formData.append('fileName', resizedFile.name);
+
+                // Upload the resized file
+                const response = await fetch('https://bytebites-bzpd.onrender.com/api/uploadToS3', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('File uploaded successfully:', data.fileUrl);
+                    setRecipePhoto(data.fileUrl);
+                } else {
+                    console.error('Failed to upload file to S3');
+                }
+            }, file.type);
+        };
+    } catch (error) {
+        console.error('Error uploading file:', error);
+    }
+};
   return (
     <div className="centered-container">
       <div className={styles.div_nav_bar}>

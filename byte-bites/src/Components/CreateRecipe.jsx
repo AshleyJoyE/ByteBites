@@ -181,13 +181,15 @@ const AddRecipePage = () => {
           <div>
             <label>Ingredients:</label>
             {formData.ingredients.map((ingredient, index) => (
-              <div key={index}>
+              <div className="ingredient-container" key={index}>
                 <input
                   type="text"
                   value={ingredient}
                   onChange={(e) => handleIngredientChange(index, e.target.value)}
                 />
-                <AiFillDelete onClick={() => handleDeleteIngredient(index)} /> {/* Trash can icon */}
+                <div className="delete-button-container">
+                  <AiFillDelete onClick={() => handleDeleteIngredient(index)} />
+                </div>
               </div>
             ))}
             <button type="button" onClick={handleAddIngredient}>
@@ -197,12 +199,14 @@ const AddRecipePage = () => {
           <div>
             <label>Directions:</label>
             {formData.directions.map((direction, index) => (
-              <div key={index}>
+              <div className="direction-container" key={index}>
                 <textarea
                   value={direction}
                   onChange={(e) => handleDirectionChange(index, e.target.value)}
                 />
-                <AiFillDelete onClick={() => handleDeleteDirection(index)} /> {/* Trash can icon */}
+                <div className="delete-button-container">
+                  <AiFillDelete onClick={() => handleDeleteDirection(index)} />
+                </div>
               </div>
             ))}
             <button type="button" onClick={handleAddDirection}>

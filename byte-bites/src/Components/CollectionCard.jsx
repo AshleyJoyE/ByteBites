@@ -8,7 +8,7 @@ export default function Collection({collection}){
 
     const navigate = useNavigate();
     const handleNavigateCollection = () => {
-        navigate(`/Collection/${collection.id}`, { state: { collection: collection } });
+        navigate(`/Collection/${collection._id}`, { state: { collection: collection } });
     }
     return (
         <div className={styles.collection_card}>

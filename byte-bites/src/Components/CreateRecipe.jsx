@@ -9,7 +9,7 @@ import './Styles/AddRecipePage.css'; // Import CSS file for styling
 
 
 const AddRecipePage = () => {
-    
+
   const navigate = useNavigate();
   const handleHomeNav = () => navigate(`/`);
   const [formData, setFormData] = useState({
@@ -21,7 +21,7 @@ const AddRecipePage = () => {
     description: '',
     tags: [''],
     ingredients: [''],
-    directions:[''],
+    directions: [''],
     image: null,
   });
 
@@ -80,7 +80,7 @@ const AddRecipePage = () => {
       directions: [...formData.directions, ''],
     });
   };
-  
+
   const handleDirectionChange = (index, value) => {
     const updatedDirections = [...formData.directions];
     updatedDirections[index] = value;
@@ -93,34 +93,34 @@ const AddRecipePage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await fetch("https://bytebites-bzpd.onrender.com/api/postRecipe", {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                title: formData.title,
-                                author_id: formData.author_id,
-                                recipePhoto: formData.recipePhoto,
-                                description: formData.description,
-                                cookTime: formData.cookTime,
-                                prepTime: formData.prepTime,
-                                servings: formData.servings,
-                                caloriesPerServing: formData.caloriesPerServing,
-                                ingredients: formData.ingredients,
-                                directions: formData.directions,
-                                categories: formData.categories
-                            })
-                        });
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        title: formData.title,
+        author_id: formData.author_id,
+        recipePhoto: formData.recipePhoto,
+        description: formData.description,
+        cookTime: formData.cookTime,
+        prepTime: formData.prepTime,
+        servings: formData.servings,
+        caloriesPerServing: formData.caloriesPerServing,
+        ingredients: formData.ingredients,
+        directions: formData.directions,
+        categories: formData.categories
+      })
+    });
     // Here you can submit formData to your backend
     console.log(formData);
   };
 
   return (
-    <div className="centered-container"> 
-    <div className={styles.div_nav_bar}>
-                <NavBar>   </NavBar>
-            </div>
-      <div className="form-container"> 
+    <div className="centered-container">
+      <div className={styles.div_nav_bar}>
+        <NavBar>   </NavBar>
+      </div>
+      <div className="form-container">
 
 
         <h2>Add Recipe</h2>
@@ -186,30 +186,30 @@ const AddRecipePage = () => {
 
           <div>
             <label>Tags:</label>
-              {formData.tags.map((tag, index) => (
+            {formData.tags.map((tag, index) => (
               <div key={index}>
-              <input
-                type="text"
-                value={tag}
-                onChange={(e) => handleTagChange(index, e.target.value)}
-              />
+                <input
+                  type="text"
+                  value={tag}
+                  onChange={(e) => handleTagChange(index, e.target.value)}
+                />
               </div>
-              ))}
-              <button type="button" onClick={handleAddTag}>
-                + Add Tag
-              </button>
+            ))}
+            <button type="button" onClick={handleAddTag}>
+              + Add Tag
+            </button>
           </div>
 
           <div>
             <label>Ingredients:</label>
-              {formData.ingredients.map((ingredient, index) => (
-            <div key={index}>
-            <input
-              type="text"
-              value={ingredient}
-              onChange={(e) => handleIngredientChange(index, e.target.value)}
-            />
-            </div>
+            {formData.ingredients.map((ingredient, index) => (
+              <div key={index}>
+                <input
+                  type="text"
+                  value={ingredient}
+                  onChange={(e) => handleIngredientChange(index, e.target.value)}
+                />
+              </div>
             ))}
             <button type="button" onClick={handleAddIngredient}>
               + Add Ingredient
@@ -218,13 +218,13 @@ const AddRecipePage = () => {
 
           <div>
             <label>Directions:</label>
-              {formData.directions.map((direction, index) => (
+            {formData.directions.map((direction, index) => (
               <div key={index}>
-            <textarea
-              value={direction}
-            onChange={(e) => handleDirectionChange(index, e.target.value)}
-            />
-            </div>
+                <textarea
+                  value={direction}
+                  onChange={(e) => handleDirectionChange(index, e.target.value)}
+                />
+              </div>
             ))}
             <button type="button" onClick={handleAddDirection}>
               + Add Direction

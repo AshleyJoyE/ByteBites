@@ -99,6 +99,6 @@ RecipeSchema.virtual('averageRating').get(async function() {
     }
 });
 
-const Recipe = mongoose.model("Recipes", RecipeSchema);
+const Recipe = mongoose.model("recipes", RecipeSchema);
 
 module.exports = Recipe;

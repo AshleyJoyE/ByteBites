@@ -7,8 +7,8 @@ import RecipeCard from "./RecipeCard";
 
 export default function ViewCollection(){
     const [recipes, setRecipes] = useState([]);
-    const [collectionName, setCollectionName] = useState("Collection Title");
-    const [collectionAuthor, setCollectionAuthor] = useState("username");
+    const [collectionName, setCollectionName] = useState("");
+    const [collectionAuthor, setCollectionAuthor] = useState("");
 
     useEffect(() => {
         setRecipes( [

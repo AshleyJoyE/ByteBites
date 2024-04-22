@@ -134,6 +134,8 @@ const AddRecipePage = () => {
       });
   
       if (response.ok) {
+        console.log("yoy");
+        console.log(recipePhoto);
         handleHomeNav();
       } else {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -183,6 +185,7 @@ const AddRecipePage = () => {
                     const data = await response.json();
                     console.log('File uploaded successfully:', data.fileUrl);
                     setRecipePhoto(data.fileUrl);
+                    console.log(recipePhoto);
                 } else {
                     console.error('Failed to upload file to S3');
                 }

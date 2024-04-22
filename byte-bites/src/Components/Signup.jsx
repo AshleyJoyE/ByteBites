@@ -65,7 +65,7 @@ function Signup(){
             if (isEmailValid && isPasswordValid && username.length > 3 && isPasswordMatching) {
                 try {
                     // check if account already exists
-                    const response = await fetch(`http://localhost:3010/api/getUser?email=${encodeURIComponent(email)}&username=${encodeURIComponent(username)}`, 
+                    const response = await fetch(`https://bytebites-bzpd.onrender.com/api/getUser?email=${encodeURIComponent(email)}&username=${encodeURIComponent(username)}`, 
                     {
                         method: 'GET',
                         headers: {
@@ -78,7 +78,7 @@ function Signup(){
                     // create account if it doesn't exist already
                     if (!response.ok) {
                         setIsAccountNotFound(true);
-                        const postResponse = await fetch("http://localhost:3010/api/postUser", {
+                        const postResponse = await fetch("https://bytebites-bzpd.onrender.com/api/postUser", {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json'
@@ -93,7 +93,7 @@ function Signup(){
                         // account is created
                         if (postResponse.ok) {
                             // get user information
-                            const response = await fetch(`http://localhost:3010/api/getUser?email=${encodeURIComponent(email)}&username=${encodeURIComponent(username)}`, 
+                            const response = await fetch(`https://bytebites-bzpd.onrender.com/api/getUser?email=${encodeURIComponent(email)}&username=${encodeURIComponent(username)}`, 
                             {
                                 method: 'GET',
                                 headers: {
@@ -103,7 +103,7 @@ function Signup(){
                             if (response.ok){
                                 const data = await response.json();
                                 // create default collection for new user
-                                const postResponseCollection = await fetch("http://localhost:3010/api/postCollection", {
+                                const postResponseCollection = await fetch("https://bytebites-bzpd.onrender.com/api/postCollection", {
                                     method: 'POST',
                                     headers: {
                                         'Content-Type': 'application/json'

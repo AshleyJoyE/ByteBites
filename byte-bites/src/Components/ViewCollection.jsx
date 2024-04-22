@@ -23,7 +23,7 @@ export default function ViewCollection(){
     useEffect(() => {
         const fetchCollection = async () => {
             try {
-                const response = await fetch(`http://localhost:3010/api/getCollectionByCollectionObjectID?id=${id}`);
+                const response = await fetch(`https://bytebites-bzpd.onrender.com/api/getCollectionByCollectionObjectID?id=${id}`);
 
                 if (response.ok) {
                     const data = await response.json();
@@ -31,7 +31,7 @@ export default function ViewCollection(){
                     setCollectionAuthorId(data.owner_id);
                     setCollectionId(data._id);
                     setIsAuthor(collectionAuthorId == yourId);
-                    const authorResponse = await fetch(`http://localhost:3010/api/getUserByObjectId?id=${data.owner_id}`);
+                    const authorResponse = await fetch(`https://bytebites-bzpd.onrender.com/api/getUserByObjectId?id=${data.owner_id}`);
                             if (authorResponse.ok) {
                                 const authorData = await authorResponse.json();
                                 setCollectionAuthor(authorData.username);
@@ -41,11 +41,11 @@ export default function ViewCollection(){
 
                     // Fetch recipe details for each recipe object id
                     const recipeDetailsPromises = data.recipes.map(async (recipeId) => {
-                        const recipeResponse = await fetch(`http://localhost:3010/api/getRecipesByObjectId?id=${recipeId}`);
+                        const recipeResponse = await fetch(`https://bytebites-bzpd.onrender.com/api/getRecipesByObjectId?id=${recipeId}`);
                         if (recipeResponse.ok) {
                             const recipeData = await recipeResponse.json();
                             // Fetch author username for each recipe
-                            const authorResponse = await fetch(`http://localhost:3010/api/getUserByObjectId?id=${recipeData.author_id}`);
+                            const authorResponse = await fetch(`https://bytebites-bzpd.onrender.com/api/getUserByObjectId?id=${recipeData.author_id}`);
                             if (authorResponse.ok) {
                                 const authorData = await authorResponse.json();
                                 recipeData.author = authorData.username;
@@ -85,7 +85,7 @@ export default function ViewCollection(){
         const confirmDelete = window.confirm(`Are you sure you want to delete "${collectionName}"?`);
         if (confirmDelete) {
             try {
-                const deleteResponse = await fetch(`http://localhost:3010/api/deleteCollection/${id}`, {
+                const deleteResponse = await fetch(`https://bytebites-bzpd.onrender.com/api/deleteCollection/${id}`, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json'

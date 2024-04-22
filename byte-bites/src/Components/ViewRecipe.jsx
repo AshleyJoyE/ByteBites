@@ -52,7 +52,7 @@ function ViewRecipe() {
         const fetchData = async () => {
             try {
                 // Fetch the recipe data
-                const recipeResponse = await fetch(`http://localhost:3010/api/getRecipesByObjectId?id=${id}`, {
+                const recipeResponse = await fetch(`https://bytebites-bzpd.onrender.com/api/getRecipesByObjectId?id=${id}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'
@@ -69,7 +69,7 @@ function ViewRecipe() {
                 // Fetch the author's username
                 const authorId = recipeData.author_id;
                 setIsAuthor(authorId == yourId);
-                const userResponse = await fetch(`http://localhost:3010/api/getUserByObjectId?id=${encodeURIComponent(authorId)}`, {
+                const userResponse = await fetch(`https://bytebites-bzpd.onrender.com/api/getUserByObjectId?id=${encodeURIComponent(authorId)}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'
@@ -85,7 +85,7 @@ function ViewRecipe() {
                 const username = userData.username;
     
                 // Fetch all reviews and calculate the average rating
-                const reviewResponse = await fetch(`http://localhost:3010/api/getReviewsByRecipeObjectID?id=${recipeData._id}`, {
+                const reviewResponse = await fetch(`https://bytebites-bzpd.onrender.com/api/getReviewsByRecipeObjectID?id=${recipeData._id}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'
@@ -147,7 +147,7 @@ function ViewRecipe() {
     
                 // Fetch user's collections
                 if (yourId) {
-                    const collectionResponse = await fetch(`http://localhost:3010/api/getCollectionByUserObjectID?id=${encodeURIComponent(yourId)}`, {
+                    const collectionResponse = await fetch(`https://bytebites-bzpd.onrender.com/api/getCollectionByUserObjectID?id=${encodeURIComponent(yourId)}`, {
                         method: 'GET',
                         headers: {
                             'Content-Type': 'application/json'
@@ -199,7 +199,7 @@ function ViewRecipe() {
                 description: reviewDescription,
                 rating: yourRating
             });
-            const postReviewResponse = await fetch("http://localhost:3010/api/postReview", {
+            const postReviewResponse = await fetch("https://bytebites-bzpd.onrender.com/api/postReview", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -241,7 +241,7 @@ function ViewRecipe() {
                 const recipeContained = collection.recipes.includes(id);
                 
                 if (containsRecipe && !recipeContained) {
-                    await fetch(`http://localhost:3010/api/putCollection/${collection._id}/addRecipe`, {
+                    await fetch(`https://bytebites-bzpd.onrender.com/api/putCollection/${collection._id}/addRecipe`, {
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json'
@@ -249,7 +249,7 @@ function ViewRecipe() {
                         body: JSON.stringify({ recipeId: id })
                     });
                 } else if (!containsRecipe && recipeContained) {
-                    await fetch(`http://localhost:3010/api/putCollection/${collection._id}/removeRecipe`, {
+                    await fetch(`https://bytebites-bzpd.onrender.com/api/putCollection/${collection._id}/removeRecipe`, {
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json'
@@ -269,7 +269,7 @@ function ViewRecipe() {
         const confirmDelete = window.confirm(`Are you sure you want to delete "${recipe.title}"?`);
         if (confirmDelete) {
             try {
-                const deleteResponse = await fetch(`http://localhost:3010/api/deleteRecipe/${id}`, {
+                const deleteResponse = await fetch(`https://bytebites-bzpd.onrender.com/api/deleteRecipe/${id}`, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json'

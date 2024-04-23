@@ -3,7 +3,6 @@
   flex-direction: column; /* Change flex direction to column */
   align-items: center;
   justify-content: center;
-  height: 100vh;
 }
 
 .header {
@@ -76,4 +75,19 @@
 
 .form-container button:hover {
   background-color: #FF3C39;
+}
+
+.form-container button:hover {
+  background-color: #FF3C39;
+}
+
+.error {
+  font-family: 'Kodchasan', sans-serif;
+  font-size: 1vm;
+  color: #FF3C39;
+}
+
+.required-field {
+  color: #FF3C39;
+  margin-left: 5px;
 }

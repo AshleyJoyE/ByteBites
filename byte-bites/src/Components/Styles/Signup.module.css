@@ -126,5 +126,10 @@
     font-size: 20;
     color: var(--error-red);
   }
+
+  .required-field {
+    color: #FF3C39;
+    margin-left: 5px;
+  }
   
 

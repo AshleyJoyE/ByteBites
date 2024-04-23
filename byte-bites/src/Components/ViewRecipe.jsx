@@ -110,7 +110,7 @@ function ViewRecipe() {
                 // Update the recipe with the average rating and author's username
                 const updatedRecipe = {
                     ...recipeData,
-                    averageRating: parseFloat(averageRating),
+                    averageRating: parseFloat(averageRating).toFixed(1),
                     author: username // Add the author's username to the recipe data
                 };
     

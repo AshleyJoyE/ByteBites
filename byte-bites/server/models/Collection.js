@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose'); 
 const CollectionSchema = new mongoose.Schema({
     collectionName:{
         type: String,

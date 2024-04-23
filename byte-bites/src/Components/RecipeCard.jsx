@@ -3,6 +3,7 @@ import styles from "./Styles/RecipeCard.module.css";
 import { useNavigate } from 'react-router-dom';
 import { FaStar, FaRegStar } from "react-icons/fa";
 import { FaRegStarHalfStroke } from "react-icons/fa6";
+import { set } from "mongoose";
 
 export default function RecipeCard({ recipe }) {
     const navigate = useNavigate();
@@ -10,6 +11,7 @@ export default function RecipeCard({ recipe }) {
     const [numberOfFullStars, setNumberOfFullStars] = useState(0);
     const [numberOfHalfStars, setNumberOfHalfStars] = useState(0);
     const [numberOfEmptyStars, setNumberOfEmptyStars] = useState(5);
+    const [averageRating, setAverageRating] = useState(0);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -33,6 +35,7 @@ export default function RecipeCard({ recipe }) {
                     averageRating = ratings.reduce((acc, curr) => acc + curr, 0) / ratings.length;
                 }
                 calculateStars(averageRating);
+                setAverageRating(averageRating.toFixed(1));
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -76,7 +79,7 @@ export default function RecipeCard({ recipe }) {
 
             <p className={styles.total_time}>total time: {recipe.totalTime} minutes</p>
             <div className={styles.recipe_card_total_time_rating}>
-                <p className={styles.rating_text}>{`${numberOfFullStars + numberOfHalfStars}/${numberOfFullStars + numberOfHalfStars + numberOfEmptyStars}`}</p>
+                <p className={styles.rating_text}>{`${averageRating}/5`}</p>
                 <div>
                     {[...Array(numberOfFullStars)].map((_, index) => (
                         <FaStar key={index} className={styles.star} />

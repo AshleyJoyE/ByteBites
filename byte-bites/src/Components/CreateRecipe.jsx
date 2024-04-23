@@ -16,13 +16,24 @@ const AddRecipePage = () => {
     title: '',
     prepTime: '',
     cookTime: '',
-    servings: ' ',
+    servings: '',
     caloriesPerServing: '',
     description: '',
     tags: [''],
     ingredients: [''],
     directions:[''],
     image: null, // Initialize image as null
+  });
+
+  const [errors, setErrors] = useState({
+    title: '',
+    prepTime: '',
+    cookTime: '',
+    servings: '',
+    caloriesPerServing: '',
+    ingredients: '',
+    directions: '',
+    image: ''
   });
 
   useEffect(() => {
@@ -110,6 +121,58 @@ const AddRecipePage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    let hasErrors = false;
+    const newErrors = {
+      title: '',
+      prepTime: '',
+      cookTime: '',
+      servings: '',
+      caloriesPerServing: '',
+      ingredients: '',
+      directions: '',
+      image: ''
+    };
+
+    // Check for empty required fields
+    if (!formData.title) {
+      newErrors.title = 'Title is required';
+      hasErrors = true;
+    }
+    if (!formData.prepTime) {
+      newErrors.prepTime = 'Prep Time is required';
+      hasErrors = true;
+    }
+    if (!formData.cookTime) {
+      newErrors.cookTime = 'Cook Time is required';
+      hasErrors = true;
+    }
+    if (!formData.servings) {
+      newErrors.servings = 'Servings is required';
+      hasErrors = true;
+    }
+    if (!formData.caloriesPerServing) {
+      newErrors.caloriesPerServing = 'Calories per Serving is required';
+      hasErrors = true;
+    }
+    if (formData.ingredients.some(ingredient => !ingredient)) {
+      newErrors.ingredients = 'All ingredients are required';
+      hasErrors = true;
+    }
+    if (formData.directions.some(direction => !direction)) {
+      newErrors.directions = 'All directions are required';
+      hasErrors = true;
+    }
+    if (!recipePhoto) {
+      newErrors.image = 'Image is required';
+      hasErrors = true;
+    }
+
+    setErrors(newErrors);
+
+    if (hasErrors) {
+      return;
+    }
 
     try {
       // Check if the recipe photo has been uploaded
@@ -235,55 +298,60 @@ const AddRecipePage = () => {
 
 
         <h2>Add Recipe</h2>
-        <form onSubmit="return false">
+        <form onSubmit={handleSubmit}>
           <div>
-            <label>Title:</label>
+            <label>Title: <span className="required-field">*</span></label>
             <input
               type="text"
               name="title"
               value={formData.title}
               onChange={handleChange}
             />
+            {errors.title && <span className="error">{errors.title}</span>}
           </div>
 
           <div>
-            <label>Prep Time (minutes):</label>
+            <label>Prep Time (minutes): <span className="required-field">*</span></label>
             <input
               type="number"
               name="prepTime"
               value={formData.prepTime}
               onChange={handleChange}
             />
+            {errors.prepTime && <span className="error">{errors.prepTime}</span>}
           </div>
 
           <div>
-            <label>Cook Time (minutes):</label>
+            <label>Cook Time (minutes): <span className="required-field">*</span></label>
             <input
               type="number"
               name="cookTime"
               value={formData.cookTime}
               onChange={handleChange}
             />
+            {errors.cookTime && <span className="error">{errors.cookTime}</span>}
           </div>
 
           <div>
-            <label>Servings:</label>
+            <label>Servings: <span className="required-field">*</span></label>
             <input
               type="number"
               name="servings"
               value={formData.servings}
               onChange={handleChange}
             />
+            {errors.servings && <span className="error">{errors.servings}</span>}
           </div>
 
           <div>
-            <label>Calories per Serving:</label>
+            <label>Calories per Serving: <span className="required-field">*</span></label>
             <input
               type="number"
               name="caloriesPerServing"
               value={formData.caloriesPerServing}
               onChange={handleChange}
             />
+            {errors.caloriesPerServing && <span className="error">{errors.caloriesPerServing}</span>}
           </div>
 
           <div>
@@ -316,7 +384,7 @@ const AddRecipePage = () => {
 
 
           <div>
-            <label>Ingredients:</label>
+            <label>Ingredients: <span className="required-field">*</span></label>
             {formData.ingredients.map((ingredient, index) => (
               <div className="ingredient-container" key={index}>
                 <input
@@ -329,13 +397,14 @@ const AddRecipePage = () => {
                 </div>
               </div>
             ))}
+            {errors.ingredients && <span className="error">{errors.ingredients}</span>}
             <button type="button" onClick={handleAddIngredient}>
               + Add Ingredient
             </button>
           </div>
 
           <div>
-            <label>Directions:</label>
+            <label>Directions: <span className="required-field">*</span></label>
             {formData.directions.map((direction, index) => (
               <div className="direction-container" key={index}>
                 <textarea
@@ -347,17 +416,19 @@ const AddRecipePage = () => {
                 </div>
               </div>
             ))}
+            {errors.directions && <span className="error">{errors.directions}</span>}
             <button type="button" onClick={handleAddDirection}>
               + Add Direction
             </button>
           </div>
 
           <div>
-            <label>Image:</label>
+            <label>Image: <span className="required-field">*</span></label>
             <input type="file" onChange={handleImageChange}/>
+            {errors.image && <span className="error">{errors.image}</span>}
           </div>
 
-          <button onClick={handleSubmit}>Submit</button>
+          <button type="submit">Submit</button>
         </form>
       </div>
     </div>

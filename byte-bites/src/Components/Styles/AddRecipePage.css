@@ -48,6 +48,7 @@
   resize: none;
 }
 
+.tags-container,
 .ingredient-container,
 .direction-container {
   display: flex;

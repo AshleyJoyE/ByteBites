@@ -4,6 +4,7 @@ import styles from "./Styles/Home.module.css";
 import { GiSaucepan } from "react-icons/gi";
 import { FaUserCircle } from "react-icons/fa";
 import NavBar from './NavBar';
+import { AiFillDelete } from 'react-icons/ai';
 
 import './Styles/AddRecipePage.css'; // Import CSS file for styling
 
@@ -133,7 +134,7 @@ const AddRecipePage = () => {
               caloriesPerServing: formData.caloriesPerServing,
               ingredients: formData.ingredients,
               directions: formData.directions,
-              categories: formData.categories
+              categories: formData.tags
           })
       });
 
@@ -198,6 +199,31 @@ const AddRecipePage = () => {
     } catch (error) {
       console.error('Error uploading file:', error);
     }
+  };
+
+  const handleDeleteIngredient = (index) => {
+    const updatedIngredients = formData.ingredients.filter((_, i) => i !== index);
+    setFormData({
+      ...formData,
+      ingredients: updatedIngredients,
+    });
+  };
+
+
+  const handleDeleteDirection = (index) => {
+    const updatedDirections = formData.directions.filter((_, i) => i !== index);
+    setFormData({
+      ...formData,
+      directions: updatedDirections,
+    });
+  };
+
+  const handleDeleteTag = (index) => {
+    const updatedTags = formData.tags.filter((_, i) => i !== index);
+    setFormData({
+      ...formData,
+      tags: updatedTags,
+    });
   };
 
   return (
@@ -272,12 +298,15 @@ const AddRecipePage = () => {
           <div>
             <label>Tags:</label>
               {formData.tags.map((tag, index) => (
-              <div key={index}>
-              <input
-                type="text"
-                value={tag}
-                onChange={(e) => handleTagChange(index, e.target.value)}
-              />
+              <div key={index} className="tags-container">
+                <input
+                  type="text"
+                  value={tag}
+                  onChange={(e) => handleTagChange(index, e.target.value)}
+                />
+                <div className="delete-button-container">
+                  <AiFillDelete onClick={() => handleDeleteTag(index)} />
+                </div>
               </div>
               ))}
               <button type="button" onClick={handleAddTag}>
@@ -285,16 +314,20 @@ const AddRecipePage = () => {
               </button>
           </div>
 
+
           <div>
             <label>Ingredients:</label>
-              {formData.ingredients.map((ingredient, index) => (
-            <div key={index}>
-            <input
-              type="text"
-              value={ingredient}
-              onChange={(e) => handleIngredientChange(index, e.target.value)}
-            />
-            </div>
+            {formData.ingredients.map((ingredient, index) => (
+              <div className="ingredient-container" key={index}>
+                <input
+                  type="text"
+                  value={ingredient}
+                  onChange={(e) => handleIngredientChange(index, e.target.value)}
+                />
+                <div className="delete-button-container">
+                  <AiFillDelete onClick={() => handleDeleteIngredient(index)} />
+                </div>
+              </div>
             ))}
             <button type="button" onClick={handleAddIngredient}>
               + Add Ingredient
@@ -303,13 +336,16 @@ const AddRecipePage = () => {
 
           <div>
             <label>Directions:</label>
-              {formData.directions.map((direction, index) => (
-              <div key={index}>
-            <textarea
-              value={direction}
-            onChange={(e) => handleDirectionChange(index, e.target.value)}
-            />
-            </div>
+            {formData.directions.map((direction, index) => (
+              <div className="direction-container" key={index}>
+                <textarea
+                  value={direction}
+                  onChange={(e) => handleDirectionChange(index, e.target.value)}
+                />
+                <div className="delete-button-container">
+                  <AiFillDelete onClick={() => handleDeleteDirection(index)} />
+                </div>
+              </div>
             ))}
             <button type="button" onClick={handleAddDirection}>
               + Add Direction

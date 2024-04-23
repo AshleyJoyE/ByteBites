@@ -186,7 +186,7 @@ function Signup(){
                 <form className={styles.div_form_primary} onSubmit={createAccount}>
                     <div className={styles.div_form_secondary}>
                         <label for="Username" className={styles.form_label}>
-                            Username
+                            Username <span className="required-field">*</span>
                         </label>
                         <input type="text" value={username} className={styles.form_input}
                             name="Username"
@@ -197,7 +197,7 @@ function Signup(){
                         {!isUsernameCharactersValid && <p className={styles.error_message}> Invalid Character(s) Entered! </p>}
                         {!isUsernameValid && <p className={styles.error_message}> Username is Too Short! </p>}
                         <label for="Email" className={styles.form_label}>
-                            Email
+                            Email <span className="required-field">*</span>
                         </label>
                         <input type="text" value={email} className={styles.form_input}
                             name="Email"
@@ -209,7 +209,7 @@ function Signup(){
                         {!isEmailCharactersValid && <p className={styles.error_message}> Invalid Character(s) Entered! </p>}
                         {!isEmailValid && <p className={styles.error_message}> Invalid Email Address! </p>}
                         <label for="Password" className={styles.form_label}>
-                            Password
+                            Password <span className="required-field">*</span>
                         </label>
                         <input type="password" value={password} className={styles.form_input}
                             name="Password"
@@ -219,7 +219,7 @@ function Signup(){
                         {!isPasswordCharactersValid && <p className={styles.error_message}> Invalid Character(s) Entered! </p>}
                         {!isPasswordValid && <p className={styles.error_message}> Password Must Contain Uppercase, Lowercase, Numerical, Special Characters, and atleast 8 Characters </p>}
 
-                        <label for="RepeatPassword" className={styles.form_label}> Re-enter Password </label>
+                        <label for="RepeatPassword" className={styles.form_label}> Re-enter Password <span className="required-field">*</span></label>
                         <input type="password" value={passwordRepeat} className={styles.form_input}
                             name="RepeatPassword"
                             onChange={(e) => setPasswordRepeat(e.target.value)}

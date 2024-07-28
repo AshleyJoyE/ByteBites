@@ -1,7 +1,12 @@
-We created a github page
+# ByteBites
 
-We learned how to push and pull from branches
+ByteBites is a website that allows user to create, share, and collect recipes.
 
-We attached our database
+## View Here!
+https://bytebites.online/
 
-We created a sample UI
+
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
